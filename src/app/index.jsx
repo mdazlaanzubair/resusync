@@ -6,7 +6,7 @@ function AppRoot() {
     <ConfigProvider
       theme={{
         token: {
-          colorBgContainer: "#f0f5ff",
+          colorBgContainer: "#f5f5f5",
         },
       }}
     >
