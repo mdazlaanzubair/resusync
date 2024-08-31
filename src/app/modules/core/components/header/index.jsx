@@ -4,6 +4,7 @@ import { fullLogo } from "@/assets";
 import { FaRegUser } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { TbMenuDeep } from "react-icons/tb";
+import { UserButton } from "@clerk/clerk-react";
 
 const Header = ({ isShow, toggleSidebar }) => {
   return (
@@ -12,7 +13,8 @@ const Header = ({ isShow, toggleSidebar }) => {
       {/* SPACER */}
       <div className="flex-grow"></div>
       <div className="flex items-center justify-center gap-1">
-        <Button type="text" size="large" icon={<FaRegUser />} />
+      <UserButton/>
+
         <Button
           onClick={toggleSidebar}
           className="flex lg:hidden"

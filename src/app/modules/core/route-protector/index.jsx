@@ -10,7 +10,7 @@ const RouteProtector = ({ children }) => {
   // IF NO USER ID REDIRECT
   useLayoutEffect(() => {
     if (!isSignedIn && !userId) {
-      navigate("/auth/login");
+      navigate("/auth/login", { replace: true });
     }
   }, [isLoaded]);
 

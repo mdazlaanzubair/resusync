@@ -1,5 +1,5 @@
 import { error404 } from "@/assets";
-import { SignOutButton, useClerk } from "@clerk/clerk-react";
+import { useAuth, useClerk } from "@clerk/clerk-react";
 import { Button } from "antd";
 import React from "react";
 import { HiOutlineHomeModern } from "react-icons/hi2";
@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 const PageNotFound = () => {
   const navigate = useNavigate();
   const { signOut } = useClerk();
+  const { userId, isSignedIn, isLoaded } = useAuth();
 
   return (
     <div className="flex flex-col lg:flex-row w-full mx-auto h-[100vh] items-center justify-center">
@@ -31,30 +32,36 @@ const PageNotFound = () => {
           Maybe you can find what you need here!
         </h4>
         <div className="flex items-center w-full gap-1">
-          <Button
-            variant="secondary"
-            className="gap-1"
-            onClick={() => signOut({ redirectUrl: "/" })}
-          >
-            <LuLogOut />
-            Logout
-          </Button>
-          <Button
-            variant="secondary"
-            className="gap-1"
-            onClick={() => navigate("/auth/login")}
-          >
-            <LuLogIn />
-            Login
-          </Button>
-          <Button
-            variant="secondary"
-            className="gap-1"
-            onClick={() => navigate("/auth/register")}
-          >
-            <TbSignature />
-            Register
-          </Button>
+          {userId && isSignedIn && isLoaded && (
+            <Button
+              variant="secondary"
+              className="gap-1"
+              onClick={() => signOut({ redirectUrl: "/" })}
+            >
+              <LuLogOut />
+              Logout
+            </Button>
+          )}
+          {isLoaded && !userId && !isSignedIn && (
+            <>
+              <Button
+                variant="secondary"
+                className="gap-1"
+                onClick={() => navigate("/auth/login")}
+              >
+                <LuLogIn />
+                Login
+              </Button>
+              <Button
+                variant="secondary"
+                className="gap-1"
+                onClick={() => navigate("/auth/register")}
+              >
+                <TbSignature />
+                Register
+              </Button>
+            </>
+          )}
           <Button
             variant="secondary"
             className="gap-1"

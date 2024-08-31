@@ -54,11 +54,11 @@ export const appRoutes = createBrowserRouter([
           },
           {
             path: "login",
-            element: <SignIn signUpUrl="register" routing="/dashboard" />,
+            element: <SignIn forceRedirectUrl="/dashboard" />,
           },
           {
             path: "register",
-            element: <SignUp signInUrl="login" routing="/dashboard" />,
+            element: <SignUp forceRedirectUrl="/dashboard" />,
           },
         ],
       },
