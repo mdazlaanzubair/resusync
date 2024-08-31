@@ -9,6 +9,8 @@ import {
   HomePage,
   PageNotFound,
   ProtectedCoreAppLayout,
+  AIConfigurationModule,
+  ScannerModule,
 } from "@/app/modules";
 
 export const appRoutes = createBrowserRouter([
@@ -26,11 +28,19 @@ export const appRoutes = createBrowserRouter([
         children: [
           {
             path: "dashboard",
-            element: <DashboardModule path="/dashboard" />,
+            element: <DashboardModule />,
+          },
+          {
+            path: "scanner",
+            element: <ScannerModule />,
           },
           {
             path: "profile",
-            element: <ProfileModule path="/dashboard" />,
+            element: <ProfileModule />,
+          },
+          {
+            path: "config",
+            element: <AIConfigurationModule />,
           },
         ],
       },

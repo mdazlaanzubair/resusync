@@ -1,11 +1,11 @@
 import React from "react";
 
-const DashboardModule = () => {
+const ScannerModule = () => {
   return (
     <div className="w-full h-full rounded-lg bg-[#ffffff] p-5">
-      Dashboard
+      Scanner
     </div>
   );
 };
 
-export default DashboardModule;
+export default ScannerModule;

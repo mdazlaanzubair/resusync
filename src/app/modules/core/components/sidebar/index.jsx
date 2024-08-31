@@ -1,22 +1,29 @@
+import React from "react";
 import { fullLogo } from "@/assets";
 import { Button, Menu } from "antd";
-import React from "react";
 import { IoClose } from "react-icons/io5";
 import { MdLogout, MdOutlineDocumentScanner } from "react-icons/md";
 import { HiOutlineCog } from "react-icons/hi2";
 import { LuLayoutDashboard } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
+import { useClerk } from "@clerk/clerk-react";
 
 const Sidebar = ({ isShow, toggleSidebar }) => {
+  const { signOut } = useClerk();
+  const navigate = useNavigate();
+
   const menuItems = [
     {
       key: "1",
       icon: <LuLayoutDashboard />,
       label: "Dashboard",
+      onClick: () => navigate("/dashboard"),
     },
     {
       key: "2",
       icon: <MdOutlineDocumentScanner />,
-      label: "Scan Resume",
+      label: "Resume Scanner",
+      onClick: () => navigate("/scanner"),
     },
     {
       key: "sub1",
@@ -26,10 +33,12 @@ const Sidebar = ({ isShow, toggleSidebar }) => {
         {
           key: "5",
           label: "Edit Profile",
+          onClick: () => navigate("/profile"),
         },
         {
           key: "6",
           label: "AI Config",
+          onClick: () => navigate("/config"),
         },
       ],
     },
@@ -61,6 +70,7 @@ const Sidebar = ({ isShow, toggleSidebar }) => {
           className="bg-secondary m-3"
           size="large"
           icon={<MdLogout />}
+          onClick={() => signOut({ redirectUrl: "/" })}
         >
           Logout
         </Button>

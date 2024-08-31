@@ -1,11 +1,11 @@
 import React from "react";
 
-const DashboardModule = () => {
+const AIConfigurationModule = () => {
   return (
     <div className="w-full h-full rounded-lg bg-[#ffffff] p-5">
-      Dashboard
+      AIConfiguration
     </div>
   );
 };
 
-export default DashboardModule;
+export default AIConfigurationModule;
