@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+}
