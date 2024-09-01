@@ -1,4 +1,5 @@
-import MegaLoader from "@/general-components/mega-loader";
+import { profileSearch } from "@/assets";
+import { ShowLottie, MegaLoader } from "@/general-components";
 import { useAuth } from "@clerk/clerk-react";
 import React, { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +17,11 @@ const RouteProtector = ({ children }) => {
 
   // IF NOT LOADED SHOW LOADER
   if (!isLoaded) {
-    return <MegaLoader />;
+    return (
+      <MegaLoader>
+        <ShowLottie animationData={profileSearch} />
+      </MegaLoader>
+    );
   }
   return <>{children}</>;
 };
