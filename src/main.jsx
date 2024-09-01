@@ -6,6 +6,7 @@ import { RouterProvider } from "react-router-dom";
 import { appRoutes } from "./routes";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { NoInternetConnectionWrapper } from "./general-components";
 
 // FETCHING SECRET KEY TO INITIALIZE CLERK PROVIDER
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -16,10 +17,12 @@ if (!PUBLISHABLE_KEY) {
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
-      <Provider store={store}>
-        <RouterProvider router={appRoutes} />
-      </Provider>
-    </ClerkProvider>
+    <NoInternetConnectionWrapper>
+      <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+        <Provider store={store}>
+          <RouterProvider router={appRoutes} />
+        </Provider>
+      </ClerkProvider>
+    </NoInternetConnectionWrapper>
   </StrictMode>
 );

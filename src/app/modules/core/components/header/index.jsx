@@ -6,7 +6,7 @@ import { IoClose } from "react-icons/io5";
 import { TbMenuDeep } from "react-icons/tb";
 import { UserButton } from "@clerk/clerk-react";
 
-const Header = ({ isShow, toggleSidebar }) => {
+const Header = ({ showMenu, toggleSidebar }) => {
   return (
     <div className="w-full flex border-b items-center justify-between px-5 py-3 bg-white">
       <img className="w-28 lg:w-36 h-auto" src={fullLogo} alt="" srcSet="" />
@@ -25,7 +25,7 @@ const Header = ({ isShow, toggleSidebar }) => {
           type="text"
           size="large"
           icon={
-            isShow ? (
+            showMenu ? (
               <IoClose className="text-xl" />
             ) : (
               <TbMenuDeep className="text-xl" />

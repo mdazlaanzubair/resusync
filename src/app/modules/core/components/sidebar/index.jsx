@@ -7,8 +7,9 @@ import { HiOutlineCog } from "react-icons/hi2";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { useClerk } from "@clerk/clerk-react";
+import { FileUploader } from "@/general-components";
 
-const Sidebar = ({ isShow, toggleSidebar }) => {
+const Sidebar = ({ showMenu, toggleSidebar }) => {
   const { signOut } = useClerk();
   const navigate = useNavigate();
 
@@ -29,7 +30,7 @@ const Sidebar = ({ isShow, toggleSidebar }) => {
       key: "sub-menu-setting",
       label: "Settings",
       icon: <HiOutlineCog />,
-      isShow: true,
+      showMenu: true,
       children: [
         {
           key: "5",
@@ -53,7 +54,7 @@ const Sidebar = ({ isShow, toggleSidebar }) => {
   return (
     <div
       className={`fixed top-0 bottom-0 z-50 shadow-xl lg:shadow-none lg:relative lg:h-full w-1/2 lg:w-1/6 
-      ${isShow ? "translate-x-0" : "-translate-x-[100vw] lg:translate-x-0"}
+      ${showMenu ? "translate-x-0" : "-translate-x-[100vw] lg:translate-x-0"}
      flex flex-col bg-white border-r transition-transform duration-500 ease-in-out`}
     >
       <div className="relative flex lg:hidden items-center justify-between p-3 pb-[0.9rem] border-b">
@@ -65,7 +66,8 @@ const Sidebar = ({ isShow, toggleSidebar }) => {
           icon={<IoClose className="rotate-45" />}
         />
       </div>
-      <div className="relative flex flex-col h-full bg mt-2">
+      <div className="relative flex flex-col h-full">
+        <FileUploader />
         <Menu
           className="rounded-lg bg-white flex-grow"
           mode="inline"

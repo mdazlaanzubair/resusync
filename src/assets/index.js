@@ -11,6 +11,7 @@ import analyzeSata from "./lottie-animations/analyzing-data.json";
 import meditate from "./lottie-animations/meditate.json";
 import authPage from "./lottie-animations/auth-page.json";
 import spinner from "./lottie-animations/spinner.json";
+import connectionError from "./lottie-animations/connection-error.json";
 
 export {
   // PNG FILES EXPORT
@@ -26,4 +27,5 @@ export {
   meditate,
   authPage,
   spinner,
+  connectionError,
 };

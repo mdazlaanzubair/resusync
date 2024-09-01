@@ -13,12 +13,12 @@ const ProtectedCoreAppLayout = () => {
     <RouteProtector>
       <div className="flex flex-col w-full h-[100vh] gap- bg-secondary">
         {/* Top Navigation */}
-        <Header isShow={isShowMenu} toggleSidebar={toggleSidebar} />
+        <Header showMenu={isShowMenu} toggleSidebar={toggleSidebar} />
 
         {/* Main Content Area */}
         <div className="w-full flex flex-grow overflow-auto">
           {/* Main Layout with Sidebar and Content */}
-          <Sidebar isShow={isShowMenu} toggleSidebar={toggleSidebar} />
+          <Sidebar showMenu={isShowMenu} toggleSidebar={toggleSidebar} />
 
           <div className="w-full flex flex-col flex-grow overflow-y-auto">
             <div className="relative p-5 flex flex-col gap-2 w-full h-full">
