@@ -1,13 +1,16 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Modal, Button, Upload, message } from "antd";
-import supabase from "@/supabase";
 import { MdOutlineDocumentScanner, MdOutlineUploadFile } from "react-icons/md";
 import { FaRegFilePdf } from "react-icons/fa6";
+import { useClerkSupabaseClient } from "@/hooks";
 
 const FileUploader = () => {
   const [visible, setVisible] = useState(false);
   const [fileList, setFileList] = useState([]);
   const fileInputRef = useRef(null);
+
+  // INITIALIZING SUPABASE
+  const supabase = useClerkSupabaseClient();
 
   const handleOpenModal = () => {
     setVisible(true);
@@ -47,6 +50,24 @@ const FileUploader = () => {
   const handleFileClick = () => {
     fileInputRef.current.click();
   };
+
+  useEffect(() => {
+    if (supabase) {
+      async function fetchData() {
+        const { data, error } = await supabase.from("parsed-resume").select("*");
+    
+        if (error) {
+          console.error("Error fetching data:", error);
+          return;
+        }
+    
+        console.log("Fetched data:", data);
+      }
+      fetchData()
+    } else {
+      console.log("supabase not initialized yet!");
+    }
+  }, [supabase]);
 
   return (
     <>
@@ -101,7 +122,9 @@ const FileUploader = () => {
             </p>
             <p className="text-primary text-xs">
               Strictly prohibited uploading file other than
-              <code className="bg-slate-300 p-1 rounded mx-1 font-bold">.pdf</code>
+              <code className="bg-slate-300 p-1 rounded mx-1 font-bold">
+                .pdf
+              </code>
               formate.
             </p>
           </div>
