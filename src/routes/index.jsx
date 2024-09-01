@@ -11,6 +11,7 @@ import {
   ProtectedCoreAppLayout,
   AIConfigurationModule,
   ScannerModule,
+  SecurityModule,
 } from "@/app/modules";
 
 export const appRoutes = createBrowserRouter([
@@ -37,6 +38,10 @@ export const appRoutes = createBrowserRouter([
           {
             path: "profile",
             element: <ProfileModule />,
+          },
+          {
+            path: "security",
+            element: <SecurityModule />,
           },
           {
             path: "config",

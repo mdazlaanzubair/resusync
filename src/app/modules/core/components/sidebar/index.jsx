@@ -26,17 +26,23 @@ const Sidebar = ({ isShow, toggleSidebar }) => {
       onClick: () => navigate("/scanner"),
     },
     {
-      key: "sub1",
+      key: "sub-menu-setting",
       label: "Settings",
       icon: <HiOutlineCog />,
+      isShow: true,
       children: [
         {
           key: "5",
-          label: "Edit Profile",
+          label: "Profile",
           onClick: () => navigate("/profile"),
         },
         {
           key: "6",
+          label: "Security",
+          onClick: () => navigate("/security"),
+        },
+        {
+          key: "7",
           label: "AI Config",
           onClick: () => navigate("/config"),
         },
@@ -50,7 +56,7 @@ const Sidebar = ({ isShow, toggleSidebar }) => {
       ${isShow ? "translate-x-0" : "-translate-x-[100vw] lg:translate-x-0"}
      flex flex-col bg-white border-r transition-transform duration-500 ease-in-out`}
     >
-      <div className="relative flex lg:hidden items-center justify-between mb-2 p-3 pb-[0.9rem] border-b">
+      <div className="relative flex lg:hidden items-center justify-between p-3 pb-[0.9rem] border-b">
         <img className="w-24 h-auto" src={fullLogo} alt="" srcSet="" />
         <Button
           onClick={toggleSidebar}
@@ -59,10 +65,11 @@ const Sidebar = ({ isShow, toggleSidebar }) => {
           icon={<IoClose className="rotate-45" />}
         />
       </div>
-      <div className="relative flex flex-col h-full bg">
+      <div className="relative flex flex-col h-full bg mt-2">
         <Menu
           className="rounded-lg bg-white flex-grow"
           mode="inline"
+          defaultOpenKeys={["sub-menu-setting"]}
           items={menuItems}
         />
         <Button

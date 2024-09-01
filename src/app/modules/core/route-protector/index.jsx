@@ -8,13 +8,6 @@ const RouteProtector = ({ children }) => {
   const { userId, isLoaded, isSignedIn } = useAuth();
   const navigate = useNavigate();
 
-  // IF NO USER ID REDIRECT
-  useLayoutEffect(() => {
-    if (!isSignedIn && !userId) {
-      navigate("/auth/login", { replace: true });
-    }
-  }, [isLoaded]);
-
   // IF NOT LOADED SHOW LOADER
   if (!isLoaded) {
     return (
@@ -23,6 +16,14 @@ const RouteProtector = ({ children }) => {
       </MegaLoader>
     );
   }
+
+  // IF NO USER ID REDIRECT
+  useLayoutEffect(() => {
+    if (!isSignedIn && !userId && isLoaded) {
+      navigate("/auth/login", { replace: true });
+    }
+  }, [isLoaded]);
+  
   return <>{children}</>;
 };
 

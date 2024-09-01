@@ -9,3 +9,26 @@ body {
   margin: 0;
   overflow: auto;
 }
+
+#custom-user-profile-page .cl-rootBox {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+#custom-user-profile-page .cl-cardBox,
+#custom-user-profile-page .cl-profilePage,
+#custom-user-profile-page .cl-scrollBox,
+#custom-user-profile-page .cl-pageScrollBox {
+  width: 100%;
+  padding: 0 1rem 0 0;
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  overflow-y: hidden;
+}
+
+#custom-user-profile-page .cl-navbar {
+  display: none;
+}

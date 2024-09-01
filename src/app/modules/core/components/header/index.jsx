@@ -13,7 +13,11 @@ const Header = ({ isShow, toggleSidebar }) => {
       {/* SPACER */}
       <div className="flex-grow"></div>
       <div className="flex items-center justify-center gap-1">
-      <UserButton/>
+        <UserButton
+          userProfileUrl="/profile"
+          afterSwitchSessionUrl="/dashboard"
+          signInUrl="/dashboard"
+        />
 
         <Button
           onClick={toggleSidebar}
