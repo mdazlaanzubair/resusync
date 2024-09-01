@@ -47,7 +47,7 @@ const Sidebar = ({ isShow, toggleSidebar }) => {
   return (
     <div
       className={`fixed top-0 bottom-0 z-50 shadow-xl lg:shadow-none lg:relative lg:h-full w-1/2 lg:w-1/6 
-      ${isShow ? "translate-x-0" : "-translate-x-[50vh] lg:translate-x-0"}
+      ${isShow ? "translate-x-0" : "-translate-x-[100vw] lg:translate-x-0"}
      flex flex-col bg-white border-r transition-transform duration-500 ease-in-out`}
     >
       <div className="relative flex lg:hidden items-center justify-between mb-2 p-3 pb-[0.9rem] border-b">

@@ -16,7 +16,7 @@ const AuthenticationModule = () => {
       {loaded ? (
         <Outlet />
       ) : (
-        <MegaLoader>
+        <MegaLoader isTransparent={true}>
           <ShowLottie animationData={spinner} />
         </MegaLoader>
       )}
