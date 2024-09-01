@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
 import { Modal, Button, Upload, message } from "antd";
-import { createClient } from "@supabase/supabase-js";
 import supabase from "@/supabase";
-import { MdOutlineDocumentScanner } from "react-icons/md";
+import { MdOutlineDocumentScanner, MdOutlineUploadFile } from "react-icons/md";
+import { FaRegFilePdf } from "react-icons/fa6";
 
 const FileUploader = () => {
   const [visible, setVisible] = useState(false);
@@ -62,7 +62,7 @@ const FileUploader = () => {
       </Button>
 
       <Modal
-        title="File Upload"
+        title="Resume Upload"
         open={visible}
         onCancel={handleCloseModal}
         footer={[
@@ -79,23 +79,33 @@ const FileUploader = () => {
           </Button>,
         ]}
       >
-        <Upload
+        <Upload.Dragger
+          id="file-uploader-custom-id"
           fileList={fileList}
           onChange={handleFileChange}
           beforeUpload={() => false} // Prevent default browser upload
+          style={{
+            width: "100%",
+          }}
+          listType="picture"
+          iconRender={() => (
+            <FaRegFilePdf className="my-1 ml-1 text-4xl text-red-500" />
+          )}
         >
-          <Button type="primary">
-            <input
-              type="file"
-              multiple
-              accept="*"
-              ref={fileInputRef}
-              style={{ display: "none" }}
-              onChange={handleFileChange}
-            />
-            Click to Upload
-          </Button>
-        </Upload>
+          <div className="flex flex-col items-center justify-center">
+            <p className="mx-auto">
+              <MdOutlineUploadFile className="text-6xl font-normal" />
+            </p>
+            <p className="font-bold">
+              Click or drag file to this area to upload
+            </p>
+            <p className="text-primary text-xs">
+              Strictly prohibited uploading file other than
+              <code className="bg-slate-300 p-1 rounded mx-1 font-bold">.pdf</code>
+              formate.
+            </p>
+          </div>
+        </Upload.Dragger>
       </Modal>
     </>
   );
