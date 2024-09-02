@@ -1,6 +1,5 @@
 const resume = {
   bio: {
-    resumeId: "",
     name: "",
     headline: "",
     summary: "",
@@ -10,7 +9,6 @@ const resume = {
   },
   profile: [
     {
-      resumeId: "",
       network: "",
       username: "",
       icon: "",
@@ -19,7 +17,6 @@ const resume = {
   ],
   experience: [
     {
-      resumeId: "",
       company: "",
       position: "",
       location: "",
@@ -30,7 +27,6 @@ const resume = {
   ],
   education: [
     {
-      resumeId: "",
       institute: "",
       studyType: "",
       field: "",
@@ -42,7 +38,6 @@ const resume = {
   ],
   certificate: [
     {
-      resumeId: "",
       title: "",
       issuer: "",
       date: "",
@@ -52,7 +47,6 @@ const resume = {
   ],
   project: [
     {
-      resumeId: "",
       name: "",
       date: "",
       summary: "",
@@ -62,7 +56,6 @@ const resume = {
   ],
   award: [
     {
-      resumeId: "",
       title: "",
       awarder: "",
       date: "",
@@ -72,7 +65,6 @@ const resume = {
   ],
   publication: [
     {
-      resumeId: "",
       name: "",
       publisher: "",
       date: "",
@@ -82,17 +74,14 @@ const resume = {
   ],
   reference: [
     {
-      resumeId: "",
       name: "",
       designation: "",
       email: "",
       phone: "",
-      url: "",
     },
   ],
   volunteer: [
     {
-      resumeId: "",
       organization: "",
       role: "",
       location: "",
@@ -103,7 +92,6 @@ const resume = {
   ],
   interest: [
     {
-      resumeId: "",
       title: "",
       keywords: [],
       url: "",
@@ -111,7 +99,6 @@ const resume = {
   ],
   skill: [
     {
-      resumeId: "",
       name: "",
       level: 0,
       keywords: [],
@@ -120,7 +107,6 @@ const resume = {
   ],
   language: [
     {
-      resumeId: "",
       name: "",
       proficiency: "",
     },
