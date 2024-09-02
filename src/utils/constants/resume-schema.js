@@ -126,15 +126,4 @@ const resume = {
       proficiency: "",
     },
   ],
-  customSection: [
-    {
-      resumeId: "",
-      title: "",
-      date: "",
-      location: "",
-      summary: "",
-      keywords: [],
-      url: "",
-    },
-  ],
 };
