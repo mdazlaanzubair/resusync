@@ -113,7 +113,6 @@ const resume = {
     {
       resumeId: "",
       name: "",
-      description: "",
       level: 0,
       keywords: [],
       url: "",
