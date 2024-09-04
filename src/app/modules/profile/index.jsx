@@ -1,4 +1,4 @@
-import { UserProfile, useUser } from "@clerk/clerk-react";
+import { UserProfile } from "@clerk/clerk-react";
 import React from "react";
 
 const ProfileModule = () => {

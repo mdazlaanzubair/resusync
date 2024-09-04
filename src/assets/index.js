@@ -12,6 +12,8 @@ import meditate from "./lottie-animations/meditate.json";
 import authPage from "./lottie-animations/auth-page.json";
 import spinner from "./lottie-animations/spinner.json";
 import connectionError from "./lottie-animations/connection-error.json";
+import resumeParsing from "./lottie-animations/resume-parsing.json";
+import fileUpload from "./lottie-animations/file-upload.json";
 
 export {
   // PNG FILES EXPORT
@@ -28,4 +30,6 @@ export {
   authPage,
   spinner,
   connectionError,
+  resumeParsing,
+  fileUpload,
 };
