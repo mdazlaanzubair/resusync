@@ -6,6 +6,8 @@ import { useUser } from "@clerk/clerk-react";
 import { notify } from "@/utils";
 import { ShowLottie } from "..";
 import { fileUpload } from "@/assets";
+import { deleteFile, uploadFile } from "@/supabase/storage";
+import { createResume } from "@/supabase/resumes";
 
 const BUCKET_KEY = import.meta.env.VITE_SUPABASE_BUCKET_KEY;
 const { Dragger } = Upload;
@@ -30,36 +32,47 @@ const FileUploader = () => {
 
   const handleFileSubmit = async ({ fileName, uploader }) => {
     setIsLoading(true);
-    const fileSlug = fileName?.replace(/ /g, "-")?.toLowerCase();
+
+    const resumeData = {
+      title: fileName,
+      slug: fileName?.replace(/ /g, "-")?.toLowerCase(),
+      user_id: user?.id,
+    };
+
     try {
-      const { data, error } = await supabase.storage
-        .from(`${BUCKET_KEY}`)
-        .upload(
-          `${user?.username}/${fileSlug}.pdf`,
-          uploader?.fileList[0]?.originFileObj,
-          {
-            cacheControl: "3600",
-            upsert: false,
-            contentType: "application/pdf",
-          }
-        );
-      if (error) {
-        throw error;
+      // SAVING FILE TO SUPABASE STORAGE
+      const { data: storageData, error: storageError } = await uploadFile(
+        `${user?.username}/${resumeData?.slug}.pdf`,
+        uploader?.fileList[0]?.originFileObj
+      );
+
+      // THROW ERROR IF ANY
+      if (storageError) throw storageError;
+
+      // ELSE SAVE UPLOADED RESUME DATA TO SUPABASE
+      // APPENDING FILE PATH IN RESUME DATA OBJECT THAT RECEIVED AFTER FILE UPLOAD
+      resumeData["file_path"] = storageData?.path;
+
+      // SAVING RESUME DATA TO THE TABLE
+      const { data, error: resumeError } = await createResume(resumeData);
+
+      // THROW ERROR IF ANY
+      if (resumeError) {
+        // IF ERROR OCCURRED DURING SAVING OF RESUME DATA 
+        // THE FILE RECENTLY UPLOADED WILL BE DELETED
+        await deleteFile(resumeData?.file_path);
+
+        throw resumeError;
       }
+
+      // ELSE SHOW SUCCESS MESSAGE
       notify(
         "success",
         "Upload Successfully",
         "You file is uploaded to the cloud successfully"
       );
 
-      const reqBody = {
-        title: fileName,
-        slug: fileSlug,
-        file_path: data?.path,
-        user_id: user?.id,
-      };
-
-      console.log("api_req_body", reqBody);
+      console.log("data", data);
       handleCloseModal();
     } catch ({ error, message }) {
       notify("error", `Oops! ${error} Error`, `${message}`);
@@ -116,7 +129,7 @@ const FileUploader = () => {
         className="relative"
       >
         {isLoading && (
-          <div className="absolute z-10 top-0 left-0 right-0 bottom-0 bg-secondary/70 rounded-md flex items-center justify-center">
+          <div className="absolute z-10 top-0 left-0 right-0 bottom-0 bg-primary/80 rounded-md flex items-center justify-center">
             <ShowLottie animationData={fileUpload} />
           </div>
         )}
