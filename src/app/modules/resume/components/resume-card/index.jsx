@@ -25,12 +25,14 @@ const ResumeCards = ({
       icon: <FiEdit3 />,
       onClick: selectResumeDataHandler,
     },
-    {
-      key: "2",
-      label: <span class="text-xs">ATS Analysis</span>,
-      icon: <MdOutlineDocumentScanner />,
-      onClick: () => alert(`ATS Analysis of ${data?.title}`),
-    },
+    data?.file_path &&
+      data?.raw_text && {
+        key: "2",
+        label: <span class="text-xs">ATS Analysis</span>,
+        icon: <MdOutlineDocumentScanner />,
+        disable: true,
+        onClick: () => alert(`ATS Analysis of ${data?.title}`),
+      },
     {
       key: "3",
       label: <span class="text-xs">Delete</span>,
@@ -81,6 +83,7 @@ const ResumeCards = ({
           menu={{
             items,
           }}
+          trigger={["click"]}
           placement="bottomRight"
         >
           <Button
