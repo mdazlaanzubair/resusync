@@ -1,11 +1,11 @@
 import { useUser } from "@clerk/clerk-react";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { ModalBtn, ResumeCards, ResumeFormModal } from "./components";
 import { FileUploadFormModal } from "@/general-components";
 import ResumeCardSkeleton from "./components/resume-card/skeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Empty, Typography } from "antd";
-import { getAllResumes } from "@/redux/resume/actions";
+import { deleteResume, getAllResumes } from "@/redux/resume/actions";
 
 // Array of background colors or patterns
 const backgroundPatterns = [
@@ -47,10 +47,16 @@ const ResumeModule = () => {
     dispatch(getAllResumes(user?.id, callback));
   }, []);
 
+  useEffect(() => {
+    if (editData) {
+      openResumeModalHandler();
+    }
+  }, [editData]);
+
   return (
     <div className="w-full h-full rounded-lg bg-[#ffffff] p-5 overflow-y-auto">
       {resumes?.length > 0 ? (
-        <div className="w-full h-full grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-5">
+        <div className="w-full h-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">
           <ModalBtn clickHandler={openResumeModalHandler} />
           <ModalBtn clickHandler={openUploadModalHandler} isUploadBtn />
           {isResumeDataLoading &&
@@ -60,7 +66,8 @@ const ResumeModule = () => {
               <ResumeCards
                 key={resume?.id}
                 data={resume}
-                selectResumeDataHandler={setEditData}
+                selectResumeDataHandler={() => setEditData(resume)}
+                deleteResumeHandler={() => dispatch(deleteResume(resume))}
                 backgroundColor={
                   backgroundPatterns[index % backgroundPatterns.length]
                 }
@@ -102,6 +109,7 @@ const ResumeModule = () => {
         visible={isShowResumeModal}
         closeHandler={closeResumeModalHandler}
         editResumeData={editData}
+        deselectEditResumeData={() => setEditData(null)}
       />
       <FileUploadFormModal
         visible={isShowUploadModal}

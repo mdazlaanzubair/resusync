@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import { Modal, Button, Upload, Form, Input } from "antd";
 import { MdOutlineUploadFile } from "react-icons/md";
 import { useUser } from "@clerk/clerk-react";
-import { notify } from "@/utils";
 import { ShowLottie } from "..";
 import { fileUpload } from "@/assets";
-import { deleteFile } from "@/supabase/storage";
 import { useDispatch } from "react-redux";
-import { createResume, uploadResume } from "@/redux/resume/actions";
+import {  uploadResume } from "@/redux/resume/actions";
 
 const { Dragger } = Upload;
 

@@ -10,10 +10,9 @@ import { notification } from "antd";
 export const notify = (
   type = "info",
   message = "Notification Title",
-  description = "Notification description message",
-  placement="bottomRight",
+  description,
+  placement = "bottomRight",
   duration = 4.5
-
 ) => {
   notification[type]({
     message,
@@ -22,4 +21,3 @@ export const notify = (
     placement, // You can change this to 'topLeft', 'bottomLeft', 'topRight'
   });
 };
-

@@ -15,6 +15,22 @@ const resumeSlice = createSlice({
     insertResume: (state, action) => {
       state.resumes = [action.payload, ...state.resumes];
     },
+
+    updateResume: (state, action) => {
+      state.resumes = state.resumes?.map((resume) => {
+        if (resume?.id === action.payload?.id) {
+          return action.payload;
+        } else {
+          return resume;
+        }
+      });
+    },
+
+    deleteResume: (state, action) => {
+      state.resumes = state.resumes?.filter(
+        (resume) => resume?.id !== action.payload?.id
+      );
+    },
   },
 });
 

@@ -115,3 +115,61 @@ export const getAllResumes = (userId, callback) => async (dispatch) => {
     notify("error", `Oops! ${error} Error`, `${message}`);
   }
 };
+
+// REDUX ACTION TO UPDATE RESUME
+export const updateResume = (body, callback) => async (dispatch) => {
+  try {
+    // SAVING DATA TO SUPABASE
+    const { data, error } = await supabase
+      .from("resumes")
+      .update(body)
+      .eq("id", body?.id)
+      .select();
+
+    // THROW ERROR IF ANY
+    if (error) throw error;
+
+    // UPDATING REDUX STATE
+    dispatch(actions.insertResume(data[0]));
+
+    // ELSE SHOW SUCCESS MESSAGE
+    notify("success", "Resume updated successfully");
+
+    // SUCCESS CALLBACK
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+
+
+// REDUX ACTION TO DELETE RESUME
+export const deleteResume = (body, callback) => async (dispatch) => {
+    try {
+      // SAVING DATA TO SUPABASE
+      const { data, error } = await supabase
+        .from("resumes")
+        .delete()
+        .eq("id", body?.id)
+        .select();
+  
+      // THROW ERROR IF ANY
+      if (error) throw error;
+  
+      // UPDATING REDUX STATE
+      dispatch(actions.deleteResume(data[0]));
+  
+      // ELSE SHOW SUCCESS MESSAGE
+      notify("success", "Resume delete successfully");
+  
+      // SUCCESS CALLBACK
+      callback && callback(true);
+    } catch ({ error, message }) {
+      callback && callback(false);
+      console.error(error, message);
+      notify("error", `Oops! ${error} Error`, `${message}`);
+    }
+  };

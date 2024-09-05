@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { spinner } from "@/assets";
 import { ShowLottie } from "@/general-components";
 import { useUser } from "@clerk/clerk-react";
 import { Button, Form, Input, Modal } from "antd";
-import { createResume } from "@/redux/resume/actions";
+import { createResume, updateResume } from "@/redux/resume/actions";
 import { useDispatch } from "react-redux";
 
-const ResumeFormModal = ({ visible, closeHandler, editResumeData }) => {
+const ResumeFormModal = ({
+  visible,
+  closeHandler,
+  editResumeData,
+  deselectEditResumeData,
+}) => {
   const { user } = useUser();
   const dispatch = useDispatch();
 
@@ -17,6 +22,7 @@ const ResumeFormModal = ({ visible, closeHandler, editResumeData }) => {
 
   const handleCloseModal = () => {
     closeHandler();
+    deselectEditResumeData();
     resumeCreateFormRef.resetFields();
   };
 
@@ -35,17 +41,35 @@ const ResumeFormModal = ({ visible, closeHandler, editResumeData }) => {
         return;
       }
     };
-    const reqBody = {
-      title,
-      slug: title?.replace(/ /g, "-")?.toLowerCase(),
-      user_id: user?.id,
-    };
-    dispatch(createResume(reqBody, callback));
+    if (editResumeData) {
+      const reqBody = {
+        title,
+        slug: title?.replace(/ /g, "-")?.toLowerCase(),
+        user_id: user?.id,
+      };
+      dispatch(createResume(reqBody, callback));
+    } else {
+      dispatch(
+        updateResume(
+          {
+            ...editResumeData,
+            title,
+          },
+          callback
+        )
+      );
+    }
   };
+
+  useEffect(() => {
+    if (editResumeData) {
+      resumeCreateFormRef?.setFieldValue("title", editResumeData?.title);
+    }
+  }, [editResumeData]);
 
   return (
     <Modal
-      title="Resume Title"
+      title={!editResumeData ? "Create Resume Title" : "Update Resume Title"}
       open={visible}
       onCancel={!isLoading && handleCloseModal}
       footer={null}
@@ -66,7 +90,11 @@ const ResumeFormModal = ({ visible, closeHandler, editResumeData }) => {
           <Form.Item
             name="title"
             className="mb-1"
-            rules={[{ required: true, message: "Title is a required field" }]}
+            rules={[
+              { required: true, message: "Title is a required field" },
+              { min: 5, message: "Title must be at least 5 characters" },
+              { max: 30, message: "Title cannot exceed 30 characters" },
+            ]}
           >
             <Input
               size="large"
@@ -89,7 +117,7 @@ const ResumeFormModal = ({ visible, closeHandler, editResumeData }) => {
           loading={isLoading}
           disabled={isLoading}
         >
-          Create
+          {!editResumeData ? "Create" : "Update"}
         </Button>
       </Form>
     </Modal>
