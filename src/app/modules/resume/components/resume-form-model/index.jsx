@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { spinner } from "@/assets";
 import { ShowLottie } from "@/general-components";
-import { createResume } from "@/supabase/resumes";
 import { useUser } from "@clerk/clerk-react";
 import { Button, Form, Input, Modal } from "antd";
-import { notify } from "@/utils";
+import { createResume } from "@/redux/resume/actions";
+import { useDispatch } from "react-redux";
 
 const ResumeFormModal = ({ visible, closeHandler, editResumeData }) => {
   const { user } = useUser();
+  const dispatch = useDispatch();
 
   const [resumeCreateFormRef] = Form.useForm();
   const titleWatcher = Form.useWatch("title", resumeCreateFormRef);
@@ -16,38 +17,30 @@ const ResumeFormModal = ({ visible, closeHandler, editResumeData }) => {
 
   const handleCloseModal = () => {
     closeHandler();
-    fileUploadFormRef.resetFields();
+    resumeCreateFormRef.resetFields();
   };
 
   const handleResumeSubmit = async ({ title }) => {
     setIsLoading(true);
 
-    try {
-      // SAVING RESUME DATA TO THE TABLE
-      const { data, error: error } = await createResume({
-        title,
-        slug: title?.replace(/ /g, "-")?.toLowerCase(),
-        user_id: user?.id,
-      });
-
-      // THROW ERROR IF ANY
-      if (error) throw error;
-
-      // ELSE SHOW SUCCESS MESSAGE
-      notify(
-        "success",
-        "Created Successfully",
-        "Your resume created successfully"
-      );
-
-      console.log("data", data);
-      handleCloseModal();
-    } catch ({ error, message }) {
-      notify("error", `Oops! ${error} Error`, `${message}`);
-      console.error("Upload failed:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    // DISPATCHING ACTION WITH REQUEST BODY TO FETCH RESUMES WITH A CALLBACK FUNCTION
+    const callback = (isSuccess) => {
+      if (isSuccess) {
+        setIsLoading(false);
+        closeHandler();
+        resumeCreateFormRef.resetFields();
+        return;
+      } else {
+        setIsLoading(false);
+        return;
+      }
+    };
+    const reqBody = {
+      title,
+      slug: title?.replace(/ /g, "-")?.toLowerCase(),
+      user_id: user?.id,
+    };
+    dispatch(createResume(reqBody, callback));
   };
 
   return (

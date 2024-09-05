@@ -16,12 +16,12 @@ const ProtectedCoreAppLayout = () => {
         <Header showMenu={isShowMenu} toggleSidebar={toggleSidebar} />
 
         {/* Main Content Area */}
-        <div className="w-full flex flex-grow overflow-auto">
+        <div className="w-full h-full flex flex-grow overflow-auto">
           {/* Main Layout with Sidebar and Content */}
           <Sidebar showMenu={isShowMenu} toggleSidebar={toggleSidebar} />
 
-          <div className="w-full flex flex-col flex-grow">
-            <div className="relative p-5 flex flex-col gap-2 w-full h-full overflow-y-auto">
+          <div className="w-full h-full flex flex-col flex-grow overflow-y-auto">
+            <div className="relative p-5 flex-grow flex flex-col gap-2 w-full h-full overflow-y-auto">
               {/* <BreadcrumbComponent /> */}
               <Outlet />
             </div>

@@ -5,7 +5,7 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import { RouterProvider } from "react-router-dom";
 import { appRoutes } from "./routes";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { store } from "./redux";
 import { NoInternetConnectionWrapper } from "./general-components";
 
 // FETCHING SECRET KEY TO INITIALIZE CLERK PROVIDER

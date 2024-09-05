@@ -2,12 +2,11 @@ import React from "react";
 import { fullLogo } from "@/assets";
 import { Button, Menu } from "antd";
 import { IoClose } from "react-icons/io5";
-import { MdLogout, MdOutlineDocumentScanner } from "react-icons/md";
+import { MdLogout } from "react-icons/md";
 import { HiOutlineCog } from "react-icons/hi2";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { useClerk } from "@clerk/clerk-react";
-import { FileUploadFormModal } from "@/general-components";
 import { BsFilePdf } from "react-icons/bs";
 
 const Sidebar = ({ showMenu, toggleSidebar }) => {

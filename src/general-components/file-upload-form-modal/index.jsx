@@ -5,12 +5,14 @@ import { useUser } from "@clerk/clerk-react";
 import { notify } from "@/utils";
 import { ShowLottie } from "..";
 import { fileUpload } from "@/assets";
-import { deleteFile, uploadFile } from "@/supabase/storage";
-import { createResume } from "@/supabase/resumes";
+import { deleteFile } from "@/supabase/storage";
+import { useDispatch } from "react-redux";
+import { createResume, uploadResume } from "@/redux/resume/actions";
 
 const { Dragger } = Upload;
 
 const FileUploadFormModal = ({ visible, closeHandler }) => {
+  const dispatch = useDispatch();
   const [fileUploadFormRef] = Form.useForm();
   const fileNameWatcher = Form.useWatch("fileName", fileUploadFormRef);
 
@@ -28,53 +30,29 @@ const FileUploadFormModal = ({ visible, closeHandler }) => {
   const handleFileSubmit = async ({ fileName, uploader }) => {
     setIsLoading(true);
 
-    const resumeData = {
-      title: fileName,
-      slug: fileName?.replace(/ /g, "-")?.toLowerCase(),
-      user_id: user?.id,
+    // DISPATCHING ACTION WITH REQUEST BODY TO FETCH RESUMES WITH A CALLBACK FUNCTION
+    const callback = (isSuccess) => {
+      if (isSuccess) {
+        setIsLoading(false);
+        handleCloseModal();
+        fileUploadFormRef.resetFields();
+        return;
+      } else {
+        setIsLoading(false);
+        return;
+      }
     };
 
-    try {
-      // SAVING FILE TO SUPABASE STORAGE
-      const { data: storageData, error: storageError } = await uploadFile(
-        `${user?.username}/${resumeData?.slug}.pdf`,
-        uploader?.fileList[0]?.originFileObj
-      );
-
-      // THROW ERROR IF ANY
-      if (storageError) throw storageError;
-
-      // ELSE SAVE UPLOADED RESUME DATA TO SUPABASE
-      // APPENDING FILE PATH IN RESUME DATA OBJECT THAT RECEIVED AFTER FILE UPLOAD
-      resumeData["file_path"] = storageData?.path;
-
-      // SAVING RESUME DATA TO THE TABLE
-      const { data, error: resumeError } = await createResume(resumeData);
-
-      // THROW ERROR IF ANY
-      if (resumeError) {
-        // IF ERROR OCCURRED DURING SAVING OF RESUME DATA
-        // THE FILE RECENTLY UPLOADED WILL BE DELETED
-        await deleteFile(resumeData?.file_path);
-
-        throw resumeError;
-      }
-
-      // ELSE SHOW SUCCESS MESSAGE
-      notify(
-        "success",
-        "Upload Successfully",
-        "You file is uploaded to the cloud successfully"
-      );
-
-      console.log("data", data);
-      handleCloseModal();
-    } catch ({ error, message }) {
-      notify("error", `Oops! ${error} Error`, `${message}`);
-      console.error("Upload failed:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    const reqBody = {
+      title: fileName,
+      slug: fileName?.replace(/ /g, "-")?.toLowerCase(),
+      file_path: `${user?.username}/${fileName
+        ?.replace(/ /g, "-")
+        ?.toLowerCase()}.pdf`,
+      file: uploader?.fileList[0]?.originFileObj,
+      user_id: user?.id,
+    };
+    dispatch(uploadResume(reqBody, callback));
   };
 
   const validateFileType = (rule, values) => {
