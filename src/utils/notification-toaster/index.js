@@ -11,13 +11,15 @@ export const notify = (
   type = "info",
   message = "Notification Title",
   description = "Notification description message",
+  placement="bottomRight",
   duration = 4.5
+
 ) => {
   notification[type]({
     message,
     description,
     duration,
-    placement: "topRight", // You can change this to 'topLeft', 'bottomLeft', 'bottomRight'
+    placement, // You can change this to 'topLeft', 'bottomLeft', 'topRight'
   });
 };
 

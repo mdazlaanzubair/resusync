@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Upload, Form, Input } from "antd";
 import { MdOutlineDocumentScanner, MdOutlineUploadFile } from "react-icons/md";
-import supabase from "@/supabase";
 import { useUser } from "@clerk/clerk-react";
 import { notify } from "@/utils";
 import { ShowLottie } from "..";
@@ -9,7 +8,6 @@ import { fileUpload } from "@/assets";
 import { deleteFile, uploadFile } from "@/supabase/storage";
 import { createResume } from "@/supabase/resumes";
 
-const BUCKET_KEY = import.meta.env.VITE_SUPABASE_BUCKET_KEY;
 const { Dragger } = Upload;
 
 const FileUploader = () => {
@@ -58,7 +56,7 @@ const FileUploader = () => {
 
       // THROW ERROR IF ANY
       if (resumeError) {
-        // IF ERROR OCCURRED DURING SAVING OF RESUME DATA 
+        // IF ERROR OCCURRED DURING SAVING OF RESUME DATA
         // THE FILE RECENTLY UPLOADED WILL BE DELETED
         await deleteFile(resumeData?.file_path);
 
@@ -113,9 +111,8 @@ const FileUploader = () => {
       <Button
         onClick={handleOpenModal}
         type="primary"
-        className="w-fit mx-auto mt-5 mb-3 text-sm"
+        className="w-fit mx-auto text-sm"
         size="large"
-        shape="round"
         icon={<MdOutlineDocumentScanner />}
       >
         Scan Now

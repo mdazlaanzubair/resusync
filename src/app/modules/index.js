@@ -4,7 +4,7 @@ import ProtectedCoreAppLayout from "./core";
 import DashboardModule from "./dashboard";
 import ProfileModule from "./profile";
 import { HomePage, PageNotFound } from "./public";
-import ScannerModule from "./scanner";
+import ResumeModule from "./resume";
 import SecurityModule from "./security";
 
 export {
@@ -14,7 +14,7 @@ export {
   ProfileModule,
   PageNotFound,
   HomePage,
-  ScannerModule,
   AIConfigurationModule,
   SecurityModule,
+  ResumeModule
 };

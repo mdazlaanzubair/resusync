@@ -8,6 +8,7 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { useClerk } from "@clerk/clerk-react";
 import { FileUploader } from "@/general-components";
+import { BsFilePdf } from "react-icons/bs";
 
 const Sidebar = ({ showMenu, toggleSidebar }) => {
   const { signOut } = useClerk();
@@ -21,10 +22,22 @@ const Sidebar = ({ showMenu, toggleSidebar }) => {
       onClick: () => navigate("/dashboard"),
     },
     {
-      key: "2",
-      icon: <MdOutlineDocumentScanner />,
-      label: "Resume Scanner",
-      onClick: () => navigate("/scanner"),
+      key: "sub-menu-resume",
+      label: "Resume",
+      icon: <BsFilePdf />,
+      showMenu: true,
+      children: [
+        {
+          key: "2",
+          label: "List",
+          onClick: () => navigate("/resumes"),
+        },
+        {
+          key: "3",
+          label: "Builder",
+          onClick: () => navigate("/resume-builder"),
+        },
+      ],
     },
     {
       key: "sub-menu-setting",
@@ -33,17 +46,17 @@ const Sidebar = ({ showMenu, toggleSidebar }) => {
       showMenu: true,
       children: [
         {
-          key: "5",
+          key: "4",
           label: "Profile",
           onClick: () => navigate("/profile"),
         },
         {
-          key: "6",
+          key: "5",
           label: "Security",
           onClick: () => navigate("/security"),
         },
         {
-          key: "7",
+          key: "6",
           label: "AI Config",
           onClick: () => navigate("/config"),
         },
@@ -67,11 +80,10 @@ const Sidebar = ({ showMenu, toggleSidebar }) => {
         />
       </div>
       <div className="relative flex flex-col h-full">
-        <FileUploader />
         <Menu
           className="rounded-lg bg-white flex-grow"
           mode="inline"
-          defaultOpenKeys={["sub-menu-setting"]}
+          defaultOpenKeys={["sub-menu-setting", "sub-menu-resume"]}
           items={menuItems}
         />
         <Button

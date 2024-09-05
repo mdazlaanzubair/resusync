@@ -32,6 +32,15 @@ const PageNotFound = () => {
           Maybe you can find what you need here!
         </h4>
         <div className="flex items-center w-full gap-1">
+          <Button
+            variant="primary"
+            className="gap-1"
+            onClick={() =>
+              navigate(-1)
+            }
+          >
+            <HiOutlineHomeModern /> Home
+          </Button>
           {userId && isSignedIn && isLoaded && (
             <Button
               variant="secondary"
@@ -62,13 +71,6 @@ const PageNotFound = () => {
               </Button>
             </>
           )}
-          <Button
-            variant="secondary"
-            className="gap-1"
-            onClick={() => navigate("/")}
-          >
-            <HiOutlineHomeModern /> Home
-          </Button>
         </div>
       </div>
     </div>
