@@ -1,10 +1,16 @@
-import { FileUploader } from "@/general-components";
+import { FileUploadFormModal } from "@/general-components";
 import { Button } from "antd";
-import React from "react";
+import React, { useState } from "react";
+import { MdOutlineDocumentScanner } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const WelcomeCard = ({ user }) => {
   const navigate = useNavigate();
+
+  const [isShowModal, setIsShowModal] = useState(false);
+
+  const handleOpenModal = () => setIsShowModal(true);
+  const closeModal = () => setIsShowModal(false);
 
   return (
     <div className="col-span-1 lg:col-span-2 gap-3 bg-[#ffffff] rounded-lg p-5 shadow">
@@ -16,7 +22,17 @@ const WelcomeCard = ({ user }) => {
         tools designed to help you create an ATS-ready resume that stands out to
         employers.
       </p>
-      <FileUploader />
+      <FileUploadFormModal visible={isShowModal} closeHandler={closeModal} />
+
+      <Button
+        onClick={handleOpenModal}
+        type="primary"
+        className="w-fit mx-auto text-sm"
+        size="large"
+        icon={<MdOutlineDocumentScanner />}
+      >
+        Scan Now
+      </Button>
       <Button type="link" size="large" onClick={() => navigate("/resumes")}>
         Perform analysis
       </Button>
