@@ -41,7 +41,7 @@ const ResumeFormModal = ({
         return;
       }
     };
-    if (editResumeData) {
+    if (!editResumeData) {
       const reqBody = {
         title,
         slug: title?.replace(/ /g, "-")?.toLowerCase(),

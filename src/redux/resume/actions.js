@@ -66,6 +66,7 @@ export const uploadResume = (body, callback) => async (dispatch) => {
 
 // REDUX ACTION TO CREATE RESUME
 export const createResume = (body, callback) => async (dispatch) => {
+  console.log("data", body);
   try {
     // SAVING DATA TO SUPABASE
     const { data, error } = await supabase
@@ -118,6 +119,7 @@ export const getAllResumes = (userId, callback) => async (dispatch) => {
 
 // REDUX ACTION TO UPDATE RESUME
 export const updateResume = (body, callback) => async (dispatch) => {
+  console.log("data", body);
   try {
     // SAVING DATA TO SUPABASE
     const { data, error } = await supabase
@@ -144,32 +146,30 @@ export const updateResume = (body, callback) => async (dispatch) => {
   }
 };
 
-
-
 // REDUX ACTION TO DELETE RESUME
 export const deleteResume = (body, callback) => async (dispatch) => {
-    try {
-      // SAVING DATA TO SUPABASE
-      const { data, error } = await supabase
-        .from("resumes")
-        .delete()
-        .eq("id", body?.id)
-        .select();
-  
-      // THROW ERROR IF ANY
-      if (error) throw error;
-  
-      // UPDATING REDUX STATE
-      dispatch(actions.deleteResume(data[0]));
-  
-      // ELSE SHOW SUCCESS MESSAGE
-      notify("success", "Resume delete successfully");
-  
-      // SUCCESS CALLBACK
-      callback && callback(true);
-    } catch ({ error, message }) {
-      callback && callback(false);
-      console.error(error, message);
-      notify("error", `Oops! ${error} Error`, `${message}`);
-    }
-  };
+  try {
+    // SAVING DATA TO SUPABASE
+    const { data, error } = await supabase
+      .from("resumes")
+      .delete()
+      .eq("id", body?.id)
+      .select();
+
+    // THROW ERROR IF ANY
+    if (error) throw error;
+
+    // UPDATING REDUX STATE
+    dispatch(actions.deleteResume(data[0]));
+
+    // ELSE SHOW SUCCESS MESSAGE
+    notify("success", "Resume delete successfully");
+
+    // SUCCESS CALLBACK
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
