@@ -55,9 +55,22 @@ const Sidebar = ({ showMenu, toggleSidebar }) => {
           onClick: () => navigate("/security"),
         },
         {
-          key: "6",
-          label: "AI Config",
-          onClick: () => navigate("/config"),
+          key: "sub-menu-ai-config",
+          label: "AI Setup",
+          icon: <HiOutlineCog />,
+          showMenu: true,
+          children: [
+            {
+              key: "6",
+              label: "Config",
+              onClick: () => navigate("/config"),
+            },
+            {
+              key: "7",
+              label: "Usage",
+              onClick: () => navigate("/usage"),
+            },
+          ],
         },
       ],
     },
@@ -82,7 +95,7 @@ const Sidebar = ({ showMenu, toggleSidebar }) => {
         <Menu
           className="rounded-lg bg-white flex-grow"
           mode="inline"
-          defaultOpenKeys={["sub-menu-setting", "sub-menu-resume"]}
+          defaultOpenKeys={["sub-menu-setting", "sub-menu-resume","sub-menu-ai-config"]}
           items={menuItems}
         />
         <Button

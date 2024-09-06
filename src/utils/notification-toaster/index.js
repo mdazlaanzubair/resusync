@@ -12,12 +12,13 @@ export const notify = (
   message = "Notification Title",
   description,
   placement = "bottomRight",
-  duration = 4.5
+  duration = 5
 ) => {
   notification[type]({
     message,
     description,
     duration,
     placement, // You can change this to 'topLeft', 'bottomLeft', 'topRight'
+    showProgress:true
   });
 };

@@ -4,7 +4,7 @@ import { ModalBtn, ResumeCards, ResumeFormModal } from "./components";
 import { FileUploadFormModal } from "@/general-components";
 import ResumeCardSkeleton from "./components/resume-card/skeleton";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Empty, Typography } from "antd";
+import { Button, Empty } from "antd";
 import { deleteResume, getAllResumes } from "@/redux/resume/actions";
 
 // Array of background colors or patterns

@@ -66,7 +66,6 @@ export const uploadResume = (body, callback) => async (dispatch) => {
 
 // REDUX ACTION TO CREATE RESUME
 export const createResume = (body, callback) => async (dispatch) => {
-  console.log("data", body);
   try {
     // SAVING DATA TO SUPABASE
     const { data, error } = await supabase
@@ -119,7 +118,6 @@ export const getAllResumes = (userId, callback) => async (dispatch) => {
 
 // REDUX ACTION TO UPDATE RESUME
 export const updateResume = (body, callback) => async (dispatch) => {
-  console.log("data", body);
   try {
     // SAVING DATA TO SUPABASE
     const { data, error } = await supabase

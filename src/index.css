@@ -36,3 +36,12 @@ body {
 .ant-upload-btn:has(#file-uploader-custom-id) {
   height: 25vh;
 }
+
+#model-radio-btn-container > label.ant-radio-button-wrapper::before {
+  content: none;
+}
+
+
+#model-radio-btn-container > label.ant-radio-button-wrapper {
+  border-radius: 0.5rem;
+}

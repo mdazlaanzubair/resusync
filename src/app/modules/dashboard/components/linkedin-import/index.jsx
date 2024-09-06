@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { ShowLottie } from "@/general-components";
 import { linkedinProfile } from "@/assets";
 import { Button, Form, Input } from "antd";
@@ -7,8 +6,7 @@ import { notify } from "@/utils";
 import { PiMagnifyingGlassBold } from "react-icons/pi";
 
 const LinkedInImport = () => {
-  const navigate = useNavigate();
-  const [fileUploadForm] = Form.useForm();
+  const [fileUploadFormRef] = Form.useForm();
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
@@ -29,7 +27,7 @@ const LinkedInImport = () => {
           <br /> Paste the url of your LinkedIn profile to analyze its score.
         </p>
         <Form
-          form={fileUploadForm}
+          form={fileUploadFormRef}
           onFinish={() => {
             notify(
               "info",
