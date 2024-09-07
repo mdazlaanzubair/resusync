@@ -21,22 +21,10 @@ const Sidebar = ({ showMenu, toggleSidebar }) => {
       onClick: () => navigate("/dashboard"),
     },
     {
-      key: "sub-menu-resume",
-      label: "Resume",
+      key: "1",
       icon: <BsFilePdf />,
-      showMenu: true,
-      children: [
-        {
-          key: "2",
-          label: "List",
-          onClick: () => navigate("/resumes/list"),
-        },
-        {
-          key: "3",
-          label: "Builder",
-          onClick: () => navigate("/resumes/builder"),
-        },
-      ],
+      label: "Resume",
+      onClick: () => navigate("/resumes"),
     },
     {
       key: "sub-menu-setting",

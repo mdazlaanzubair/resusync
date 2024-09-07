@@ -12,7 +12,11 @@ import {
   SettingsModule,
 } from "@/app/modules";
 import { ResumeBuilderPage, ResumeListPage } from "@/app/modules/resume/pages";
-import { AIConfigPage, ProfilePage, SecurityPage } from "@/app/modules/settings/pages";
+import {
+  AIConfigPage,
+  ProfilePage,
+  SecurityPage,
+} from "@/app/modules/settings/pages";
 
 export const appRoutes = createBrowserRouter([
   {
@@ -37,14 +41,14 @@ export const appRoutes = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <Navigate to="list" replace />,
-              },
-              {
-                path: "list",
                 element: <ResumeListPage />,
               },
               {
                 path: "builder",
+                element: <ResumeBuilderPage />,
+              },
+              {
+                path: "builder/:resume_id",
                 element: <ResumeBuilderPage />,
               },
             ],
