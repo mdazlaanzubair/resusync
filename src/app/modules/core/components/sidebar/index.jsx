@@ -29,12 +29,12 @@ const Sidebar = ({ showMenu, toggleSidebar }) => {
         {
           key: "2",
           label: "List",
-          onClick: () => navigate("/resumes"),
+          onClick: () => navigate("/resumes/list"),
         },
         {
           key: "3",
           label: "Builder",
-          onClick: () => navigate("/resume-builder"),
+          onClick: () => navigate("/resumes/builder"),
         },
       ],
     },
@@ -47,30 +47,22 @@ const Sidebar = ({ showMenu, toggleSidebar }) => {
         {
           key: "4",
           label: "Profile",
-          onClick: () => navigate("/profile"),
+          onClick: () => navigate("/settings/profile"),
         },
         {
           key: "5",
           label: "Security",
-          onClick: () => navigate("/security"),
+          onClick: () => navigate("/settings/security"),
         },
         {
-          key: "sub-menu-ai-config",
-          label: "AI Setup",
-          icon: <HiOutlineCog />,
-          showMenu: true,
-          children: [
-            {
-              key: "6",
-              label: "Config",
-              onClick: () => navigate("/config"),
-            },
-            {
-              key: "7",
-              label: "Usage",
-              onClick: () => navigate("/usage"),
-            },
-          ],
+          key: "6",
+          label: "AI Config",
+          onClick: () => navigate("/settings/config"),
+        },
+        {
+          key: "7",
+          label: "Usage",
+          onClick: () => navigate("/settings/usage"),
         },
       ],
     },
@@ -95,7 +87,11 @@ const Sidebar = ({ showMenu, toggleSidebar }) => {
         <Menu
           className="rounded-lg bg-white flex-grow"
           mode="inline"
-          defaultOpenKeys={["sub-menu-setting", "sub-menu-resume","sub-menu-ai-config"]}
+          defaultOpenKeys={[
+            "sub-menu-setting",
+            "sub-menu-resume",
+            "sub-menu-ai-config",
+          ]}
           items={menuItems}
         />
         <Button

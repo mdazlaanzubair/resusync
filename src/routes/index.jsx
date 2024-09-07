@@ -5,14 +5,14 @@ import AppRoot from "@/app";
 import {
   AuthenticationModule,
   DashboardModule,
-  ProfileModule,
   HomePage,
   PageNotFound,
   ProtectedCoreAppLayout,
-  AIConfigurationModule,
-  SecurityModule,
   ResumeModule,
+  SettingsModule,
 } from "@/app/modules";
+import { ResumeBuilderPage, ResumeListPage } from "@/app/modules/resume/pages";
+import { AIConfigPage, ProfilePage, SecurityPage } from "@/app/modules/settings/pages";
 
 export const appRoutes = createBrowserRouter([
   {
@@ -34,18 +34,47 @@ export const appRoutes = createBrowserRouter([
           {
             path: "resumes",
             element: <ResumeModule />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="list" replace />,
+              },
+              {
+                path: "list",
+                element: <ResumeListPage />,
+              },
+              {
+                path: "builder",
+                element: <ResumeBuilderPage />,
+              },
+            ],
           },
+
           {
-            path: "profile",
-            element: <ProfileModule />,
-          },
-          {
-            path: "security",
-            element: <SecurityModule />,
-          },
-          {
-            path: "config",
-            element: <AIConfigurationModule />,
+            path: "settings",
+            element: <SettingsModule />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="profile" replace />,
+              },
+              {
+                path: "profile",
+                element: <ProfilePage />,
+              },
+              {
+                path: "security",
+                element: <SecurityPage />,
+              },
+              {
+                path: "config",
+                element: <AIConfigPage />,
+              },
+              {
+                path: "usage",
+                element: <AIConfigPage />,
+              },
+            ],
           },
         ],
       },
