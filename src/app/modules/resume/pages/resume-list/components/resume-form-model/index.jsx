@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, {  useLayoutEffect, useState } from "react";
 import { spinner } from "@/assets";
 import { ShowLottie } from "@/general-components";
 import { useUser } from "@clerk/clerk-react";
 import { Button, Form, Input, Modal } from "antd";
 import { createResume, updateResume } from "@/redux/resume/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { resumeActions } from "@/redux/resume/slice";
 
-const ResumeFormModal = ({
-  visible,
-  closeHandler,
-  editResumeData,
-  deselectEditResumeData,
-}) => {
+const ResumeFormModal = ({ visible, closeHandler }) => {
   const { user } = useUser();
   const dispatch = useDispatch();
+  const { resume_selected } = useSelector((state) => state.resume);
 
   const [resumeCreateFormRef] = Form.useForm();
   const titleWatcher = Form.useWatch("title", resumeCreateFormRef);
@@ -22,7 +19,8 @@ const ResumeFormModal = ({
 
   const handleCloseModal = () => {
     closeHandler();
-    deselectEditResumeData();
+    dispatch(resumeActions.selectResume(null));
+
     resumeCreateFormRef.resetFields();
   };
 
@@ -41,7 +39,7 @@ const ResumeFormModal = ({
         return;
       }
     };
-    if (!editResumeData) {
+    if (!resume_selected) {
       const reqBody = {
         title,
         slug: title?.replace(/ /g, "-")?.toLowerCase(),
@@ -52,7 +50,7 @@ const ResumeFormModal = ({
       dispatch(
         updateResume(
           {
-            ...editResumeData,
+            ...resume_selected,
             title,
           },
           callback
@@ -61,15 +59,13 @@ const ResumeFormModal = ({
     }
   };
 
-  useEffect(() => {
-    if (editResumeData) {
-      resumeCreateFormRef?.setFieldValue("title", editResumeData?.title);
-    }
-  }, [editResumeData]);
+  useLayoutEffect(() => {
+    resumeCreateFormRef.setFieldValue("title", resume_selected?.title);
+  }, [resume_selected]);
 
   return (
     <Modal
-      title={!editResumeData ? "Create Resume Title" : "Update Resume Title"}
+      title={!resume_selected ? "Create Resume Title" : "Update Resume Title"}
       open={visible}
       onCancel={!isLoading && handleCloseModal}
       footer={null}
@@ -117,7 +113,7 @@ const ResumeFormModal = ({
           loading={isLoading}
           disabled={isLoading}
         >
-          {!editResumeData ? "Create" : "Update"}
+          {!resume_selected ? "Create" : "Update"}
         </Button>
       </Form>
     </Modal>

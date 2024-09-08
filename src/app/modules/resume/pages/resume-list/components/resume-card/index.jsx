@@ -8,7 +8,6 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { TbTrash } from "react-icons/tb";
 import { MdOutlineDocumentScanner } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
 
 // Extend dayjs with the relativeTime plugin
 dayjs.extend(relativeTime);
@@ -17,11 +16,9 @@ const ResumeCards = ({
   backgroundColor,
   data,
   selectResumeDataHandler,
+  selectAndNavigateHandler,
   deleteResumeHandler,
 }) => {
-
-  const navigate = useNavigate()
-
   const items = [
     {
       key: "1",
@@ -50,7 +47,7 @@ const ResumeCards = ({
     <div className="relative group flex flex-col w-full h-[200px] border rounded-lg hover:shadow">
       <BGPattern
         backgroundColor={backgroundColor}
-        clickHandler={() => navigate(`/resumes/builder/${data?.id}`)}
+        clickHandler={selectAndNavigateHandler}
       />
       <div className="w-full flex items-center justify-between gap-3">
         <div className="py-2 pl-2 flex flex-col group-hover:py-3 transition-all ease-in-out duration-300">

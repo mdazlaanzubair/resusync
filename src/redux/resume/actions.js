@@ -171,3 +171,137 @@ export const deleteResume = (body, callback) => async (dispatch) => {
     notify("error", `Oops! ${error} Error`, `${message}`);
   }
 };
+
+// ============================================================================
+// RESUME BUILDER ACTIONS
+// ============================================================================
+
+// REDUX ACTION TO SAVE BIOS
+export const getBioData = (resume_id, callback) => async (dispatch) => {
+  try {
+    // SAVING DATA TO SUPABASE
+    const { data, error } = await supabase
+      .from("bios")
+      .select()
+      .eq("resume_id", resume_id);
+
+    // THROW ERROR IF ANY
+    if (error) throw error;
+
+    // UPDATING REDUX STATE
+    dispatch(actions.setBios(data[0]));
+
+    // SUCCESS CALLBACK
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO SAVE BIOS
+export const saveBioData = (body, callback) => async (dispatch) => {
+  try {
+    // SAVING DATA TO SUPABASE
+    const { data, error } = await supabase
+      .from("bios")
+      .upsert(
+        { resume_id: body.resume_id, ...body },
+        { onConflict: ["resume_id"] }
+      )
+      .select();
+
+    // THROW ERROR IF ANY
+    if (error) throw error;
+
+    // UPDATING REDUX STATE
+    dispatch(actions.setBios(data[0]));
+
+    // ELSE SHOW SUCCESS MESSAGE
+    notify("success", "Bio data saved successfully");
+
+    // SUCCESS CALLBACK
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO SAVE BIOS
+export const getProfileData = (resume_id, callback) => async (dispatch) => {
+  try {
+    // SAVING DATA TO SUPABASE
+    const { data, error } = await supabase
+      .from("profiles")
+      .select()
+      .eq("resume_id", resume_id);
+
+    // THROW ERROR IF ANY
+    if (error) throw error;
+
+    // UPDATING REDUX STATE
+    dispatch(actions.setProfiles(data));
+
+    // SUCCESS CALLBACK
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO SAVE PROFILES
+// TO AVOID THE SUPABASE UPSERT NULL ERROR ON CONFLICT FIELD
+// THIS FUNCTION WILL RECEIVE TWO BODIES ONE WITH "id" FIELDS
+// ANOTHER BY EXPLICITLY REMOVED "id" KEYS
+export const saveProfileData =
+  (bodyWithId, bodyWithoutId, callback) => async (dispatch) => {
+    let updatedData = [];
+
+    try {
+      // SAVING/UPDATING DATA WITH "id" FIELD TO SUPABASE
+      if (bodyWithId?.length > 0) {
+        const { data, error } = await supabase
+          .from("profiles")
+          .upsert(bodyWithId, { onConflict: ["id"] })
+          .select();
+
+        // THROW ERROR IF ANY
+        if (error) throw error;
+
+        // APPENDING DATA ON SUCCESS
+        updatedData = [...updatedData, ...data];
+      }
+
+      // SAVING NEW DATA WITHOUT "id" FIELD TO SUPABASE
+      if (bodyWithoutId?.length > 0) {
+        const { data, error } = await supabase
+          .from("profiles")
+          .upsert(bodyWithoutId, { onConflict: ["id"] })
+          .select();
+
+        // THROW ERROR IF ANY
+        if (error) throw error;
+
+        // APPENDING DATA ON SUCCESS
+        updatedData = [...updatedData, ...data];
+      }
+
+      // UPDATING REDUX STATE
+      dispatch(actions.setProfiles(updatedData));
+
+      // ELSE SHOW SUCCESS MESSAGE
+      notify("success", "Profiles data saved successfully");
+
+      // SUCCESS CALLBACK
+      callback && callback(true);
+    } catch ({ error, message }) {
+      callback && callback(false);
+      console.error(error, message);
+      notify("error", `Oops! ${error} Error`, `${message}`);
+    }
+  };
