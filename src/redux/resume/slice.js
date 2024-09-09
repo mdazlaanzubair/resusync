@@ -43,6 +43,14 @@ const initialState = {
         url: "",
       },
     ],
+    skills: [
+      {
+        name: "",
+        level: 0,
+        keywords: [],
+        url: "",
+      },
+    ],
     certificates: [
       {
         title: "",
@@ -100,14 +108,6 @@ const initialState = {
     interests: [
       {
         title: "",
-        keywords: [],
-        url: "",
-      },
-    ],
-    skills: [
-      {
-        name: "",
-        level: 0,
         keywords: [],
         url: "",
       },
@@ -196,7 +196,19 @@ const resumeSlice = createSlice({
       state.resume_builder.educations = filtered;
     },
 
-    // 4. CERTIFICATIONS
+    // 4. SKILLS
+    setSkills: (state, action) => {
+      state.resume_builder.skills = action.payload;
+    },
+    removeSkill: (state, action) => {
+      const currentState = state.resume_builder.skills;
+      const filtered = currentState?.filter(
+        (profile) => profile?.id !== action.payload
+      );
+      state.resume_builder.skills = filtered;
+    },
+
+    // 5. CERTIFICATIONS
     setCertificates: (state, action) => {
       state.resume_builder.certificates = action.payload;
     },
@@ -206,6 +218,18 @@ const resumeSlice = createSlice({
         (profile) => profile?.id !== action.payload
       );
       state.resume_builder.certificates = filtered;
+    },
+
+    // 6. PROJECTS
+    setProjects: (state, action) => {
+      state.resume_builder.projects = action.payload;
+    },
+    removeProject: (state, action) => {
+      const currentState = state.resume_builder.projects;
+      const filtered = currentState?.filter(
+        (profile) => profile?.id !== action.payload
+      );
+      state.resume_builder.projects = filtered;
     },
   },
 });

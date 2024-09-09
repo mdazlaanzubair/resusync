@@ -1,43 +1,43 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Form, Input, Button, DatePicker } from "antd";
+import { Form, Input, Button, DatePicker, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
-  deleteCertificateData,
-  getCertificateData,
-  saveCertificateData,
+  deleteProjectData,
+  getProjectData,
+  saveProjectData,
 } from "@/redux/resume/actions";
 import { HiMinusCircle } from "react-icons/hi2";
 
-const CertificatesForm = () => {
+const ProjectsForm = () => {
   const { resume_id } = useParams();
   const { resume_builder } = useSelector((state) => state.resume);
-  const { certificates } = resume_builder ?? [];
+  const { projects } = resume_builder ?? [];
   const dispatch = useDispatch();
 
-  const [certificatesFormRef] = Form.useForm();
+  const [projectsFormRef] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   // Handle form submission
-  const handleFormSubmit = ({ certificates }) => {
+  const handleFormSubmit = ({ projects }) => {
     setIsLoading(true);
-    const certificateData = certificates?.map((certificate) => ({
-      ...certificate,
+    const projectData = projects?.map((project) => ({
+      ...project,
       resume_id,
     }));
 
     // Separate fields with and without "id"
-    const bodyWithId = certificateData?.filter((cert) => cert?.id);
-    const bodyWithoutId = certificateData?.filter((cert) => !cert?.id);
+    const bodyWithId = projectData?.filter((proj) => proj?.id);
+    const bodyWithoutId = projectData?.filter((proj) => !proj?.id);
 
     const callback = () => {
       setIsLoading(false);
     };
-    dispatch(saveCertificateData(bodyWithId, bodyWithoutId, callback));
+    dispatch(saveProjectData(bodyWithId, bodyWithoutId, callback));
   };
 
-  const handleDeleteCertificate = (id, removeFormFieldItemCallback) => {
+  const handleDeleteProject = (id, removeFormFieldItemCallback) => {
     if (!id) {
       removeFormFieldItemCallback();
     } else {
@@ -48,20 +48,20 @@ const CertificatesForm = () => {
         }
         setIsLoading(false);
       };
-      dispatch(deleteCertificateData(id, callback));
+      dispatch(deleteProjectData(id, callback));
     }
   };
 
   useLayoutEffect(() => {
-    if (certificates?.length > 0) {
-      certificatesFormRef.setFieldValue("certificates", certificates);
+    if (projects?.length > 0) {
+      projectsFormRef.setFieldValue("projects", projects);
     } else {
-      certificatesFormRef.setFieldValue("certificates", [
+      projectsFormRef.setFieldValue("projects", [
         {
-          title: "",
-          issuer: "",
+          name: "",
           date: "",
           summary: "",
+          keywords: [],
           url: "",
         },
       ]);
@@ -69,17 +69,17 @@ const CertificatesForm = () => {
   }, [resume_builder]);
 
   useLayoutEffect(() => {
-    dispatch(getCertificateData(resume_id));
+    dispatch(getProjectData(resume_id));
   }, []);
 
   return (
     <Form
-      form={certificatesFormRef}
+      form={projectsFormRef}
       layout="vertical"
       onFinish={handleFormSubmit}
       className="w-full lg:w-1/3"
     >
-      <Form.List name="certificates">
+      <Form.List name="projects">
         {(fields, { add, remove }) => (
           <div className="flex flex-col gap-5">
             {fields.map(({ key, name }) => (
@@ -88,31 +88,17 @@ const CertificatesForm = () => {
                 key={key}
               >
                 <Form.Item
-                  className="mb-2 col-span-1 lg:col-span-2"
-                  name={[name, "title"]}
-                  label="Certificate Title"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Title is required",
-                    },
-                  ]}
-                >
-                  <Input placeholder="e.g. Frontend Development" />
-                </Form.Item>
-
-                <Form.Item
                   className="mb-2"
-                  name={[name, "issuer"]}
-                  label="Issuer"
+                  name={[name, "name"]}
+                  label="Project Name"
                   rules={[
                     {
                       required: true,
-                      message: "Issuer is required",
+                      message: "Project name is required",
                     },
                   ]}
                 >
-                  <Input placeholder="e.g. Coursera" />
+                  <Input placeholder="e.g. Portfolio Website" />
                 </Form.Item>
 
                 <Form.Item
@@ -126,13 +112,13 @@ const CertificatesForm = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="e.g. Jan 2024" />
+                  <Input placeholder="e.g. March 2024" />
                 </Form.Item>
 
                 <Form.Item
                   className="col-span-1 lg:col-span-2 mb-2"
                   name={[name, "url"]}
-                  label="Certificate Link"
+                  label="URL"
                   rules={[
                     {
                       type: "url",
@@ -140,7 +126,7 @@ const CertificatesForm = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="e.g. https://certificate-link.com" />
+                  <Input placeholder="e.g. https://project-link.com" />
                 </Form.Item>
 
                 <Form.Item
@@ -148,7 +134,19 @@ const CertificatesForm = () => {
                   name={[name, "summary"]}
                   label="Summary"
                 >
-                  <Input.TextArea placeholder="Certificate summary..." />
+                  <Input.TextArea placeholder="Project summary..." />
+                </Form.Item>
+
+                <Form.Item
+                  className="col-span-1 lg:col-span-2 mb-2"
+                  name={[name, "keywords"]}
+                  label="Keywords"
+                >
+                  <Select
+                    mode="tags"
+                    placeholder="Add keywords (e.g. React, JavaScript)"
+                    style={{ width: "100%" }}
+                  />
                 </Form.Item>
 
                 {key !== 0 && (
@@ -159,8 +157,8 @@ const CertificatesForm = () => {
                     icon={<HiMinusCircle />}
                     onClick={() => {
                       const removeFormItemCallback = () => remove(name);
-                      handleDeleteCertificate(
-                        certificates[name]?.id,
+                      handleDeleteProject(
+                        projects[name]?.id,
                         removeFormItemCallback
                       );
                     }}
@@ -177,7 +175,7 @@ const CertificatesForm = () => {
               block
               icon={<PlusOutlined />}
             >
-              Add Certificate
+              Add Project
             </Button>
           </div>
         )}
@@ -195,12 +193,12 @@ const CertificatesForm = () => {
         <Button
           disabled={isLoading}
           onClick={() =>
-            certificatesFormRef.setFieldValue("certificates", [
+            projectsFormRef.setFieldValue("projects", [
               {
-                title: "",
-                issuer: "",
+                name: "",
                 date: "",
                 summary: "",
+                keywords: [],
                 url: "",
               },
             ])
@@ -214,4 +212,4 @@ const CertificatesForm = () => {
   );
 };
 
-export default CertificatesForm;
+export default ProjectsForm;
