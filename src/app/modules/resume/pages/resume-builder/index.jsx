@@ -1,5 +1,5 @@
 import { notify } from "@/utils";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   AwardSection,
@@ -30,10 +30,25 @@ import { BsFillTerminalFill } from "react-icons/bs";
 import { SiPublons } from "react-icons/si";
 import { IoMdGitMerge } from "react-icons/io";
 import { GiBrain } from "react-icons/gi";
+import { BiosPreview } from "./components/bios-section/components";
+import { ProfilesPreview } from "./components/profile-section/components";
+import { ExperiencePreview } from "./components/experience-section/components";
+import { CertificatesPreview } from "./components/certification-section/components";
+import { ProjectsPreview } from "./components/project-section/components";
+import { AwardsPreview } from "./components/award-section/components";
+import { PublicationPreview } from "./components/publication-section/components";
+import { ReferencePreview } from "./components/reference-section/components";
+import { VolunteersPreview } from "./components/volunteers-section/components";
+import { InterestPreview } from "./components/interest-section/components";
+import { LanguagesPreview } from "./components/language-section/components";
+import { EducationPreview } from "./components/education-section/components";
+import { SkillsPreview } from "./components/skills-section/components";
 
 const ResumeBuilderPage = () => {
   const { resume_id } = useParams();
   const navigate = useNavigate();
+
+  const [isMobile, setIsMobile] = useState(false);
 
   const items = [
     {
@@ -92,15 +107,15 @@ const ResumeBuilderPage = () => {
     },
     {
       key: "10",
-      label: "References",
-      icon: <IoMdGitMerge className="inline mb-1" />,
-      children: <ReferenceSection />,
-    },
-    {
-      key: "11",
       label: "Volunteer",
       icon: <MdVolunteerActivism className="inline mb-1" />,
       children: <VolunteersSection />,
+    },
+    {
+      key: "11",
+      label: "References",
+      icon: <IoMdGitMerge className="inline mb-1" />,
+      children: <ReferenceSection />,
     },
     {
       key: "12",
@@ -127,11 +142,48 @@ const ResumeBuilderPage = () => {
     }
   }, [resume_id]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <div className="w-full h-fit flex flex-col gap-5 overflow-y-hidden">
-      <h1 className="font-bold">Resume Builder</h1>
-      <Tabs tabPosition="left" defaultActiveKey="1" items={items} />
-    </div>
+    <>
+      <h1 className="font-bold text-lg mb-5">Resume Builder</h1>
+      <div className="w-full h-fit flex flex-col lg:flex-row gap-5 overflow-y-hidden">
+        <div className="w-full lg:w-1/2">
+          <Tabs
+            tabPosition={isMobile ? "top" : "left"}
+            defaultActiveKey="1"
+            items={items}
+          />
+        </div>
+        <div className="w-full lg:w-1/2 border rounded-lg p-5 overflow-x-auto overflow-y-auto">
+          <BiosPreview />
+          {/* CONSUMED IN BIOS SECTION */}
+          {/* <ProfilesPreview /> */}
+          <ExperiencePreview />
+          <EducationPreview />
+          <SkillsPreview />
+          <CertificatesPreview />
+          <ProjectsPreview />
+          <AwardsPreview />
+          <PublicationPreview />
+          <VolunteersPreview />
+          <ReferencePreview />
+          <InterestPreview />
+          <LanguagesPreview />
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -77,7 +77,7 @@ const CertificatesForm = () => {
       form={certificatesFormRef}
       layout="vertical"
       onFinish={handleFormSubmit}
-      className="w-full lg:w-1/3"
+      className="w-full"
     >
       <Form.List name="certificates">
         {(fields, { add, remove }) => (

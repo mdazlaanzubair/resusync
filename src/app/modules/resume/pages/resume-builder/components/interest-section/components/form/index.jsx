@@ -76,7 +76,7 @@ const InterestsForm = () => {
       form={interestsFormRef}
       layout="vertical"
       onFinish={handleFormSubmit}
-      className="w-full lg:w-1/3"
+      className="w-full"
     >
       <Form.List name="interests">
         {(fields, { add, remove }) => (
@@ -109,6 +109,7 @@ const InterestsForm = () => {
                     mode="tags"
                     placeholder="Add keywords (e.g. Data Science, Python)"
                     style={{ width: "100%" }}
+                    allowClear
                   />
                 </Form.Item>
 

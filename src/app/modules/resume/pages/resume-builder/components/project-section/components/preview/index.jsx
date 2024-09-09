@@ -1,11 +1,103 @@
-import React from 'react'
+import { getProjectData } from "@/redux/resume/actions";
+import { Divider } from "antd";
+import React, { useLayoutEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 const ProjectsPreview = () => {
-  return (
-    <div>
-      ProjectsPreview
-    </div>
-  )
-}
+  const dispatch = useDispatch();
+  const { resume_id } = useParams();
 
-export default ProjectsPreview
+  const { resume_builder } = useSelector((state) => state.resume);
+  const { projects } = resume_builder ?? [];
+
+  useLayoutEffect(() => {
+    dispatch(getProjectData(resume_id));
+  }, []);
+
+  return (
+    <div className="w-full mt-4 mb-2">
+      <h1 className="text-xl font-bold">Projects</h1>
+      <Divider className="border border-black my-3" />
+      {projects?.map((project) => (
+        <div key={project?.id} className="w-full mb-2">
+          <div className="w-full flex items-center gap-3 justify-between">
+            <div className="w-full flex-grow">
+              <h1 className="font-bold text-sm">{`${project?.name}`}</h1>
+              <p className="text-xs">
+                {project?.url && (
+                  <a
+                    href={project?.url}
+                    target="_blank"
+                    className="text-primary underline underline-offset-2"
+                  >
+                    View project
+                  </a>
+                )}
+                {project?.location && (
+                  <>
+                    <Divider
+                      type="vertical"
+                      className="border-[0.5px] border-black/30"
+                    />
+                    <span>{project?.location}</span>
+                  </>
+                )}
+              </p>
+            </div>
+            <div className="w-fit text-xs text-right">
+              <p className="text-nowrap">{project?.date}</p>
+            </div>
+          </div>
+          {project?.summary && (
+            <p className="w-full text-sm mt-3">{project?.summary}</p>
+          )}
+          {project?.keywords &&
+            project?.keywords?.map((keyword) => (
+              <p className="w-full text-sm mt-3" key={keyword}>
+                {keyword}
+              </p>
+            ))}
+          <div className="flex flex-wrap gap-1 items-center text-xs">
+            {[
+              "html",
+              "css",
+              "js",
+              "react",
+              "html",
+              "css",
+              "js",
+              "react",
+              "html",
+              "css",
+              "js",
+              "react",
+              "html",
+              "css",
+              "js",
+              "react",
+              "html",
+              "css",
+              "js",
+              "react",
+              "html",
+              "css",
+              "js",
+              "react",
+              "html",
+              "css",
+              "js",
+              "react",
+            ]?.map((keyword) => (
+              <span className="px-2 py-1 rounded-md bg-secondary" key={keyword}>
+                {keyword}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default ProjectsPreview;

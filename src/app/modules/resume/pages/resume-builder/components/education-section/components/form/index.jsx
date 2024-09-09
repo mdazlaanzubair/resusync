@@ -79,7 +79,7 @@ const EducationForm = () => {
       form={educationFormRef}
       layout="vertical"
       onFinish={handleFormSubmit}
-      className="w-full lg:w-1/3"
+      className="w-full"
     >
       <Form.List name="educations">
         {(fields, { add, remove }) => (

@@ -40,18 +40,18 @@ const BiosForm = () => {
       onFinish={handleFormSubmit}
       layout="vertical"
       initialValues={bio}
-      className="w-full lg:w-1/3"
+      className="w-full"
     >
       <div className="flex flex-col lg:flex-row gap-5">
         <Form.Item
           label="First Name"
           name="first_name"
           rules={[{ required: true, message: "First name is required" }]}
-          className="mb-2"
+          className="mb-2 w-full"
         >
           <Input placeholder="e.g. John Doe" />
         </Form.Item>
-        <Form.Item label="Last Name" name="last_name" className="mb-2">
+        <Form.Item label="Last Name" name="last_name" className="mb-2 w-full">
           <Input placeholder="e.g. John Doe" />
         </Form.Item>
       </div>

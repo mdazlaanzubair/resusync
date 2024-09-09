@@ -78,7 +78,7 @@ const AwardsForm = () => {
       form={awardsFormRef}
       layout="vertical"
       onFinish={handleFormSubmit}
-      className="w-full lg:w-1/3"
+      className="w-full"
     >
       <Form.List name="awards">
         {(fields, { add, remove }) => (

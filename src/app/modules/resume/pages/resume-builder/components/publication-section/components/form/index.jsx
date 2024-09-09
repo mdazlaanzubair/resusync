@@ -77,7 +77,7 @@ const PublicationsForm = () => {
       form={publicationsFormRef}
       layout="vertical"
       onFinish={handleFormSubmit}
-      className="w-full lg:w-1/3"
+      className="w-full"
     >
       <Form.List name="publications">
         {(fields, { add, remove }) => (
@@ -88,7 +88,7 @@ const PublicationsForm = () => {
                 key={key}
               >
                 <Form.Item
-                  className="mb-2"
+                  className="mb-2 col-span-1 lg:col-span-2"
                   name={[name, "name"]}
                   label="Publication Name"
                   rules={[
