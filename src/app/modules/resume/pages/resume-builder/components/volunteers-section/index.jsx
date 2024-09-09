@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
+import { VolunteersForm, VolunteersPreview } from "./components";
 
 const VolunteersSection = () => {
   return (
-    <div>
-      VolunteersSection
+    <div className="flex flex-col lg:flex-row lg:items-start gap-5 lg:gap-10">
+      <VolunteersForm />
+      <VolunteersPreview />
     </div>
-  )
-}
+  );
+};
 
-export default VolunteersSection
+export default VolunteersSection;
