@@ -305,3 +305,25 @@ export const saveProfileData =
       notify("error", `Oops! ${error} Error`, `${message}`);
     }
   };
+
+// REDUX ACTION TO DELETE PROFILE
+export const deleteProfileData = (id, callback) => async (dispatch) => {
+  try {
+    // DELETE PROFILE FROM SUPABASE
+    const { error } = await supabase.from("profiles").delete().eq("id", id);
+
+    // THROW ERROR IF ANY
+    if (error) throw error;
+
+    // REMOVE PROFILE FROM REDUX STATE
+    dispatch(actions.removeProfile(id));
+
+    // SUCCESS CALLBACK
+    callback && callback(true);
+    notify("success", "Profile deleted successfully");
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};

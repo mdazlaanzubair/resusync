@@ -3,7 +3,11 @@ import { Form, Input, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getProfileData, saveProfileData } from "@/redux/resume/actions";
+import {
+  deleteProfileData,
+  getProfileData,
+  saveProfileData,
+} from "@/redux/resume/actions";
 import { HiMinusCircle } from "react-icons/hi2";
 
 const ProfilesForm = () => {
@@ -36,6 +40,23 @@ const ProfilesForm = () => {
       setIsLoading(false);
     };
     dispatch(saveProfileData(bodyWithId, bodyWithoutId, callback));
+  };
+
+  const handelDeleteProfile = (id, removeFormFieldItemCallback) => {
+    // IF ONLY REMOVE THE FORM FIELD ITEM
+    // ELSE THERE IS "id" WE'LL REMOVE THE FIELD FROM THE DB FIRST
+    if (!id) {
+      removeFormFieldItemCallback();
+    } else {
+      setIsLoading(true);
+      const callback = (isSuccess) => {
+        if (isSuccess) {
+          removeFormFieldItemCallback();
+        }
+        setIsLoading(false);
+      };
+      dispatch(deleteProfileData(id, callback));
+    }
   };
 
   useLayoutEffect(() => {
@@ -145,7 +166,14 @@ const ProfilesForm = () => {
                     size=""
                     disabled={fields?.length <= 1 || isLoading}
                     icon={<HiMinusCircle />}
-                    onClick={() => remove(name)}
+                    onClick={() => {
+                      const removeFormItemCallback = () => remove(name);
+                      // PASSING ITEM ID AND CALLBACK TO REMOVE FORM ITEM
+                      handelDeleteProfile(
+                        profiles[name]?.id,
+                        removeFormItemCallback
+                      );
+                    }}
                     danger
                   />
                 )}

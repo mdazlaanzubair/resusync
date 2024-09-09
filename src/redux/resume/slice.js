@@ -163,6 +163,13 @@ const resumeSlice = createSlice({
     setProfiles: (state, action) => {
       state.resume_builder.profiles = action.payload;
     },
+    removeProfile: (state, action) => {
+      const currentState = state.resume_builder.profiles;
+      const filteredProfiles = currentState?.filter(
+        (profile) => profile?.id !== action.payload
+      );
+      state.resume_builder.profiles = filteredProfiles;
+    },
   },
 });
 
