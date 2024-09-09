@@ -108,7 +108,6 @@ const initialState = {
       {
         title: "",
         keywords: [],
-        url: "",
       },
     ],
     languages: [

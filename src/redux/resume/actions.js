@@ -979,3 +979,148 @@ export const deleteVolunteerData = (id, callback) => async (dispatch) => {
     notify("error", `Oops! ${error} Error`, `${message}`);
   }
 };
+
+
+// REDUX ACTION TO GET INTERESTS
+export const getInterestData = (resume_id, callback) => async (dispatch) => {
+  try {
+    const { data, error } = await supabase
+      .from("interests")
+      .select()
+      .eq("resume_id", resume_id);
+
+    if (error) throw error;
+
+    dispatch(actions.setInterests(data));
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO SAVE INTERESTS
+export const saveInterestData =
+  (bodyWithId, bodyWithoutId, callback) => async (dispatch) => {
+    let updatedData = [];
+
+    try {
+      if (bodyWithId?.length > 0) {
+        const { data, error } = await supabase
+          .from("interests")
+          .upsert(bodyWithId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      if (bodyWithoutId?.length > 0) {
+        const { data, error } = await supabase
+          .from("interests")
+          .upsert(bodyWithoutId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      dispatch(actions.setInterests(updatedData));
+      notify("success", "Interest data saved successfully");
+      callback && callback(true);
+    } catch ({ error, message }) {
+      callback && callback(false);
+      console.error(error, message);
+      notify("error", `Oops! ${error} Error`, `${message}`);
+    }
+  };
+
+// REDUX ACTION TO DELETE INTERESTS
+export const deleteInterestData = (id, callback) => async (dispatch) => {
+  try {
+    const { error } = await supabase.from("interests").delete().eq("id", id);
+
+    if (error) throw error;
+
+    dispatch(actions.removeInterest(id));
+    callback && callback(true);
+    notify("success", "Interest deleted successfully");
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO GET LANGUAGES
+export const getLanguageData = (resume_id, callback) => async (dispatch) => {
+  try {
+    const { data, error } = await supabase
+      .from("languages")
+      .select()
+      .eq("resume_id", resume_id);
+
+    if (error) throw error;
+
+    dispatch(actions.setLanguages(data));
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO SAVE LANGUAGES
+export const saveLanguageData =
+  (bodyWithId, bodyWithoutId, callback) => async (dispatch) => {
+    let updatedData = [];
+
+    try {
+      if (bodyWithId?.length > 0) {
+        const { data, error } = await supabase
+          .from("languages")
+          .upsert(bodyWithId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      if (bodyWithoutId?.length > 0) {
+        const { data, error } = await supabase
+          .from("languages")
+          .upsert(bodyWithoutId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      dispatch(actions.setLanguages(updatedData));
+      notify("success", "Language data saved successfully");
+      callback && callback(true);
+    } catch ({ error, message }) {
+      callback && callback(false);
+      console.error(error, message);
+      notify("error", `Oops! ${error} Error`, `${message}`);
+    }
+  };
+
+// REDUX ACTION TO DELETE LANGUAGES
+export const deleteLanguageData = (id, callback) => async (dispatch) => {
+  try {
+    const { error } = await supabase.from("languages").delete().eq("id", id);
+
+    if (error) throw error;
+
+    dispatch(actions.removeLanguage(id));
+    callback && callback(true);
+    notify("success", "Language deleted successfully");
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
