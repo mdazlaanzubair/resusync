@@ -762,3 +762,147 @@ export const deleteProjectData = (id, callback) => async (dispatch) => {
     notify("error", `Oops! ${error} Error`, `${message}`);
   }
 };
+
+// REDUX ACTION TO GET PUBLICATIONS
+export const getPublicationData = (resume_id, callback) => async (dispatch) => {
+  try {
+    const { data, error } = await supabase
+      .from("publications")
+      .select()
+      .eq("resume_id", resume_id);
+
+    if (error) throw error;
+
+    dispatch(actions.setPublications(data));
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO SAVE PUBLICATIONS
+export const savePublicationData =
+  (bodyWithId, bodyWithoutId, callback) => async (dispatch) => {
+    let updatedData = [];
+
+    try {
+      if (bodyWithId?.length > 0) {
+        const { data, error } = await supabase
+          .from("publications")
+          .upsert(bodyWithId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      if (bodyWithoutId?.length > 0) {
+        const { data, error } = await supabase
+          .from("publications")
+          .upsert(bodyWithoutId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      dispatch(actions.setPublications(updatedData));
+      notify("success", "Publication data saved successfully");
+      callback && callback(true);
+    } catch ({ error, message }) {
+      callback && callback(false);
+      console.error(error, message);
+      notify("error", `Oops! ${error} Error`, `${message}`);
+    }
+  };
+
+// REDUX ACTION TO DELETE PUBLICATIONS
+export const deletePublicationData = (id, callback) => async (dispatch) => {
+  try {
+    const { error } = await supabase.from("publications").delete().eq("id", id);
+
+    if (error) throw error;
+
+    dispatch(actions.removePublication(id));
+    callback && callback(true);
+    notify("success", "Publication deleted successfully");
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO GET REFERENCES
+export const getReferenceData = (resume_id, callback) => async (dispatch) => {
+  try {
+    const { data, error } = await supabase
+      .from("references")
+      .select()
+      .eq("resume_id", resume_id);
+
+    if (error) throw error;
+
+    dispatch(actions.setReferences(data));
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO SAVE REFERENCES
+export const saveReferenceData =
+  (bodyWithId, bodyWithoutId, callback) => async (dispatch) => {
+    let updatedData = [];
+
+    try {
+      if (bodyWithId?.length > 0) {
+        const { data, error } = await supabase
+          .from("references")
+          .upsert(bodyWithId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      if (bodyWithoutId?.length > 0) {
+        const { data, error } = await supabase
+          .from("references")
+          .upsert(bodyWithoutId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      dispatch(actions.setReferences(updatedData));
+      notify("success", "Reference data saved successfully");
+      callback && callback(true);
+    } catch ({ error, message }) {
+      callback && callback(false);
+      console.error(error, message);
+      notify("error", `Oops! ${error} Error`, `${message}`);
+    }
+  };
+
+// REDUX ACTION TO DELETE REFERENCES
+export const deleteReferenceData = (id, callback) => async (dispatch) => {
+  try {
+    const { error } = await supabase.from("references").delete().eq("id", id);
+
+    if (error) throw error;
+
+    dispatch(actions.removeReference(id));
+    callback && callback(true);
+    notify("success", "Reference deleted successfully");
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};

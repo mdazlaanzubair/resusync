@@ -195,7 +195,7 @@ const resumeSlice = createSlice({
       state.resume_builder.educations = filtered;
     },
 
-    // 4. SKILLS
+    // 5. SKILLS
     setSkills: (state, action) => {
       state.resume_builder.skills = action.payload;
     },
@@ -207,7 +207,7 @@ const resumeSlice = createSlice({
       state.resume_builder.skills = filtered;
     },
 
-    // 5. CERTIFICATIONS
+    // 6. CERTIFICATIONS
     setCertificates: (state, action) => {
       state.resume_builder.certificates = action.payload;
     },
@@ -219,7 +219,7 @@ const resumeSlice = createSlice({
       state.resume_builder.certificates = filtered;
     },
 
-    // 6. PROJECTS
+    // 7. PROJECTS
     setProjects: (state, action) => {
       state.resume_builder.projects = action.payload;
     },
@@ -231,7 +231,7 @@ const resumeSlice = createSlice({
       state.resume_builder.projects = filtered;
     },
 
-    // 7. AWARDS
+    // 8. AWARDS
     setAwards: (state, action) => {
       state.resume_builder.awards = action.payload;
     },
@@ -241,6 +241,66 @@ const resumeSlice = createSlice({
         (profile) => profile?.id !== action.payload
       );
       state.resume_builder.awards = filtered;
+    },
+
+    // 9. PUBLICATIONS
+    setPublications: (state, action) => {
+      state.resume_builder.publications = action.payload;
+    },
+    removePublication: (state, action) => {
+      const currentState = state.resume_builder.publications;
+      const filtered = currentState?.filter(
+        (profile) => profile?.id !== action.payload
+      );
+      state.resume_builder.publications = filtered;
+    },
+
+    // 10. REFERENCES
+    setReferences: (state, action) => {
+      state.resume_builder.references = action.payload;
+    },
+    removeReference: (state, action) => {
+      const currentState = state.resume_builder.references;
+      const filtered = currentState?.filter(
+        (profile) => profile?.id !== action.payload
+      );
+      state.resume_builder.references = filtered;
+    },
+
+    // 11. VOLUNTEERS
+    setVolunteers: (state, action) => {
+      state.resume_builder.volunteers = action.payload;
+    },
+    removeVolunteer: (state, action) => {
+      const currentState = state.resume_builder.volunteers;
+      const filtered = currentState?.filter(
+        (profile) => profile?.id !== action.payload
+      );
+      state.resume_builder.volunteers = filtered;
+    },
+
+    // 12. INTERESTS
+    setInterests: (state, action) => {
+      state.resume_builder.interests = action.payload;
+    },
+    removeInterest: (state, action) => {
+      const currentState = state.resume_builder.interests;
+      const filtered = currentState?.filter(
+        (profile) => profile?.id !== action.payload
+      );
+      state.resume_builder.interests = filtered;
+    },
+
+    // 13. LANGUAGE
+    setLanguages: (state, action) => {
+      state.resume_builder.languages = action.payload;
+    },
+    removeLanguage: (state, action) => {
+      const currentState = state.resume_builder.languages;
+      const filtered = currentState?.filter(
+        (profile) => profile?.id !== action.payload
+      );
+      state.resume_builder.languages = filtered;
     },
   },
 });
