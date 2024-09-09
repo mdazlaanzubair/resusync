@@ -472,6 +472,78 @@ export const deleteEducationData = (id, callback) => async (dispatch) => {
   }
 };
 
+// REDUX ACTION TO GET SKILLS
+export const getSkillData = (resume_id, callback) => async (dispatch) => {
+  try {
+    const { data, error } = await supabase
+      .from("skills")
+      .select()
+      .eq("resume_id", resume_id);
+
+    if (error) throw error;
+
+    dispatch(actions.setSkills(data));
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO SAVE SKILLS
+export const saveSkillData =
+  (bodyWithId, bodyWithoutId, callback) => async (dispatch) => {
+    let updatedData = [];
+
+    try {
+      if (bodyWithId?.length > 0) {
+        const { data, error } = await supabase
+          .from("skills")
+          .upsert(bodyWithId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      if (bodyWithoutId?.length > 0) {
+        const { data, error } = await supabase
+          .from("skills")
+          .upsert(bodyWithoutId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      dispatch(actions.setSkills(updatedData));
+      notify("success", "Skill data saved successfully");
+      callback && callback(true);
+    } catch ({ error, message }) {
+      callback && callback(false);
+      console.error(error, message);
+      notify("error", `Oops! ${error} Error`, `${message}`);
+    }
+  };
+
+// REDUX ACTION TO DELETE SKILLS
+export const deleteSkillData = (id, callback) => async (dispatch) => {
+  try {
+    const { error } = await supabase.from("skills").delete().eq("id", id);
+
+    if (error) throw error;
+
+    dispatch(actions.removeSkill(id));
+    callback && callback(true);
+    notify("success", "Skill deleted successfully");
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
 // REDUX ACTION TO GET CERTIFICATE
 export const getCertificateData = (resume_id, callback) => async (dispatch) => {
   try {
@@ -530,7 +602,10 @@ export const saveCertificateData =
 // REDUX ACTION TO DELETE CERTIFICATE
 export const deleteCertificateData = (id, callback) => async (dispatch) => {
   try {
-    const { error } = await supabase.from("certifications").delete().eq("id", id);
+    const { error } = await supabase
+      .from("certifications")
+      .delete()
+      .eq("id", id);
 
     if (error) throw error;
 
@@ -562,7 +637,6 @@ export const getProjectData = (resume_id, callback) => async (dispatch) => {
     notify("error", `Oops! ${error} Error`, `${message}`);
   }
 };
-
 
 // REDUX ACTION TO SAVE PROJECTS
 export const saveProjectData =
@@ -616,4 +690,3 @@ export const deleteProjectData = (id, callback) => async (dispatch) => {
     notify("error", `Oops! ${error} Error`, `${message}`);
   }
 };
-

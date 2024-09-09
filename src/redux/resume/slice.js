@@ -45,10 +45,9 @@ const initialState = {
     ],
     skills: [
       {
-        name: "",
+        title: "",
         level: 0,
         keywords: [],
-        url: "",
       },
     ],
     certificates: [
