@@ -43,7 +43,7 @@ const initialState = {
         url: "",
       },
     ],
-    certificate: [
+    certificates: [
       {
         title: "",
         issuer: "",
@@ -194,6 +194,18 @@ const resumeSlice = createSlice({
         (profile) => profile?.id !== action.payload
       );
       state.resume_builder.educations = filtered;
+    },
+
+    // 4. CERTIFICATIONS
+    setCertificates: (state, action) => {
+      state.resume_builder.certificates = action.payload;
+    },
+    removeCertificate: (state, action) => {
+      const currentState = state.resume_builder.certificates;
+      const filtered = currentState?.filter(
+        (profile) => profile?.id !== action.payload
+      );
+      state.resume_builder.certificates = filtered;
     },
   },
 });

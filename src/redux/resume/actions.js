@@ -328,7 +328,6 @@ export const deleteProfileData = (id, callback) => async (dispatch) => {
   }
 };
 
-
 // REDUX ACTION TO GET EXPERIENCES
 export const getExperienceData = (resume_id, callback) => async (dispatch) => {
   try {
@@ -401,7 +400,6 @@ export const deleteExperienceData = (id, callback) => async (dispatch) => {
   }
 };
 
-
 // REDUX ACTION TO GET EDUCATION
 export const getEducationData = (resume_id, callback) => async (dispatch) => {
   try {
@@ -467,6 +465,78 @@ export const deleteEducationData = (id, callback) => async (dispatch) => {
     dispatch(actions.removeEducation(id));
     callback && callback(true);
     notify("success", "Education deleted successfully");
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO GET CERTIFICATE
+export const getCertificateData = (resume_id, callback) => async (dispatch) => {
+  try {
+    const { data, error } = await supabase
+      .from("certifications")
+      .select()
+      .eq("resume_id", resume_id);
+
+    if (error) throw error;
+
+    dispatch(actions.setCertificates(data));
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO SAVE CERTIFICATE
+export const saveCertificateData =
+  (bodyWithId, bodyWithoutId, callback) => async (dispatch) => {
+    let updatedData = [];
+
+    try {
+      if (bodyWithId?.length > 0) {
+        const { data, error } = await supabase
+          .from("certifications")
+          .upsert(bodyWithId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      if (bodyWithoutId?.length > 0) {
+        const { data, error } = await supabase
+          .from("certifications")
+          .upsert(bodyWithoutId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      dispatch(actions.setCertificates(updatedData));
+      notify("success", "Certificate data saved successfully");
+      callback && callback(true);
+    } catch ({ error, message }) {
+      callback && callback(false);
+      console.error(error, message);
+      notify("error", `Oops! ${error} Error`, `${message}`);
+    }
+  };
+
+// REDUX ACTION TO DELETE CERTIFICATE
+export const deleteCertificateData = (id, callback) => async (dispatch) => {
+  try {
+    const { error } = await supabase.from("certifications").delete().eq("id", id);
+
+    if (error) throw error;
+
+    dispatch(actions.removeCertificate(id));
+    callback && callback(true);
+    notify("success", "Certificate deleted successfully");
   } catch ({ error, message }) {
     callback && callback(false);
     console.error(error, message);
