@@ -128,9 +128,9 @@ const ResumeBuilderPage = () => {
   }, [resume_id]);
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="w-full h-fit flex flex-col gap-5 overflow-y-hidden">
       <h1 className="font-bold">Resume Builder</h1>
-      <Tabs defaultActiveKey="1" items={items} />
+      <Tabs tabPosition="left" defaultActiveKey="1" items={items} />
     </div>
   );
 };

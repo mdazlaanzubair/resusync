@@ -10,14 +10,14 @@ const LinkedInImport = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
-      <div className="bg-[#ffffff] rounded-lg p-5 shadow">
+      <div className="bg-[#ffffff] rounded-lg p-5 shadow-lg">
         <ShowLottie
           width={"100%"}
           height={250}
           animationData={linkedinProfile}
         />
       </div>
-      <div className="col-span-1 lg:col-span-3 flex flex-col justify-center bg-[#ffffff] rounded-lg p-5 shadow">
+      <div className="col-span-1 lg:col-span-3 flex flex-col justify-center bg-[#ffffff] rounded-lg p-5 shadow-lg">
         <h1 className="text-2xl lg:text-3xl font-semibold">
           Import your LinkedIn profile
         </h1>

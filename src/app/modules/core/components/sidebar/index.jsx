@@ -21,7 +21,7 @@ const Sidebar = ({ showMenu, toggleSidebar }) => {
       onClick: () => navigate("/dashboard"),
     },
     {
-      key: "1",
+      key: "2",
       icon: <BsFilePdf />,
       label: "Resume",
       onClick: () => navigate("/resumes"),

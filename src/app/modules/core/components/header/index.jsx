@@ -1,37 +1,18 @@
-import { Button } from "antd";
 import React from "react";
 import { fullLogo } from "@/assets";
-import { FaRegUser } from "react-icons/fa";
-import { IoClose } from "react-icons/io5";
-import { TbMenuDeep } from "react-icons/tb";
-import { UserButton } from "@clerk/clerk-react";
+import { Topbar } from "..";
+import UserProfileButton from "../user-profile-button";
 
-const Header = ({ showMenu, toggleSidebar }) => {
+const Header = () => {
   return (
-    <div className="w-full flex border-b items-center justify-between px-5 py-3 bg-white">
-      <img className="w-28 lg:w-36 h-auto" src={fullLogo} alt="" srcSet="" />
+    <div className="w-full h-fit flex border-b items-center justify-between px-5 pt-3 bg-white">
+      <img className="w-28 lg:w-36 mb-3" src={fullLogo} />
       {/* SPACER */}
-      <div className="flex-grow"></div>
+      <div className="flex-grow text-center">
+        <Topbar />
+      </div>
       <div className="flex items-center justify-center gap-1">
-        <UserButton
-          userProfileUrl="/profile"
-          afterSwitchSessionUrl="/dashboard"
-          signInUrl="/dashboard"
-        />
-
-        <Button
-          onClick={toggleSidebar}
-          className="flex lg:hidden"
-          type="text"
-          size="large"
-          icon={
-            showMenu ? (
-              <IoClose className="text-xl" />
-            ) : (
-              <TbMenuDeep className="text-xl" />
-            )
-          }
-        />
+        <UserProfileButton />
       </div>
     </div>
   );

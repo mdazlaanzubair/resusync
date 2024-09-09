@@ -16,7 +16,7 @@ const ResumeReport = () => {
     );
   };
   return (
-    <div className="bg-[#ffffff] w-full rounded-lg text-left shadow p-5">
+    <div className="bg-[#ffffff] w-full rounded-lg text-left shadow-lg p-5">
       <div
         className="flex items-center justify-between gap-5 cursor-pointer"
         onClick={popAlertMessage}

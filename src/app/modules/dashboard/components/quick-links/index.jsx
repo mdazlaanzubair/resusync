@@ -30,7 +30,7 @@ const QuickLinks = () => {
   ];
 
   return (
-    <div className="bg-[#ffffff] w-full rounded-lg text-left shadow">
+    <div className="bg-[#ffffff] w-full rounded-lg text-left shadow-lg">
       <h1 className="text-xl font-semibold p-5 pb-3">Quick Links</h1>
       {quickLinks?.map((item) => (
         <Button

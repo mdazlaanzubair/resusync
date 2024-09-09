@@ -3,7 +3,7 @@ import { ProfilesForm, ProfilesPreview } from "./components";
 
 const ProfileSection = () => {
   return (
-    <div className="flex flex-col lg:flex-row lg:items-start gap-5">
+    <div className="flex flex-col lg:flex-row lg:items-start gap-5 lg:gap-10">
       <ProfilesForm />
       <ProfilesPreview />
     </div>

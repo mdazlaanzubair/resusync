@@ -13,7 +13,7 @@ const WelcomeCard = ({ user }) => {
   const closeModal = () => setIsShowModal(false);
 
   return (
-    <div className="col-span-1 lg:col-span-2 gap-3 bg-[#ffffff] rounded-lg p-5 shadow">
+    <div className="col-span-1 lg:col-span-2 gap-3 bg-[#ffffff] rounded-lg p-5 shadow-lg">
       <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-5">
         Welcome, {user?.firstName}
       </h1>

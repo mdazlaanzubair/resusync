@@ -78,7 +78,7 @@ const ExperiencesForm = () => {
       form={experiencesFormRef}
       layout="vertical"
       onFinish={handleFormSubmit}
-      className="w-full lg:w-1/2 flex flex-col gap-5"
+      className="w-full lg:w-1/3"
     >
       <Form.List name="experiences">
         {(fields, { add, remove }) => (
@@ -89,6 +89,7 @@ const ExperiencesForm = () => {
                 key={key}
               >
                 <Form.Item
+                  className="mb-2"
                   name={[name, "company"]}
                   label="Company"
                   rules={[
@@ -98,10 +99,11 @@ const ExperiencesForm = () => {
                     },
                   ]}
                 >
-                  <Input size="large" placeholder="e.g. Google" />
+                  <Input placeholder="e.g. Google" />
                 </Form.Item>
 
                 <Form.Item
+                  className="mb-2"
                   name={[name, "position"]}
                   label="Position"
                   rules={[
@@ -111,14 +113,19 @@ const ExperiencesForm = () => {
                     },
                   ]}
                 >
-                  <Input size="large" placeholder="e.g. Software Engineer" />
-                </Form.Item>
-
-                <Form.Item name={[name, "location"]} label="Location">
-                  <Input size="large" placeholder="e.g. San Francisco, CA" />
+                  <Input placeholder="e.g. Software Engineer" />
                 </Form.Item>
 
                 <Form.Item
+                  className="mb-2"
+                  name={[name, "location"]}
+                  label="Location"
+                >
+                  <Input placeholder="e.g. San Francisco, CA" />
+                </Form.Item>
+
+                <Form.Item
+                  className="mb-2"
                   name={[name, "date"]}
                   label="Date"
                   rules={[
@@ -128,11 +135,11 @@ const ExperiencesForm = () => {
                     },
                   ]}
                 >
-                  <Input size="large" placeholder="e.g. Jan 2024 - Dec 2024" />
+                  <Input placeholder="e.g. Jan 2024 - Dec 2024" />
                 </Form.Item>
 
                 <Form.Item
-                  className="col-span-1 lg:col-span-2"
+                  className="col-span-1 lg:col-span-2 mb-2"
                   name={[name, "url"]}
                   label="URL"
                   rules={[
@@ -142,25 +149,21 @@ const ExperiencesForm = () => {
                     },
                   ]}
                 >
-                  <Input
-                    size="large"
-                    placeholder="e.g. https://companywebsite.com"
-                  />
+                  <Input placeholder="e.g. https://companywebsite.com" />
                 </Form.Item>
 
                 <Form.Item
-                  className="col-span-1 lg:col-span-2"
+                  className="col-span-1 lg:col-span-2 mb-2"
                   name={[name, "summary"]}
                   label="Summary"
                 >
-                  <Input.TextArea size="large" placeholder="Job summary..." />
+                  <Input.TextArea placeholder="Job summary..." />
                 </Form.Item>
 
                 {key !== 0 && (
                   <Button
                     className="absolute -top-3 -right-3 bg-white text-2xl font-black"
                     type="link"
-                    size=""
                     disabled={fields?.length <= 1 || isLoading}
                     icon={<HiMinusCircle />}
                     onClick={() => {
@@ -178,7 +181,6 @@ const ExperiencesForm = () => {
 
             <Button
               type="dashed"
-              size=""
               disabled={fields?.length >= 5 || isLoading}
               onClick={() => add()}
               block
@@ -190,7 +192,7 @@ const ExperiencesForm = () => {
         )}
       </Form.List>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-end gap-3 mt-3">
         <Button
           disabled={isLoading}
           onClick={() =>

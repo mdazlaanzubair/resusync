@@ -12,7 +12,7 @@ const DashboardModule = () => {
   const { user } = useUser();
 
   return (
-    <div className="w-full h-full rounded-lg bg-[#ffffff]/0 p-0">
+    <div className="w-full p-5 lg:p-10">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 overflow-y-auto pb-5">
         <WelcomeCard user={user} />
         <ResumeReport />

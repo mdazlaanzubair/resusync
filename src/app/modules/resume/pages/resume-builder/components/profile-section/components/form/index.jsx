@@ -84,7 +84,7 @@ const ProfilesForm = () => {
       form={profilesFormRef}
       layout="vertical"
       onFinish={handleFormSubmit}
-      className="w-full lg:w-1/2 flex flex-col gap-5"
+      className="w-full lg:w-1/3"
     >
       <Form.List name="socialNetworks">
         {(fields, { add, remove }) => (
@@ -95,6 +95,7 @@ const ProfilesForm = () => {
                 key={key}
               >
                 <Form.Item
+                className="mb-2"
                   name={[name, "username"]}
                   label="Username"
                   rules={[
@@ -104,10 +105,10 @@ const ProfilesForm = () => {
                     },
                   ]}
                 >
-                  <Input size="large" placeholder="e.g. @example" />
+                  <Input placeholder="e.g. @example" />
                 </Form.Item>
 
-                <Form.Item
+                <Form.Item className="mb-2"
                   name={[name, "url"]}
                   label="URL"
                   rules={[
@@ -122,16 +123,16 @@ const ProfilesForm = () => {
                   ]}
                 >
                   <Input
-                    size="large"
+                   
                     placeholder="e.g. https://twitter.com/example"
                   />
                 </Form.Item>
 
-                <Form.Item name={[name, "network"]} label="Network">
-                  <Input size="large" placeholder="e.g. Twitter" />
+                <Form.Item className="mb-2" name={[name, "network"]} label="Network">
+                  <Input placeholder="e.g. Twitter" />
                 </Form.Item>
 
-                <Form.Item
+                <Form.Item className="mb-2"
                   name={[name, "icon"]}
                   label="Icon"
                   help={
@@ -158,7 +159,7 @@ const ProfilesForm = () => {
                         className="w-4 h-4 mr-1"
                       />
                     }
-                    size="large"
+                   
                     placeholder="e.g. twitter"
                   />
                 </Form.Item>
@@ -198,7 +199,7 @@ const ProfilesForm = () => {
         )}
       </Form.List>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-end gap-3 mt-3">
         <Button
           disabled={isLoading}
           onClick={() =>

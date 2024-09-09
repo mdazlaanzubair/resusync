@@ -40,63 +40,64 @@ const BiosForm = () => {
       onFinish={handleFormSubmit}
       layout="vertical"
       initialValues={bio}
-      className="w-full lg:w-1/2"
+      className="w-full lg:w-1/3"
     >
-      <Form.Item
-        label="Full Name"
-        name="name"
-        rules={[{ required: true, message: "Please enter your name" }]}
-      >
-        <Input size="large" placeholder="e.g. John Doe" />
-      </Form.Item>
+      <div className="flex flex-col lg:flex-row gap-5">
+        <Form.Item
+          label="First Name"
+          name="first_name"
+          rules={[{ required: true, message: "First name is required" }]}
+          className="mb-2"
+        >
+          <Input placeholder="e.g. John Doe" />
+        </Form.Item>
+        <Form.Item label="Last Name" name="last_name" className="mb-2">
+          <Input placeholder="e.g. John Doe" />
+        </Form.Item>
+      </div>
 
       <Form.Item
         label="Headline"
         name="headline"
-        rules={[{ required: true, message: "Please enter your headline" }]}
+        rules={[{ required: true, message: "Headline is required" }]}
+        className="mb-2"
       >
-        <Input size="large" placeholder="e.g. Web Developer" />
+        <Input placeholder="e.g. Web Developer" />
       </Form.Item>
 
       <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
         <Form.Item
-          className="w-full"
+          className="w-full mb-2"
           label="Email"
           name="email"
           rules={[
-            { required: true, message: "Please enter your email" },
-            { type: "email", message: "Please enter a valid email address" },
+            { required: true, message: "Email is required" },
+            { type: "email", message: "Enter a valid email" },
           ]}
         >
-          <Input size="large" placeholder="e.g. abc@example.com" />
+          <Input placeholder="e.g. abc@example.com" />
         </Form.Item>
 
         <Form.Item
           label="Phone"
           name="phone"
-          rules={[
-            { required: true, message: "Please enter your phone number" },
-          ]}
-          className="w-full"
+          rules={[{ required: true, message: "Phone number is required" }]}
+          className="w-full mb-2"
         >
-          <Input size="large" placeholder="e.g. +920000000000" />
+          <Input placeholder="e.g. +920000000000" />
         </Form.Item>
       </div>
 
-      <Form.Item label="Location" name="location">
-        <Input size="large" placeholder="e.g. Karachi, Pakistan" />
+      <Form.Item label="Location" name="location" className="mb-2">
+        <Input placeholder="e.g. Karachi, Pakistan" />
       </Form.Item>
 
       <div className="w-full flex items-end justify-between gap-5 mb-3">
         <label htmlFor="summary">Summary</label>
         <Button size="small" icon={<BsStars />} />
       </div>
-      <Form.Item name="summary">
-        <Input.TextArea
-          size="large"
-          placeholder="A brief summary about you"
-          rows={4}
-        />
+      <Form.Item name="summary" className="mb-2">
+        <Input.TextArea placeholder="A brief summary about you" rows={4} />
       </Form.Item>
 
       <div className="flex items-center justify-end gap-3">
