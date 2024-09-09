@@ -32,7 +32,7 @@ const initialState = {
         url: "",
       },
     ],
-    education: [
+    educations: [
       {
         institute: "",
         studyType: "",
@@ -52,7 +52,7 @@ const initialState = {
         url: "",
       },
     ],
-    project: [
+    projects: [
       {
         name: "",
         date: "",
@@ -61,7 +61,7 @@ const initialState = {
         url: "",
       },
     ],
-    award: [
+    awards: [
       {
         title: "",
         awarder: "",
@@ -70,7 +70,7 @@ const initialState = {
         url: "",
       },
     ],
-    publication: [
+    publications: [
       {
         name: "",
         publisher: "",
@@ -79,7 +79,7 @@ const initialState = {
         url: "",
       },
     ],
-    reference: [
+    references: [
       {
         name: "",
         designation: "",
@@ -87,7 +87,7 @@ const initialState = {
         phone: "",
       },
     ],
-    volunteer: [
+    volunteers: [
       {
         organization: "",
         role: "",
@@ -97,14 +97,14 @@ const initialState = {
         url: "",
       },
     ],
-    interest: [
+    interests: [
       {
         title: "",
         keywords: [],
         url: "",
       },
     ],
-    skill: [
+    skills: [
       {
         name: "",
         level: 0,
@@ -112,7 +112,7 @@ const initialState = {
         url: "",
       },
     ],
-    language: [
+    languages: [
       {
         name: "",
         proficiency: "",
@@ -166,10 +166,10 @@ const resumeSlice = createSlice({
     },
     removeProfile: (state, action) => {
       const currentState = state.resume_builder.profiles;
-      const filteredProfiles = currentState?.filter(
+      const filtered = currentState?.filter(
         (profile) => profile?.id !== action.payload
       );
-      state.resume_builder.profiles = filteredProfiles;
+      state.resume_builder.profiles = filtered;
     },
 
     // 3. EXPERIENCES
@@ -178,10 +178,22 @@ const resumeSlice = createSlice({
     },
     removeExperience: (state, action) => {
       const currentState = state.resume_builder.experiences;
-      const filteredProfiles = currentState?.filter(
+      const filtered = currentState?.filter(
         (profile) => profile?.id !== action.payload
       );
-      state.resume_builder.experiences = filteredProfiles;
+      state.resume_builder.experiences = filtered;
+    },
+
+    // 4. EDUCATIONS
+    setEducations: (state, action) => {
+      state.resume_builder.educations = action.payload;
+    },
+    removeEducation: (state, action) => {
+      const currentState = state.resume_builder.educations;
+      const filtered = currentState?.filter(
+        (profile) => profile?.id !== action.payload
+      );
+      state.resume_builder.educations = filtered;
     },
   },
 });

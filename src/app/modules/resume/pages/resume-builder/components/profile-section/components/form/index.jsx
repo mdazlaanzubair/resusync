@@ -201,6 +201,14 @@ const ProfilesForm = () => {
 
       <div className="flex items-center justify-end gap-3 mt-3">
         <Button
+          loading={isLoading}
+          disabled={isLoading}
+          type="primary"
+          htmlType="submit"
+        >
+          Save
+        </Button>
+        <Button
           disabled={isLoading}
           onClick={() =>
             profilesFormRef.setFieldValue("socialNetworks", [
@@ -216,14 +224,6 @@ const ProfilesForm = () => {
           type=""
         >
           Reset
-        </Button>
-        <Button
-          loading={isLoading}
-          disabled={isLoading}
-          type="primary"
-          htmlType="submit"
-        >
-          Submit
         </Button>
       </div>
     </Form>
