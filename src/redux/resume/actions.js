@@ -619,6 +619,78 @@ export const deleteCertificateData = (id, callback) => async (dispatch) => {
   }
 };
 
+// REDUX ACTION TO GET AWARDS
+export const getAwardData = (resume_id, callback) => async (dispatch) => {
+  try {
+    const { data, error } = await supabase
+      .from("awards")
+      .select()
+      .eq("resume_id", resume_id);
+
+    if (error) throw error;
+
+    dispatch(actions.setAwards(data));
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO SAVE AWARDS
+export const saveAwardData =
+  (bodyWithId, bodyWithoutId, callback) => async (dispatch) => {
+    let updatedData = [];
+
+    try {
+      if (bodyWithId?.length > 0) {
+        const { data, error } = await supabase
+          .from("awards")
+          .upsert(bodyWithId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      if (bodyWithoutId?.length > 0) {
+        const { data, error } = await supabase
+          .from("awards")
+          .upsert(bodyWithoutId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      dispatch(actions.setAwards(updatedData));
+      notify("success", "Award data saved successfully");
+      callback && callback(true);
+    } catch ({ error, message }) {
+      callback && callback(false);
+      console.error(error, message);
+      notify("error", `Oops! ${error} Error`, `${message}`);
+    }
+  };
+
+// REDUX ACTION TO DELETE AWARDS
+export const deleteAwardData = (id, callback) => async (dispatch) => {
+  try {
+    const { error } = await supabase.from("awards").delete().eq("id", id);
+
+    if (error) throw error;
+
+    dispatch(actions.removeAward(id));
+    callback && callback(true);
+    notify("success", "Award deleted successfully");
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
 // REDUX ACTION TO GET PROJECTS
 export const getProjectData = (resume_id, callback) => async (dispatch) => {
   try {

@@ -230,6 +230,18 @@ const resumeSlice = createSlice({
       );
       state.resume_builder.projects = filtered;
     },
+
+    // 7. AWARDS
+    setAwards: (state, action) => {
+      state.resume_builder.awards = action.payload;
+    },
+    removeAward: (state, action) => {
+      const currentState = state.resume_builder.awards;
+      const filtered = currentState?.filter(
+        (profile) => profile?.id !== action.payload
+      );
+      state.resume_builder.awards = filtered;
+    },
   },
 });
 
