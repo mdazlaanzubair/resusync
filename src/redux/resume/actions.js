@@ -327,3 +327,76 @@ export const deleteProfileData = (id, callback) => async (dispatch) => {
     notify("error", `Oops! ${error} Error`, `${message}`);
   }
 };
+
+
+// REDUX ACTION TO GET EXPERIENCES
+export const getExperienceData = (resume_id, callback) => async (dispatch) => {
+  try {
+    const { data, error } = await supabase
+      .from("experiences")
+      .select()
+      .eq("resume_id", resume_id);
+
+    if (error) throw error;
+
+    dispatch(actions.setExperiences(data));
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO SAVE EXPERIENCES
+export const saveExperienceData =
+  (bodyWithId, bodyWithoutId, callback) => async (dispatch) => {
+    let updatedData = [];
+
+    try {
+      if (bodyWithId?.length > 0) {
+        const { data, error } = await supabase
+          .from("experiences")
+          .upsert(bodyWithId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      if (bodyWithoutId?.length > 0) {
+        const { data, error } = await supabase
+          .from("experiences")
+          .upsert(bodyWithoutId, { onConflict: ["id"] })
+          .select();
+
+        if (error) throw error;
+        updatedData = [...updatedData, ...data];
+      }
+
+      dispatch(actions.setExperiences(updatedData));
+      notify("success", "Experience data saved successfully");
+      callback && callback(true);
+    } catch ({ error, message }) {
+      callback && callback(false);
+      console.error(error, message);
+      notify("error", `Oops! ${error} Error`, `${message}`);
+    }
+  };
+
+// REDUX ACTION TO DELETE EXPERIENCE
+export const deleteExperienceData = (id, callback) => async (dispatch) => {
+  try {
+    const { error } = await supabase.from("experiences").delete().eq("id", id);
+
+    if (error) throw error;
+
+    dispatch(actions.removeExperience(id));
+    callback && callback(true);
+    notify("success", "Experience deleted successfully");
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};

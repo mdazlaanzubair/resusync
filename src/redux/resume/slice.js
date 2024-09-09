@@ -22,7 +22,7 @@ const initialState = {
         url: "",
       },
     ],
-    experience: [
+    experiences: [
       {
         company: "",
         position: "",
@@ -155,11 +155,12 @@ const resumeSlice = createSlice({
     },
 
     // RESUME BUILDER CRUD
-    // BIOS
+    // 1. BIOS
     setBios: (state, action) => {
       state.resume_builder.bio = action.payload;
     },
-    // PROFILES
+
+    // 2. PROFILES
     setProfiles: (state, action) => {
       state.resume_builder.profiles = action.payload;
     },
@@ -169,6 +170,18 @@ const resumeSlice = createSlice({
         (profile) => profile?.id !== action.payload
       );
       state.resume_builder.profiles = filteredProfiles;
+    },
+
+    // 3. EXPERIENCES
+    setExperiences: (state, action) => {
+      state.resume_builder.experiences = action.payload;
+    },
+    removeExperience: (state, action) => {
+      const currentState = state.resume_builder.experiences;
+      const filteredProfiles = currentState?.filter(
+        (profile) => profile?.id !== action.payload
+      );
+      state.resume_builder.experiences = filteredProfiles;
     },
   },
 });

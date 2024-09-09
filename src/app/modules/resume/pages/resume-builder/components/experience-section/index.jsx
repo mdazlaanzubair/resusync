@@ -1,7 +1,13 @@
 import React from "react";
+import { ExperiencePreview, ExperiencesForm } from "./components";
 
 const ExperienceSection = () => {
-  return <div>ExperienceSection</div>;
+  return (
+    <div className="flex flex-col lg:flex-row lg:items-start gap-5">
+      <ExperiencesForm />
+      <ExperiencePreview />
+    </div>
+  );
 };
 
 export default ExperienceSection;
