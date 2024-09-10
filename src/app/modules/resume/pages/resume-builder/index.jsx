@@ -166,7 +166,7 @@ const ResumeBuilderPage = () => {
             items={items}
           />
         </div>
-        <div className="w-full lg:w-2/3 border rounded-lg p-5 overflow-x-auto overflow-y-auto">
+        <div className="w-full lg:w-2/3 border rounded-lg p-5 overflow-x-auto overflow-y-auto shadow-lg m-5">
           <BiosPreview />
           {/* CONSUMED IN BIOS SECTION */}
           {/* <ProfilesPreview /> */}
