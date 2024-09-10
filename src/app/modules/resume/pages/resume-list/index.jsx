@@ -8,6 +8,7 @@ import { Button, Empty } from "antd";
 import { deleteResume, getAllResumes } from "@/redux/resume/actions";
 import { resumeActions } from "@/redux/resume/slice";
 import { useNavigate } from "react-router-dom";
+import { getAIConfig } from "@/redux/llm-config/actions";
 
 // Array of background colors or patterns
 const backgroundPatterns = [
@@ -45,7 +46,6 @@ const ResumeListPage = () => {
 
   // FUNCTION TO SELECT THE RESUME AND NAVIGATE TO THE BUILDER
   const selectAndNavigateHandler = async (data = null) => {
-    console.log("I'm clicked");
     if (data) {
       console.log("I've resume", data);
       await dispatch(resumeActions.selectResume(data));
@@ -66,6 +66,7 @@ const ResumeListPage = () => {
       }
     };
     dispatch(getAllResumes(user?.id, callback));
+    dispatch(getAIConfig(user?.id));
   }, []);
 
   return (

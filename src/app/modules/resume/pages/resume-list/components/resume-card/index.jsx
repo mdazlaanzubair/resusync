@@ -24,18 +24,26 @@ const ResumeCards = ({
       key: "1",
       label: <span class="text-xs">Edit</span>,
       icon: <FiEdit3 />,
+      hidden: true,
       onClick: selectResumeDataHandler,
     },
     data?.file_path &&
       data?.raw_text && {
         key: "2",
-        label: <span class="text-xs">ATS Analysis</span>,
+        label: <span class="text-xs">Parse Resume</span>,
         icon: <MdOutlineDocumentScanner />,
         disable: true,
-        onClick: () => alert(`ATS Analysis of ${data?.title}`),
+        onClick: () => alert(`Parse resume and auto fill ${data?.title}`),
       },
     {
       key: "3",
+      label: <span class="text-xs">ATS Analysis</span>,
+      icon: <MdOutlineDocumentScanner />,
+      disable: true,
+      onClick: () => alert(`ATS Analysis of ${data?.title}`),
+    },
+    {
+      key: "4",
       label: <span class="text-xs">Delete</span>,
       icon: <TbTrash />,
       danger: true,

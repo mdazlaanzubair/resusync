@@ -1,4 +1,4 @@
-import { saveAIConfig } from "@/redux/llm-config/actions";
+import { getAIConfig, saveAIConfig } from "@/redux/llm-config/actions";
 import { useUser } from "@clerk/clerk-react";
 import { Button, Form, Input, Select } from "antd";
 import React, { useEffect, useState } from "react";
@@ -55,6 +55,7 @@ const ConfigForm = ({ setModelKey }) => {
       "model",
       llmConfigs?.model ?? "gemini-1.5-flash-001"
     );
+    dispatch(getAIConfig(user?.id));
   }, []);
   return (
     <Form

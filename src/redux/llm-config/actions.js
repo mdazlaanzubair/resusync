@@ -6,7 +6,31 @@ import { APIKeyValidator, notify } from "@/utils";
 import supabase from "@/supabase";
 import { llmConfigActions as actions } from "./slice";
 
-// REDUX ACTION TO CREATE RESUME
+// REDUX ACTION TO FETCH AI CONFIGURATIONS
+export const getAIConfig = (userId, callback) => async (dispatch) => {
+  try {
+    // SAVING DATA TO SUPABASE
+    const { data, error } = await supabase
+      .from("llm_config")
+      .select("id, created_at, user_id, model, name, isValid")
+      .eq("user_id", userId)
+
+    // THROW ERROR IF ANY
+    if (error) throw error;
+
+    // UPDATING REDUX STATE
+    dispatch(actions.setLLMConfigs(data[0]));
+
+    // SUCCESS CALLBACK
+    callback && callback(true);
+  } catch ({ error, message }) {
+    callback && callback(false);
+    console.error(error, message);
+    notify("error", `Oops! ${error} Error`, `${message}`);
+  }
+};
+
+// REDUX ACTION TO SAVE AI CONFIGURATIONS
 export const saveAIConfig = (body, callback) => async (dispatch) => {
   try {
     // CHECKING IF THE API KEY IS VALID
