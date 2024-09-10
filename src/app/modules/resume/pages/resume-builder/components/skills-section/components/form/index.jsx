@@ -9,6 +9,7 @@ import {
   saveSkillData,
 } from "@/redux/resume/actions";
 import { HiMinusCircle } from "react-icons/hi2";
+import CreatableSelect from "react-select/creatable";
 
 const SkillsForm = () => {
   const { resume_id } = useParams();
@@ -22,9 +23,16 @@ const SkillsForm = () => {
   // Handle form submission
   const handleFormSubmit = ({ skills }) => {
     setIsLoading(true);
+
+    // ADDING RESUME ID AND CONVERTING KEYWORDS
+    // LIST OF OBJECTS IN TO LIST OF KEYWORDS
     const skillData = skills?.map((skill) => ({
       ...skill,
       resume_id,
+      keywords:
+        skill?.keywords?.length > 0
+          ? skill?.keywords?.map(({ value }) => value)
+          : [],
     }));
 
     // Separate fields with and without "id"
@@ -54,7 +62,17 @@ const SkillsForm = () => {
 
   useLayoutEffect(() => {
     if (skills?.length > 0) {
-      skillsFormRef.setFieldValue("skills", skills);
+      // CONVERTING LIST OF KEYWORDS TO LIST OF OBJECT
+      // TO SHOW THE SELECTABLE DROPDOWN VALUES
+      const skillData = skills?.map((skill) => ({
+        ...skill,
+        keywords: skill?.keywords?.map((word) => ({
+          label: word,
+          value: word,
+        })),
+      }));
+
+      skillsFormRef.setFieldValue("skills", skillData);
     } else {
       skillsFormRef.setFieldValue("skills", [
         {
@@ -121,10 +139,12 @@ const SkillsForm = () => {
                     <small>Keywords should be related to the skill title</small>
                   }
                 >
-                  <Select
-                    mode="tags"
+                  <CreatableSelect
+                    isSearchable
+                    isSuccess
+                    isMulti
+                    isClearable
                     placeholder="Add keywords (e.g. Programming, Scripting)"
-                    style={{ width: "100%" }}
                   />
                 </Form.Item>
 

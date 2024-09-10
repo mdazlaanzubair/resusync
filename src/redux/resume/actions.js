@@ -907,7 +907,6 @@ export const deleteReferenceData = (id, callback) => async (dispatch) => {
   }
 };
 
-
 // REDUX ACTION TO GET VOLUNTEERS
 export const getVolunteerData = (resume_id, callback) => async (dispatch) => {
   try {
@@ -979,7 +978,6 @@ export const deleteVolunteerData = (id, callback) => async (dispatch) => {
     notify("error", `Oops! ${error} Error`, `${message}`);
   }
 };
-
 
 // REDUX ACTION TO GET INTERESTS
 export const getInterestData = (resume_id, callback) => async (dispatch) => {

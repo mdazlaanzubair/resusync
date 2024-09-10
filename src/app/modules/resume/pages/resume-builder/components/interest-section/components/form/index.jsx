@@ -9,6 +9,7 @@ import {
   saveInterestData,
 } from "@/redux/resume/actions";
 import { HiMinusCircle } from "react-icons/hi2";
+import CreatableSelect from "react-select/creatable";
 
 const InterestsForm = () => {
   const { resume_id } = useParams();
@@ -22,9 +23,15 @@ const InterestsForm = () => {
   // Handle form submission
   const handleFormSubmit = ({ interests }) => {
     setIsLoading(true);
+    // ADDING RESUME ID AND CONVERTING KEYWORDS
+    // LIST OF OBJECTS IN TO LIST OF KEYWORDS
     const interestData = interests?.map((interest) => ({
       ...interest,
       resume_id,
+      keywords:
+        interest?.keywords?.length > 0
+          ? interest?.keywords?.map(({ value }) => value)
+          : [],
     }));
 
     // Separate fields with and without "id"
@@ -54,7 +61,16 @@ const InterestsForm = () => {
 
   useLayoutEffect(() => {
     if (interests?.length > 0) {
-      interestsFormRef.setFieldsValue({ interests });
+      // CONVERTING LIST OF KEYWORDS TO LIST OF OBJECT
+      // TO SHOW THE SELECTABLE DROPDOWN VALUES
+      const interestData = interests?.map((interest) => ({
+        ...interest,
+        keywords: interest?.keywords?.map((word) => ({
+          label: word,
+          value: word,
+        })),
+      }));
+      interestsFormRef.setFieldsValue({ interestData });
     } else {
       interestsFormRef.setFieldsValue({
         interests: [
@@ -105,11 +121,12 @@ const InterestsForm = () => {
                   name={[name, "keywords"]}
                   label="Keywords"
                 >
-                  <Select
-                    mode="tags"
+                  <CreatableSelect
+                    isSearchable
+                    isSuccess
+                    isMulti
+                    isClearable
                     placeholder="Add keywords (e.g. Data Science, Python)"
-                    style={{ width: "100%" }}
-                    allowClear
                   />
                 </Form.Item>
 

@@ -33,50 +33,16 @@ const SkillsPreview = () => {
                   steps={5}
                   showInfo={false}
                 />
-                {skill?.keywords &&
-                  skill?.keywords?.map((keyword) => (
-                    <p className="w-full text-sm mt-3" key={keyword}>
-                      {keyword}
-                    </p>
-                  ))}
                 <div className="flex flex-wrap gap-1 items-center text-xs">
-                  {[
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                  ]?.map((keyword) => (
-                    <span
-                      className="px-2 py-1 rounded-md bg-secondary"
-                      key={keyword}
-                    >
-                      {keyword}
-                    </span>
-                  ))}
+                  {skill?.keywords &&
+                    skill?.keywords?.map((keyword) => (
+                      <p
+                        className="px-2 py-1 rounded-md bg-primary/10 text-primary"
+                        key={keyword}
+                      >
+                        {keyword}
+                      </p>
+                    ))}
                 </div>
               </div>
             </div>

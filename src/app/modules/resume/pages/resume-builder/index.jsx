@@ -159,14 +159,14 @@ const ResumeBuilderPage = () => {
     <>
       <h1 className="font-bold text-lg mb-5">Resume Builder</h1>
       <div className="w-full h-fit flex flex-col lg:flex-row gap-5 overflow-y-hidden">
-        <div className="w-full lg:w-1/2">
+        <div className="w-full lg:w-1/3">
           <Tabs
-            tabPosition={isMobile ? "top" : "left"}
+            tabPosition={isMobile ? "top" : "top"}
             defaultActiveKey="1"
             items={items}
           />
         </div>
-        <div className="w-full lg:w-1/2 border rounded-lg p-5 overflow-x-auto overflow-y-auto">
+        <div className="w-full lg:w-2/3 border rounded-lg p-5 overflow-x-auto overflow-y-auto">
           <BiosPreview />
           {/* CONSUMED IN BIOS SECTION */}
           {/* <ProfilesPreview /> */}

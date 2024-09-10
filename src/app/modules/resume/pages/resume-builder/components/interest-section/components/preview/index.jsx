@@ -25,50 +25,16 @@ const InterestPreview = () => {
             <div className="w-full flex items-center gap-3 justify-between">
               <div className="w-full flex-grow">
                 <h1 className="font-bold text-sm">{interest?.title}</h1>
-                {interest?.keywords &&
-                  interest?.keywords?.map((keyword) => (
-                    <p className="w-full text-sm mt-3" key={keyword}>
-                      {keyword}
-                    </p>
-                  ))}
                 <div className="flex flex-wrap gap-1 items-center text-xs">
-                  {[
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                    "html",
-                    "css",
-                    "js",
-                    "react",
-                  ]?.map((keyword) => (
-                    <span
-                      className="px-2 py-1 rounded-md bg-secondary"
-                      key={keyword}
-                    >
-                      {keyword}
-                    </span>
-                  ))}
+                  {interest?.keywords &&
+                    interest?.keywords?.map((keyword) => (
+                      <p
+                        className="px-2 py-1 rounded-md bg-primary/10 text-primary"
+                        key={keyword}
+                      >
+                        {keyword}
+                      </p>
+                    ))}
                 </div>
               </div>
             </div>

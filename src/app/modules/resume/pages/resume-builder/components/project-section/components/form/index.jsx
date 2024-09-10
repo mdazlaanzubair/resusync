@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Form, Input, Button, DatePicker, Select } from "antd";
+import { Form, Input, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -9,6 +9,7 @@ import {
   saveProjectData,
 } from "@/redux/resume/actions";
 import { HiMinusCircle } from "react-icons/hi2";
+import CreatableSelect from "react-select/creatable";
 
 const ProjectsForm = () => {
   const { resume_id } = useParams();
@@ -17,14 +18,21 @@ const ProjectsForm = () => {
   const dispatch = useDispatch();
 
   const [projectsFormRef] = Form.useForm();
+
   const [isLoading, setIsLoading] = useState(false);
 
   // Handle form submission
   const handleFormSubmit = ({ projects }) => {
     setIsLoading(true);
+    // ADDING RESUME ID AND CONVERTING KEYWORDS
+    // LIST OF OBJECTS IN TO LIST OF KEYWORDS
     const projectData = projects?.map((project) => ({
       ...project,
       resume_id,
+      keywords:
+        project?.keywords?.length > 0
+          ? project?.keywords?.map(({ value }) => value)
+          : [],
     }));
 
     // Separate fields with and without "id"
@@ -54,7 +62,16 @@ const ProjectsForm = () => {
 
   useLayoutEffect(() => {
     if (projects?.length > 0) {
-      projectsFormRef.setFieldValue("projects", projects);
+      // CONVERTING LIST OF KEYWORDS TO LIST OF OBJECT
+      // TO SHOW THE SELECTABLE DROPDOWN VALUES
+      const projectData = projects?.map((project) => ({
+        ...project,
+        keywords: project?.keywords?.map((word) => ({
+          label: word,
+          value: word,
+        })),
+      }));
+      projectsFormRef.setFieldValue("projects", projectData);
     } else {
       projectsFormRef.setFieldValue("projects", [
         {
@@ -142,10 +159,12 @@ const ProjectsForm = () => {
                   name={[name, "keywords"]}
                   label="Keywords"
                 >
-                  <Select
-                    mode="tags"
+                  <CreatableSelect
+                    isSearchable
+                    isSuccess
+                    isMulti
+                    isClearable
                     placeholder="Add keywords (e.g. React, JavaScript)"
-                    style={{ width: "100%" }}
                   />
                 </Form.Item>
 
