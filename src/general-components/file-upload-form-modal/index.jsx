@@ -5,7 +5,8 @@ import { useUser } from "@clerk/clerk-react";
 import { ShowLottie } from "..";
 import { fileUpload } from "@/assets";
 import { useDispatch } from "react-redux";
-import {  uploadResume } from "@/redux/resume/actions";
+import { uploadResume } from "@/redux/resume/actions";
+import { notify, pdfReader } from "@/utils";
 
 const { Dragger } = Upload;
 
@@ -41,16 +42,25 @@ const FileUploadFormModal = ({ visible, closeHandler }) => {
       }
     };
 
-    const reqBody = {
-      title: fileName,
-      slug: fileName?.replace(/ /g, "-")?.toLowerCase(),
-      file_path: `${user?.username}/${fileName
-        ?.replace(/ /g, "-")
-        ?.toLowerCase()}.pdf`,
-      file: uploader?.fileList[0]?.originFileObj,
-      user_id: user?.id,
-    };
-    dispatch(uploadResume(reqBody, callback));
+    try {
+      const raw_text = await pdfReader(uploader?.fileList[0]?.originFileObj);
+
+      const reqBody = {
+        title: fileName,
+        slug: fileName?.replace(/ /g, "-")?.toLowerCase(),
+        file_path: `${user?.username}/${fileName
+          ?.replace(/ /g, "-")
+          ?.toLowerCase()}.pdf`,
+        file: uploader?.fileList[0]?.originFileObj,
+        user_id: user?.id,
+        raw_text,
+      };
+      dispatch(uploadResume(reqBody, callback));
+    } catch ({ error, message }) {
+      setIsLoading(false);
+      console.error(error, message);
+      notify("error", `Oops! ${error} Error`, `${message}`);
+    }
   };
 
   const validateFileType = (rule, values) => {

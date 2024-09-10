@@ -1,4 +1,4 @@
-export const stopWords = [
+export const stopWords = new Set([
   "about",
   "after",
   "all",
@@ -107,4 +107,4 @@ export const stopWords = [
   "your",
   "a",
   "i",
-];
+]);
