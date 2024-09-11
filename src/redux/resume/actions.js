@@ -130,7 +130,7 @@ export const updateResume = (body, callback) => async (dispatch) => {
     if (error) throw error;
 
     // UPDATING REDUX STATE
-    dispatch(actions.insertResume(data[0]));
+    dispatch(actions.updateResume(data[0]));
 
     // ELSE SHOW SUCCESS MESSAGE
     notify("success", "Resume updated successfully");

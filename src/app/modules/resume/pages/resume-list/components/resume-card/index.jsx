@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import { Button, Dropdown, Tooltip, Typography } from "antd";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { TbTrash } from "react-icons/tb";
-import { MdOutlineDocumentScanner } from "react-icons/md";
-import { FiEdit3 } from "react-icons/fi";
+import { MdDocumentScanner } from "react-icons/md";
+import { RiEdit2Fill } from "react-icons/ri";
+import { PiRankingFill } from "react-icons/pi";
+import { HiMiniTrash } from "react-icons/hi2";
+import { useDispatch, useSelector } from "react-redux";
+import { resumeParser } from "@/utils";
+import { resumeActions } from "@/redux/resume/slice";
+import { useNavigate } from "react-router-dom";
 
 // Extend dayjs with the relativeTime plugin
 dayjs.extend(relativeTime);
@@ -19,34 +24,52 @@ const ResumeCards = ({
   selectAndNavigateHandler,
   deleteResumeHandler,
 }) => {
+  const { llmConfigs } = useSelector((state) => state.llmConfig);
+  const { id: api_key_id } = llmConfigs;
+  const { id: resume_id, user_id } = data;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const parserFunctionInvoker = async () => {
+    setIsLoading(true);
+    const callback = async (isSuccess) => {
+      if (isSuccess) {
+        await dispatch(resumeActions.selectResume(data));
+        navigate(`/resumes/builder/${data?.id}`);
+      }
+      setIsLoading(false);
+    };
+    dispatch(resumeParser(api_key_id, user_id, resume_id, callback));
+  };
+
   const items = [
     {
       key: "1",
-      label: <span class="text-xs">Edit</span>,
-      icon: <FiEdit3 />,
-      hidden: true,
+      label: <span className="text-xs">Edit</span>,
+      icon: <RiEdit2Fill />,
       onClick: selectResumeDataHandler,
     },
-    data?.file_path &&
-      data?.raw_text && {
+    !data?.isParsed &&
+      data?.file_path?.length > 0 &&
+      data?.raw_text?.length > 0 && {
         key: "2",
-        label: <span class="text-xs">Parse Resume</span>,
-        icon: <MdOutlineDocumentScanner />,
-        disable: true,
-        onClick: () => alert(`Parse resume and auto fill ${data?.title}`),
+        label: <span className="text-xs">Parse Resume</span>,
+        icon: <MdDocumentScanner />,
+        onClick: () => parserFunctionInvoker(),
       },
     {
       key: "3",
-      label: <span class="text-xs">ATS Analysis</span>,
-      icon: <MdOutlineDocumentScanner />,
-      disable: true,
+      label: <span className="text-xs">ATS Analysis</span>,
+      icon: <PiRankingFill />,
       onClick: () => alert(`ATS Analysis of ${data?.title}`),
     },
     {
       key: "4",
-      label: <span class="text-xs">Delete</span>,
-      icon: <TbTrash />,
-      danger: true,
+      label: <span className="text-xs">Delete</span>,
+      icon: <HiMiniTrash />,
       onClick: deleteResumeHandler,
     },
   ];
@@ -94,8 +117,11 @@ const ResumeCards = ({
           }}
           trigger={["click"]}
           placement="bottomRight"
+          disabled={isLoading}
         >
           <Button
+            loading={isLoading}
+            disabled={isLoading}
             size="small"
             type="text"
             className="mr-2"

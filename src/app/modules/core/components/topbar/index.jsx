@@ -38,15 +38,15 @@ const Topbar = () => {
         paddingBottom: "0.8rem",
       },
     },
-    {
-      key: "/settings/usage",
-      label: "Usage",
-      icon: <IoStatsChartSharp />,
-      onClick: () => navigate("/settings/usage"),
-      style: {
-        paddingBottom: "0.8rem",
-      },
-    },
+    // {
+    //   key: "/settings/usage",
+    //   label: "Usage",
+    //   icon: <IoStatsChartSharp />,
+    //   onClick: () => navigate("/settings/usage"),
+    //   style: {
+    //     paddingBottom: "0.8rem",
+    //   },
+    // },
   ];
 
   return (

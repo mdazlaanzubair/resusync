@@ -9,6 +9,7 @@ import { deleteResume, getAllResumes } from "@/redux/resume/actions";
 import { resumeActions } from "@/redux/resume/slice";
 import { useNavigate } from "react-router-dom";
 import { getAIConfig } from "@/redux/llm-config/actions";
+import { notify } from "@/utils";
 
 // Array of background colors or patterns
 const backgroundPatterns = [
@@ -47,10 +48,17 @@ const ResumeListPage = () => {
   // FUNCTION TO SELECT THE RESUME AND NAVIGATE TO THE BUILDER
   const selectAndNavigateHandler = async (data = null) => {
     if (data) {
-      console.log("I've resume", data);
-      await dispatch(resumeActions.selectResume(data));
-
-      navigate(`/resumes/builder/${data?.id}`);
+      const { isParsed, file_path, raw_text } = data;
+      if (!isParsed && file_path?.length > 0 && raw_text?.length > 0) {
+        notify(
+          "info",
+          "Unparsed Resume",
+          "Parse the resume before accessing it."
+        );
+      } else {
+        await dispatch(resumeActions.selectResume(data));
+        navigate(`/resumes/builder/${data?.id}`);
+      }
     }
   };
 

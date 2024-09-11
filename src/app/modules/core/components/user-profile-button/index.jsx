@@ -78,15 +78,15 @@ const UserProfileButton = () => {
         display: isMobile ? "" : "none",
       },
     },
-    {
-      key: "/settings/usage",
-      label: "Usage",
-      icon: <IoStatsChartSharp />,
-      onClick: () => navigate("/settings/usage"),
-      style: {
-        display: isMobile ? "" : "none",
-      },
-    },
+    // {
+    //   key: "/settings/usage",
+    //   label: "Usage",
+    //   icon: <IoStatsChartSharp />,
+    //   onClick: () => navigate("/settings/usage"),
+    //   style: {
+    //     display: isMobile ? "" : "none",
+    //   },
+    // },
     {
       type: "Divider",
     },
