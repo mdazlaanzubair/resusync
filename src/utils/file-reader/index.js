@@ -60,22 +60,25 @@ export async function pdfReader(file) {
       return;
     }
 
-    // CONVERT TO LOWER CASE
-    const lowerCasedText = extractedText.toLocaleLowerCase();
-
-    // REMOVING NON-WORD AND NON-WHITESPACE CHARACTERS
-    const whiteSpaceRemovedText = lowerCasedText.replace(/[^\w\s]/g, "");
+    // REMOVING WHITESPACE CHARACTERS
+    const whiteSpaceRemovedText = extractedText?.replace(/\s\s+/g, " ");
 
     // TOKENIZING
-    const tokenizedText = whiteSpaceRemovedText.split(/\s+/);
+    const tokenizedText = whiteSpaceRemovedText?.split(" ");
 
     // REMOVING STOP WORDS
-    const removedStopWordsText = tokenizedText.filter(
+    const removedStopWordsText = tokenizedText?.filter(
       (token) => !stopWords.has(token)
     );
 
+    // JOINING TOKENS BACK INTO STRINGS
+    const rawString = removedStopWordsText?.join(" ");
+
+    // REMOVING NULL CHARACTERS (IF ANY)
+    const sanitizedData = rawString?.replace(/\u0000/g, "");
+
     // RETURNING PRE PROCESSED TEXT TOKENS AFTER CONCATENATING AS SINGLE STRING
-    return removedStopWordsText.join(" ");
+    return sanitizedData;
   } catch (error) {
     // THROW ERROR WHILE EXTRACTING THE TEXT FROM PDF
     throw new Error(error);
