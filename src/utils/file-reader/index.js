@@ -1,5 +1,6 @@
 import { stopWords } from "../constants/stop-words";
 import * as pdfjsLib from "pdfjs-dist";
+import { preprocessText } from "../text-preprocessor";
 // Set the path to the worker script
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.6.82/pdf.worker.min.mjs`;
 
@@ -60,19 +61,8 @@ export async function pdfReader(file) {
       return;
     }
 
-    // REMOVING WHITESPACE CHARACTERS
-    const whiteSpaceRemovedText = extractedText?.replace(/\s\s+/g, " ");
-
-    // TOKENIZING
-    const tokenizedText = whiteSpaceRemovedText?.split(" ");
-
-    // REMOVING STOP WORDS
-    const removedStopWordsText = tokenizedText?.filter(
-      (token) => !stopWords.has(token)
-    );
-
-    // JOINING TOKENS BACK INTO STRINGS
-    const rawString = removedStopWordsText?.join(" ");
+    // PRE PROCESSING TEXT BEFORE SAVING THE THE DATABASE
+    const rawString = preprocessText(extractedText);
 
     // REMOVING NULL CHARACTERS (IF ANY)
     const sanitizedData = rawString?.replace(/\u0000/g, "");

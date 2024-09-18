@@ -53,7 +53,6 @@ export const appRoutes = createBrowserRouter([
               },
             ],
           },
-
           {
             path: "settings",
             element: <SettingsModule />,
@@ -75,7 +74,11 @@ export const appRoutes = createBrowserRouter([
                 element: <AIConfigPage />,
               },
               {
-                path: "usage",
+                path: "usage-history",
+                element: <AIConfigPage />,
+              },
+              {
+                path: "resume-score-reports",
                 element: <AIConfigPage />,
               },
             ],

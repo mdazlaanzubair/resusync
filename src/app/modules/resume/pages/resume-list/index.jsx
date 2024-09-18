@@ -1,6 +1,11 @@
 import { useUser } from "@clerk/clerk-react";
 import React, { useLayoutEffect, useState } from "react";
-import { ModalBtn, ResumeCards, ResumeFormModal } from "./components";
+import {
+  ModalBtn,
+  ResumeAnalyzerModal,
+  ResumeCards,
+  ResumeFormModal,
+} from "./components";
 import { FileUploadFormModal } from "@/general-components";
 import ResumeCardSkeleton from "./components/resume-card/skeleton";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,11 +33,18 @@ const ResumeListPage = () => {
 
   // LOCAL STATES
   const [isResumeDataLoading, setIsResumeDataLoading] = useState(true);
-  const [isShowResumeModal, setIsShowResumeModal] = useState(false);
+  const [isShowResumeFormModal, setIsShowResumeFormModal] = useState(false);
+  const [isShowResumeAnalyzerModal, setIsShowResumeAnalyzerModal] =
+    useState(false);
   const [isShowUploadModal, setIsShowUploadModal] = useState(false);
 
-  const openResumeModalHandler = () => setIsShowResumeModal(true);
-  const closeResumeModalHandler = () => setIsShowResumeModal(false);
+  const openResumeFormModalHandler = () => setIsShowResumeFormModal(true);
+  const closeResumeFormModalHandler = () => setIsShowResumeFormModal(false);
+
+  const openResumeAnalyzerModalHandler = () =>
+    setIsShowResumeAnalyzerModal(true);
+  const closeResumeAnalyzerModalHandler = () =>
+    setIsShowResumeAnalyzerModal(false);
 
   const openUploadModalHandler = () => setIsShowUploadModal(true);
   const closeUploadModalHandler = () => setIsShowUploadModal(false);
@@ -41,7 +53,15 @@ const ResumeListPage = () => {
   const editResumeHandler = (data = null) => {
     if (data) {
       dispatch(resumeActions.selectResume(data));
-      openResumeModalHandler();
+      openResumeFormModalHandler();
+    }
+  };
+
+  // FUNCTION TO ANALYZE RESUME
+  const analyzeResumeHandler = (data = null) => {
+    if (data) {
+      dispatch(resumeActions.selectResume(data));
+      openResumeAnalyzerModalHandler();
     }
   };
 
@@ -88,13 +108,14 @@ const ResumeListPage = () => {
       )}
       {resumes?.length > 0 && !isResumeDataLoading && (
         <div className="w-full h-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">
-          <ModalBtn clickHandler={openResumeModalHandler} />
+          <ModalBtn clickHandler={openResumeFormModalHandler} />
           <ModalBtn clickHandler={openUploadModalHandler} isUploadBtn />
           {resumes?.map((resume, index) => (
             <ResumeCards
               key={`resume-card-${resume?.id}`}
               data={resume}
               selectResumeDataHandler={() => editResumeHandler(resume)}
+              analyzeResumeDataHandler={() => analyzeResumeHandler(resume)}
               deleteResumeHandler={() => dispatch(deleteResume(resume))}
               selectAndNavigateHandler={() => selectAndNavigateHandler(resume)}
               backgroundColor={
@@ -118,7 +139,7 @@ const ResumeListPage = () => {
                 className="text-xs"
                 size="small"
                 type="primary"
-                onClick={openResumeModalHandler}
+                onClick={openResumeFormModalHandler}
               >
                 Create now
               </Button>
@@ -136,8 +157,12 @@ const ResumeListPage = () => {
       )}
 
       <ResumeFormModal
-        visible={isShowResumeModal}
-        closeHandler={closeResumeModalHandler}
+        visible={isShowResumeFormModal}
+        closeHandler={closeResumeFormModalHandler}
+      />
+      <ResumeAnalyzerModal
+        visible={isShowResumeAnalyzerModal}
+        closeHandler={closeResumeAnalyzerModalHandler}
       />
       <FileUploadFormModal
         visible={isShowUploadModal}

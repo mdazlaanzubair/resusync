@@ -1,7 +1,6 @@
 import React from "react";
 import {
   LinkedInImport,
-  LinkedInReport,
   QuickLinks,
   ResumeReport,
   WelcomeCard,

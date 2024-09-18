@@ -29,7 +29,9 @@ body {
   overflow-y: hidden;
 }
 
-#custom-user-profile-page .cl-navbar {
+#custom-user-profile-page .cl-footer,
+#custom-user-profile-page .cl-navbar,
+#custom-user-profile-page .cl-navbarMobileMenuRow {
   display: none;
 }
 
@@ -40,7 +42,6 @@ body {
 #model-radio-btn-container > label.ant-radio-button-wrapper::before {
   content: none;
 }
-
 
 #model-radio-btn-container > label.ant-radio-button-wrapper {
   border-radius: 0.5rem;

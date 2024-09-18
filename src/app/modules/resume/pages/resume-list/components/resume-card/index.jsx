@@ -21,6 +21,7 @@ const ResumeCards = ({
   backgroundColor,
   data,
   selectResumeDataHandler,
+  analyzeResumeDataHandler,
   selectAndNavigateHandler,
   deleteResumeHandler,
 }) => {
@@ -64,7 +65,7 @@ const ResumeCards = ({
       key: "3",
       label: <span className="text-xs">ATS Analysis</span>,
       icon: <PiRankingFill />,
-      onClick: () => alert(`ATS Analysis of ${data?.title}`),
+      onClick: analyzeResumeDataHandler,
     },
     {
       key: "4",
