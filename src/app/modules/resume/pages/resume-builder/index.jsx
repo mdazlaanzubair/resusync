@@ -1,5 +1,5 @@
 import { notify } from "@/utils";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   AwardSection,
@@ -16,7 +16,7 @@ import {
   SkillsSection,
   VolunteersSection,
 } from "./components";
-import { Divider, Menu } from "antd";
+import { Button, Menu } from "antd";
 import {
   FaAward,
   FaGraduationCap,
@@ -42,6 +42,62 @@ import { InterestPreview } from "./components/interest-section/components";
 import { LanguagesPreview } from "./components/language-section/components";
 import { EducationPreview } from "./components/education-section/components";
 import { SkillsPreview } from "./components/skills-section/components";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
+
+
+
+// List of resume forms of each section
+const formsComponents = [
+  <BiosSection />,
+  <ProfileSection />,
+  <ExperienceSection />,
+  <EducationSection />,
+  <SkillsSection />,
+  <CertificationSection />,
+  <ProjectSection />,
+  <AwardSection />,
+  <PublicationSection />,
+  <VolunteersSection />,
+  <ReferenceSection />,
+  <InterestSection />,
+  <LanguageSection />,
+];
+
+// Initial state for visibility options for all resume sections
+const initialStatesOfResumeSections = {
+  isCertificatesVisible: true,
+  isProjectsVisible: true,
+  isAwardsVisible: true,
+  isPublicationsVisible: true,
+  isVolunteersVisible: true,
+  isReferencesVisible: true,
+  isInterestsVisible: true,
+  isLanguagesVisible: true,
+};
+
+// Reducer function to handle the toggling of each component
+const toggleResumeSectionsReducer = (state, action) => {
+  switch (action.type) {
+    case "CERTIFICATES_SECTION":
+      return { ...state, isCertificatesVisible: !state.isCertificatesVisible };
+    case "PROJECTS_SECTION":
+      return { ...state, isProjectsVisible: !state.isProjectsVisible };
+    case "AWARDS_SECTION":
+      return { ...state, isAwardsVisible: !state.isAwardsVisible };
+    case "PUBLICATIONS_SECTION":
+      return { ...state, isPublicationsVisible: !state.isPublicationsVisible };
+    case "VOLUNTEERS_SECTION":
+      return { ...state, isVolunteersVisible: !state.isVolunteersVisible };
+    case "REFERENCES_SECTION":
+      return { ...state, isReferencesVisible: !state.isReferencesVisible };
+    case "INTERESTS_SECTION":
+      return { ...state, isInterestsVisible: !state.isInterestsVisible };
+    case "LANGUAGES_SECTION":
+      return { ...state, isLanguagesVisible: !state.isLanguagesVisible };
+    default:
+      return state;
+  }
+};
 
 const ResumeBuilderPage = () => {
   const { resume_id } = useParams();
@@ -50,99 +106,289 @@ const ResumeBuilderPage = () => {
   const [activeForm, setActiveForm] = useState(0);
   const [menuMode, setMenuMode] = useState("vertical");
 
-  const formsComponents = [
-    <BiosSection />,
-    <ProfileSection />,
-    <ExperienceSection />,
-    <EducationSection />,
-    <SkillsSection />,
-    <CertificationSection />,
-    <ProjectSection />,
-    <AwardSection />,
-    <PublicationSection />,
-    <VolunteersSection />,
-    <ReferenceSection />,
-    <InterestSection />,
-    <LanguageSection />,
-  ];
+  // useReducer hook to manage the visibility of all components
+  const [state, dispatch] = useReducer(
+    toggleResumeSectionsReducer,
+    initialStatesOfResumeSections
+  );
 
   const menuItems = [
+    // REQUIRED RESUME SECTIONS
     {
       key: 0,
-      label: "Bio Data",
-      icon: <FaUserEdit className="inline" />,
+      label: (
+        <div className="w-full flex items-center gap-2">
+          <FaUserEdit className="inline" /> Bio Data
+        </div>
+      ),
       onClick: () => setActiveForm(0),
     },
     {
       key: 1,
-      label: "Social Profiles",
-      icon: <IoShareSocialSharp className="inline" />,
+      label: (
+        <div className="w-full flex items-center gap-2">
+          <IoShareSocialSharp className="inline" /> Social Profiles
+        </div>
+      ),
       onClick: () => setActiveForm(1),
     },
     {
       key: 2,
-      label: "Experiences",
-      icon: <MdOutlineEqualizer className="inline" />,
+      label: (
+        <div className="w-full flex items-center gap-2">
+          <MdOutlineEqualizer className="inline" /> Experiences
+        </div>
+      ),
       onClick: () => setActiveForm(2),
     },
     {
       key: 3,
-      label: "Education",
-      icon: <FaGraduationCap className="inline" />,
+      label: (
+        <div className="w-full flex items-center gap-2">
+          <FaGraduationCap className="inline" /> Education
+        </div>
+      ),
       onClick: () => setActiveForm(3),
     },
     {
       key: 4,
-      label: "Skills",
-      icon: <GiBrain className="inline" />,
+      label: (
+        <div className="w-full flex items-center gap-2">
+          <GiBrain className="inline" /> Skills
+        </div>
+      ),
       onClick: () => setActiveForm(4),
     },
+    // OPTIONAL RESUME SECTIONS
     {
       key: 5,
-      label: "Certifications",
-      icon: <PiCertificateFill className="inline" />,
+      label: (
+        <div className="w-full flex justify-between items-center">
+          <span className="flex items-center gap-2">
+            <PiCertificateFill className="inline" /> Certifications
+          </span>
+          <Button
+            className="text-xs text-black/60"
+            size="small"
+            // danger={state.isCertificatesVisible}
+            icon={!state.isCertificatesVisible ? <FaEye /> : <FaEyeSlash />}
+            type="link"
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              notify(
+                !state.isCertificatesVisible ? "info" : "warning",
+                `CERTIFICATES_SECTION is ${
+                  !state.isCertificatesVisible ? "added to" : "removed from"
+                } resume`
+              );
+              dispatch({ type: "CERTIFICATES_SECTION" });
+            }}
+          />
+        </div>
+      ),
       onClick: () => setActiveForm(5),
     },
     {
       key: 6,
-      label: "Projects",
-      icon: <BsFillTerminalFill className="inline" />,
+      label: (
+        <div className="w-full flex justify-between items-center">
+          <span className="flex items-center gap-2">
+            <BsFillTerminalFill className="inline" /> Projects
+          </span>
+          <Button
+            className="text-xs text-black/60"
+            size="small"
+            // danger={state.isProjectsVisible}
+            icon={!state.isProjectsVisible ? <FaEye /> : <FaEyeSlash />}
+            type="link"
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              notify(
+                !state.isProjectsVisible ? "info" : "warning",
+                `PROJECTS_SECTION is ${
+                  !state.isProjectsVisible ? "added to" : "removed from"
+                } resume`
+              );
+              dispatch({ type: "PROJECTS_SECTION" });
+            }}
+          />
+        </div>
+      ),
       onClick: () => setActiveForm(6),
     },
     {
       key: 7,
-      label: "Awards",
-      icon: <FaAward className="inline" />,
+      label: (
+        <div className="w-full flex justify-between items-center">
+          <span className="flex items-center gap-2">
+            <FaAward className="inline" /> Awards
+          </span>
+          <Button
+            className="text-xs text-black/60"
+            size="small"
+            // danger={state.isAwardsVisible}
+            icon={!state.isAwardsVisible ? <FaEye /> : <FaEyeSlash />}
+            type="link"
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              notify(
+                !state.isAwardsVisible ? "info" : "warning",
+                `AWARDS_SECTION is ${
+                  !state.isAwardsVisible ? "added to" : "removed from"
+                } resume`
+              );
+              dispatch({ type: "AWARDS_SECTION" });
+            }}
+          />
+        </div>
+      ),
       onClick: () => setActiveForm(7),
     },
     {
       key: 8,
-      label: "Publications",
-      icon: <SiPublons className="inline" />,
+      label: (
+        <div className="w-full flex justify-between items-center">
+          <span className="flex items-center gap-2">
+            <SiPublons className="inline" /> Publications
+          </span>
+          <Button
+            className="text-xs text-black/60"
+            size="small"
+            // danger={state.isPublicationsVisible}
+            icon={!state.isPublicationsVisible ? <FaEye /> : <FaEyeSlash />}
+            type="link"
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              notify(
+                !state.isPublicationsVisible ? "info" : "warning",
+                `PUBLICATIONS_SECTION is ${
+                  !state.isPublicationsVisible ? "added to" : "removed from"
+                } resume`
+              );
+              dispatch({ type: "PUBLICATIONS_SECTION" });
+            }}
+          />
+        </div>
+      ),
       onClick: () => setActiveForm(8),
     },
     {
       key: 9,
-      label: "Volunteer",
-      icon: <MdVolunteerActivism className="inline" />,
+      label: (
+        <div className="w-full flex justify-between items-center">
+          <span className="flex items-center gap-2">
+            <MdVolunteerActivism className="inline" /> Volunteer
+          </span>
+          <Button
+            className="text-xs text-black/60"
+            size="small"
+            // danger={state.isVolunteersVisible}
+            icon={!state.isVolunteersVisible ? <FaEye /> : <FaEyeSlash />}
+            type="link"
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              notify(
+                !state.isVolunteersVisible ? "info" : "warning",
+                `VOLUNTEERS_SECTION is ${
+                  !state.isVolunteersVisible ? "added to" : "removed from"
+                } resume`
+              );
+              dispatch({ type: "VOLUNTEERS_SECTION" });
+            }}
+          />
+        </div>
+      ),
       onClick: () => setActiveForm(9),
     },
     {
       key: 10,
-      label: "References",
-      icon: <IoMdGitMerge className="inline" />,
+      label: (
+        <div className="w-full flex justify-between items-center">
+          <span className="flex items-center gap-2">
+            <IoMdGitMerge className="inline" /> References
+          </span>
+          <Button
+            className="text-xs text-black/60"
+            size="small"
+            // danger={state.isVolunteersVisible}
+            icon={!state.isReferencesVisible ? <FaEye /> : <FaEyeSlash />}
+            type="link"
+            onClick={(e) => {
+              e.stopPropagation();
+              notify(
+                !state.isReferencesVisible ? "info" : "warning",
+                `REFERENCES_SECTION is ${
+                  !state.isReferencesVisible ? "added to" : "removed from"
+                } resume`
+              );
+              dispatch({ type: "REFERENCES_SECTION" });
+            }}
+          />
+        </div>
+      ),
       onClick: () => setActiveForm(10),
     },
     {
       key: 11,
-      label: "Interests",
-      icon: <IoGameController className="inline" />,
+      label: (
+        <div className="w-full flex justify-between items-center">
+          <span className="flex items-center gap-2">
+            <IoGameController className="inline" /> Interests
+          </span>
+          <Button
+            className="text-xs text-black/60"
+            size="small"
+            // danger={state.isInterestsVisible}
+            icon={!state.isInterestsVisible ? <FaEye /> : <FaEyeSlash />}
+            type="link"
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              notify(
+                !state.isInterestsVisible ? "info" : "warning",
+                `INTERESTS_SECTION is ${
+                  !state.isInterestsVisible ? "added to" : "removed from"
+                } resume`
+              );
+              dispatch({ type: "INTERESTS_SECTION" });
+            }}
+          />
+        </div>
+      ),
       onClick: () => setActiveForm(11),
     },
     {
       key: 12,
-      label: "Language",
-      icon: <FaLanguage className="inline" />,
+      label: (
+        <div className="w-full flex justify-between items-center">
+          <span className="flex items-center gap-2">
+            <FaLanguage className="inline" /> Language
+          </span>
+          <Button
+            className="text-xs text-black/60"
+            size="small"
+            // danger={state.isLanguagesVisible}
+            icon={!state.isLanguagesVisible ? <FaEye /> : <FaEyeSlash />}
+            type="link"
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              notify(
+                !state.isLanguagesVisible ? "info" : "warning",
+                `LANGUAGES_SECTION is ${
+                  !state.isLanguagesVisible ? "added to" : "removed from"
+                } resume`
+              );
+              dispatch({ type: "LANGUAGES_SECTION" });
+            }}
+          />
+        </div>
+      ),
       onClick: () => setActiveForm(12),
     },
   ];
@@ -198,14 +444,14 @@ const ResumeBuilderPage = () => {
           <ExperiencePreview />
           <EducationPreview />
           <SkillsPreview />
-          <CertificatesPreview />
-          <ProjectsPreview />
-          <AwardsPreview />
-          <PublicationPreview />
-          <VolunteersPreview />
-          <ReferencePreview />
-          <InterestPreview />
-          <LanguagesPreview />
+          {state.isCertificatesVisible && <CertificatesPreview />}
+          {state.isProjectsVisible && <ProjectsPreview />}
+          {state.isAwardsVisible && <AwardsPreview />}
+          {state.isPublicationsVisible && <PublicationPreview />}
+          {state.isVolunteersVisible && <VolunteersPreview />}
+          {state.isReferencesVisible && <ReferencePreview />}
+          {state.isInterestsVisible && <InterestPreview />}
+          {state.isLanguagesVisible && <LanguagesPreview />}
         </div>
       </div>
     </>
