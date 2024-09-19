@@ -17,15 +17,15 @@ const PublicationPreview = () => {
 
   if (publications?.length > 0) {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Publications</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Publications</h1>
         <Divider className="border border-black my-3" />
         {publications?.map((publication) => (
           <div key={publication?.id} className="w-full mb-2">
             <div className="w-full flex items-center gap-3 justify-between">
               <div className="w-full flex-grow">
-                <h1 className="font-bold text-sm">{`${publication?.title}`}</h1>
-                <p className="text-xs">
+                <h1 className="font-bold text-[12px]">{`${publication?.title}`}</h1>
+                <p className="text-[10px]">
                   <span>{publication?.publisher}</span>
                   {publication?.url && (
                     <>
@@ -48,17 +48,17 @@ const PublicationPreview = () => {
                         type="vertical"
                         className="border-[0.5px] border-black/30"
                       />
-                      <span>{publication?.location}</span>
+                      <span className="text-[10px]">{publication?.location}</span>
                     </>
                   )}
                 </p>
               </div>
-              <div className="w-fit text-xs text-right">
+              <div className="w-fit text-[11px] text-right">
                 <p className="text-nowrap">{publication?.date}</p>
               </div>
             </div>
             {publication?.summary && (
-              <p className="w-full text-sm mt-3">{publication?.summary}</p>
+              <p className="w-full text-[11px] mt-2">{publication?.summary}</p>
             )}
           </div>
         ))}
@@ -66,8 +66,8 @@ const PublicationPreview = () => {
     );
   } else {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Publications</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Publications</h1>
         <Divider className="border border-black my-3" />
         <Empty />
       </div>

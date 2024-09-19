@@ -17,15 +17,15 @@ const ProjectsPreview = () => {
 
   if (projects?.length > 0) {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Projects</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Projects</h1>
         <Divider className="border border-black my-3" />
         {projects?.map((project) => (
           <div key={project?.id} className="w-full mb-2">
             <div className="w-full flex items-center gap-3 justify-between">
               <div className="w-full flex-grow">
-                <h1 className="font-bold text-sm">{`${project?.name}`}</h1>
-                <p className="text-xs">
+                <h1 className="font-bold text-[12px]">{`${project?.name}`}</h1>
+                <p className="text-[10px]">
                   {project?.url && (
                     <a
                       href={project?.url}
@@ -41,23 +41,23 @@ const ProjectsPreview = () => {
                         type="vertical"
                         className="border-[0.5px] border-black/30"
                       />
-                      <span>{project?.location}</span>
+                      <span className="text-[10px]">{project?.location}</span>
                     </>
                   )}
                 </p>
               </div>
-              <div className="w-fit text-xs text-right">
+              <div className="w-fit text-[11px] text-right">
                 <p className="text-nowrap">{project?.date}</p>
               </div>
             </div>
             {project?.summary && (
-              <p className="w-full text-sm mt-3">{project?.summary}</p>
+              <p className="w-full text-[11px] mt-2">{project?.summary}</p>
             )}
-            <div className="flex flex-wrap gap-1 items-center text-xs">
+            <div className="flex flex-wrap gap-1 items-center text-[10px]">
               {project?.keywords &&
                 project?.keywords?.map((keyword) => (
                   <p
-                    className="px-2 py-1 rounded-md bg-primary/10 text-primary"
+                    className="px-2 py-1 mt-2 rounded bg-primary/10 text-primary"
                     key={keyword}
                   >
                     {keyword}
@@ -70,8 +70,8 @@ const ProjectsPreview = () => {
     );
   } else {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Projects</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Projects</h1>
         <Divider className="border border-black my-3" />
         <Empty />
       </div>

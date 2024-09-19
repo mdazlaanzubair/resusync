@@ -19,14 +19,14 @@ const BiosPreview = () => {
   if (bio && Object.keys(bio)?.length > 0) {
     return (
       <div className="w-full">
-        <div className="w-full flex items-start justify-between gap-3 mb-0">
+        <div className="w-full flex items-end justify-between gap-3">
           <div>
-            <h1 className="text-xl">
+            <h1 className="text-[16px]">
               <strong>{bio?.first_name}</strong>
               {bio?.last_name && <span>{` ${bio?.last_name}`}</span>}
             </h1>
-            <p className="text-sm mb-4">{bio?.headline}</p>
-            <p className="text-xs">
+            <p className="text-[12px] mb-2">{bio?.headline}</p>
+            <p className="text-[11px]">
               <a
                 href={`mailto:${bio?.email}`}
                 className="text-primary underline underline-offset-2"
@@ -51,14 +51,14 @@ const BiosPreview = () => {
           </div>
           <ProfilesPreview />
         </div>
-        <Divider className="border border-black mb-3" />
-        {bio?.summary && <p className="w-full text-sm">{bio?.summary}</p>}
+        <Divider className="border border-black my-3" />
+        {bio?.summary && <p className="w-full text-[11px]">{bio?.summary}</p>}
       </div>
     );
   } else {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Bios</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Bios</h1>
         <Divider className="border border-black my-3" />
         <Empty />
       </div>

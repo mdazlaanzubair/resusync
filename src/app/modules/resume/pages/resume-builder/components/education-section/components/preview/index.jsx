@@ -17,15 +17,15 @@ const EducationPreview = () => {
 
   if (educations?.length > 0) {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Education</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Education</h1>
         <Divider className="border border-black my-3" />
         {educations?.map((edu) => (
           <div key={edu?.id} className="w-full mb-2">
             <div className="w-full flex items-center gap-3 justify-between">
               <div className="w-full flex-grow">
-                <h1 className="font-bold text-sm">{`${edu?.study_type} - ${edu?.field}`}</h1>
-                <p className="text-xs">
+                <h1 className="font-bold text-[12px]">{`${edu?.study_type} - ${edu?.field}`}</h1>
+                <p className="text-[10px]">
                   {edu?.url ? (
                     <a
                       href={edu?.url}
@@ -37,7 +37,7 @@ const EducationPreview = () => {
                   )}
                 </p>
               </div>
-              <div className="w-fit text-xs text-right">
+              <div className="w-fit text-[11px] text-right">
                 <p className="text-nowrap">{edu?.date}</p>
                 {edu?.score && (
                   <strong className="text-nowrap">{edu?.score}</strong>
@@ -45,7 +45,7 @@ const EducationPreview = () => {
               </div>
             </div>
             {edu?.summary && (
-              <p className="w-full text-sm mt-3">{edu?.summary}</p>
+              <p className="w-full text-[11px] mt-2">{edu?.summary}</p>
             )}
           </div>
         ))}
@@ -53,8 +53,8 @@ const EducationPreview = () => {
     );
   } else {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Education</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Education</h1>
         <Divider className="border border-black my-3" />
         <Empty />
       </div>

@@ -17,15 +17,15 @@ const ExperiencePreview = () => {
 
   if (experiences?.length > 0) {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Experience</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Experience</h1>
         <Divider className="border border-black my-3" />
         {experiences?.map((exp) => (
           <div key={exp?.id} className="w-full mb-2">
             <div className="w-full flex items-center gap-3 justify-between">
               <div className="w-full flex-grow">
-                <h1 className="font-bold text-sm">{exp?.position}</h1>
-                <p className="text-xs">
+                <h1 className="font-bold text-[12px]">{exp?.position}</h1>
+                <p className="text-[10px]">
                   {exp?.url ? (
                     <a
                       href={exp?.url}
@@ -41,17 +41,17 @@ const ExperiencePreview = () => {
                         type="vertical"
                         className="border-[0.5px] border-black/30"
                       />
-                      <span>{exp?.location}</span>
+                      <span className="text-[10px]">{exp?.location}</span>
                     </>
                   )}
                 </p>
               </div>
-              <div className="w-fit text-xs">
+              <div className="w-fit text-[11px]">
                 <span className="text-nowrap">{exp?.date}</span>
               </div>
             </div>
             {exp?.summary && (
-              <p className="w-full text-sm mt-3">{exp?.summary}</p>
+              <p className="w-full text-[11px] mt-2">{exp?.summary}</p>
             )}
           </div>
         ))}
@@ -59,8 +59,8 @@ const ExperiencePreview = () => {
     );
   } else {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Experience</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Experience</h1>
         <Divider className="border border-black my-3" />
         <Empty />
       </div>

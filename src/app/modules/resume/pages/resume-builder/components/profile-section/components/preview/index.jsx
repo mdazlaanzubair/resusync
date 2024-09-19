@@ -18,11 +18,11 @@ const ProfilesPreview = () => {
 
   if (profiles?.length > 0) {
     return (
-      <div>
+      <div className="flex flex-col gap-1">
         {profiles?.map((profile) => (
           <div
             key={profile?.id}
-            className="flex items-center gap-3 my-1 text-xs"
+            className="flex items-center gap-3 text-[11px]"
           >
             <img
               src={`https://cdn.simpleicons.org/${
@@ -45,9 +45,9 @@ const ProfilesPreview = () => {
     );
   } else {
     return (
-      <div>
+      <>
         <Empty />
-      </div>
+      </>
     );
   }
 };

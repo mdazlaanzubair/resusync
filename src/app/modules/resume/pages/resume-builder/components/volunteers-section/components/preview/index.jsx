@@ -17,15 +17,15 @@ const VolunteersPreview = () => {
 
   if (volunteers?.length > 0) {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Volunteer</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Volunteer</h1>
         <Divider className="border border-black my-3" />
         {volunteers?.map((volunteer) => (
           <div key={volunteer?.id} className="w-full mb-2">
             <div className="w-full flex items-center gap-3 justify-between">
               <div className="w-full flex-grow">
-                <h1 className="font-bold text-sm">{volunteer?.role}</h1>
-                <p className="text-xs">
+                <h1 className="font-bold text-[12px]">{volunteer?.role}</h1>
+                <p className="text-[10px]">
                   {volunteer?.url ? (
                     <a
                       href={volunteer?.url}
@@ -41,17 +41,17 @@ const VolunteersPreview = () => {
                         type="vertical"
                         className="border-[0.5px] border-black/30"
                       />
-                      <span>{volunteer?.location}</span>
+                      <span className="text-[10px]">{volunteer?.location}</span>
                     </>
                   )}
                 </p>
               </div>
-              <div className="w-fit text-xs">
+              <div className="w-fit text-[11px]">
                 <span className="text-nowrap">{volunteer?.date}</span>
               </div>
             </div>
             {volunteer?.summary && (
-              <p className="w-full text-sm mt-3">{volunteer?.summary}</p>
+              <p className="w-full text-[11px] mt-3">{volunteer?.summary}</p>
             )}
           </div>
         ))}
@@ -59,8 +59,8 @@ const VolunteersPreview = () => {
     );
   } else {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Volunteer</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Volunteer</h1>
         <Divider className="border border-black my-3" />
         <Empty />
       </div>

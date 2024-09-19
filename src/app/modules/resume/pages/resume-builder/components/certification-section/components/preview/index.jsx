@@ -17,15 +17,15 @@ const CertificatesPreview = () => {
 
   if (certificates?.length > 0) {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Certifications</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Certifications</h1>
         <Divider className="border border-black my-3" />
         {certificates?.map((certificate) => (
           <div key={certificate?.id} className="w-full mb-2">
             <div className="w-full flex items-center gap-3 justify-between">
               <div className="w-full flex-grow">
-                <h1 className="font-bold text-sm">{`${certificate?.title}`}</h1>
-                <p className="text-xs">
+                <h1 className="font-bold text-[12px]">{`${certificate?.title}`}</h1>
+                <p className="text-[10px]">
                   <span>{certificate?.issuer}</span>
                   {certificate?.url && (
                     <>
@@ -48,17 +48,17 @@ const CertificatesPreview = () => {
                         type="vertical"
                         className="border-[0.5px] border-black/30"
                       />
-                      <span>{certificate?.location}</span>
+                      <span className="text-[10px]">{certificate?.location}</span>
                     </>
                   )}
                 </p>
               </div>
-              <div className="w-fit text-xs text-right">
+              <div className="w-fit text-[11px] text-right">
                 <p className="text-nowrap">{certificate?.date}</p>
               </div>
             </div>
             {certificate?.summary && (
-              <p className="w-full text-sm mt-3">{certificate?.summary}</p>
+              <p className="w-full text-[11px] mt-2">{certificate?.summary}</p>
             )}
           </div>
         ))}
@@ -66,8 +66,8 @@ const CertificatesPreview = () => {
     );
   } else {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">Certifications</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">Certifications</h1>
         <Divider className="border border-black my-3" />
         <Empty />
       </div>

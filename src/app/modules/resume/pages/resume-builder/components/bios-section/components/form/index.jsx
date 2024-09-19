@@ -40,7 +40,7 @@ const BiosForm = () => {
       onFinish={handleFormSubmit}
       layout="vertical"
       initialValues={bio}
-      className="w-full"
+      className="w-full border p-5 rounded-lg shadow"
     >
       <div className="flex flex-col lg:flex-row gap-5">
         <Form.Item

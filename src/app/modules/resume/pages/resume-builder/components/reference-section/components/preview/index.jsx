@@ -17,16 +17,16 @@ const ReferencePreview = () => {
 
   if (references?.length > 0) {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">References</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">References</h1>
         <Divider className="border border-black my-3" />
         <div className="grid grid-cols-2 gap-3">
           {references?.map((reference) => (
             <div key={reference?.id} className="w-full mb-2">
               <div className="w-full flex items-center gap-3 justify-between">
                 <div className="w-full flex-grow">
-                  <h1 className="font-bold text-sm">{reference?.name}</h1>
-                  <p className="text-xs">
+                  <h1 className="font-bold text-[12px]">{reference?.name}</h1>
+                  <p className="text-[10px]">
                     <span>{reference?.designation}</span>
                     <Divider
                       type="vertical"
@@ -44,7 +44,7 @@ const ReferencePreview = () => {
                           type="vertical"
                           className="border-[0.5px] border-black/30"
                         />
-                        <span>{reference?.phone}</span>
+                        <span className="text-[10px]">{reference?.phone}</span>
                       </>
                     )}
                   </p>
@@ -57,8 +57,8 @@ const ReferencePreview = () => {
     );
   } else {
     return (
-      <div className="w-full mt-4 mb-2">
-        <h1 className="text-xl font-bold">References</h1>
+      <div className="w-full">
+        <h1 className="text-[14px] font-bold">References</h1>
         <Divider className="border border-black my-3" />
         <Empty />
       </div>
