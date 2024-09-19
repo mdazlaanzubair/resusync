@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { analyzeData } from "@/assets";
 import {
-  ScorePieChart,
   ShowLottie,
   ShowScoresProgress,
 } from "@/general-components";

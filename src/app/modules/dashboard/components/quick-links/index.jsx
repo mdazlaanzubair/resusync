@@ -14,18 +14,23 @@ const QuickLinks = () => {
     },
     {
       key: "2",
-      label: "Start Building",
-      onClick: () => navigate("/resume-builder"),
+      label: "Resume Analysis Reports",
+      onClick: () => navigate("/settings/resume-score-reports"),
     },
     {
       key: "3",
-      label: "Edit Profile",
-      onClick: () => navigate("/profile"),
+      label: "Check AI Usage",
+      onClick: () => navigate("/settings/usage-history"),
     },
     {
-      key: "6",
+      key: "4",
       label: "Configure AI",
-      onClick: () => navigate("/config"),
+      onClick: () => navigate("/settings/config"),
+    },
+    {
+      key: "5",
+      label: "Account & Security",
+      onClick: () => navigate("/settings/security"),
     },
   ];
 
@@ -37,9 +42,7 @@ const QuickLinks = () => {
           onClick={item?.onClick}
           type="text"
           className="text-left w-full p-5 border-b justify-start border-secondary rounded-none"
-          icon={
-            <IoMdLink />
-          }
+          icon={<IoMdLink />}
         >
           {item?.label}
         </Button>

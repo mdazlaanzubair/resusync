@@ -3,7 +3,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { notify } from "@/utils";
-import { ScorePieChart } from "@/general-components";
 
 const LinkedInReport = () => {
   const navigate = useNavigate();
@@ -31,16 +30,6 @@ const LinkedInReport = () => {
           }}
         />
       </div>
-      <ScorePieChart
-        data={[
-          ["Task", "Hours per Day"],
-          ["Work", 11],
-          ["Eat", 2],
-          ["Commute", 2],
-          ["Watch TV", 2],
-          ["Sleep", 7], // CSS-style declaration
-        ]}
-      />
     </div>
   );
 };
