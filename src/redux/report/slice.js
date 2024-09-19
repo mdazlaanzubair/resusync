@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   usage: [],
   scores: [],
+  selected_score: null,
 };
 
 const reportSlice = createSlice({
@@ -11,6 +12,9 @@ const reportSlice = createSlice({
   reducers: {
     setScores: (state, action) => {
       state.scores = action.payload;
+    },
+    selectScore: (state, action) => {
+      state.selected_score = action.payload;
     },
     setUsage: (state, action) => {
       state.usage = action.payload;

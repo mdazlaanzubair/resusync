@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { analyzeData } from "@/assets";
-import { ScorePieChart, ShowLottie } from "@/general-components";
+import {
+  ScorePieChart,
+  ShowLottie,
+  ShowScoresProgress,
+} from "@/general-components";
 import { Button, Form, Input, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { resumeActions } from "@/redux/resume/slice";
@@ -17,6 +21,29 @@ const ResumeAnalyzerModal = ({ visible, closeHandler }) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [score, setScore] = useState(null);
+
+  // Memoize the percentage calculation to optimize performance
+  const corePercent = useMemo(() => {
+    const totalScore =
+      score?.keyword_matched +
+      score?.skills_aligned +
+      score?.experience_relevance +
+      score?.education_relevance +
+      score?.quantifiable_achievement;
+
+    return Math.round((totalScore / 25) * 100);
+  }, [score]);
+
+  const softPercent = useMemo(() => {
+    const totalScore =
+      score?.culture_fit +
+      score?.communication_skill +
+      score?.problem_solving_skill +
+      score?.adaptability +
+      score?.career_progression;
+
+    return Math.round((totalScore / 25) * 100);
+  }, [score]);
 
   const handleCloseModal = () => {
     if (!isLoading) {
@@ -68,47 +95,26 @@ const ResumeAnalyzerModal = ({ visible, closeHandler }) => {
         </div>
       )}
       {score ? (
-        <div>
-          <h1 className="text-xs font-semibold mb-2">Core Evaluation</h1>
-          <ScorePieChart
-            data={[
-              ["Criteria", "Score"],
-              ["Keyword Matched", score?.keyword_matched],
-              ["Skill Aligned", score?.skills_aligned],
-              ["Experience Relevancy", score?.experience_relevance],
-              ["Education Relevancy", score?.education_relevance],
-              ["Quantifiable Achievements", score?.quantifiable_achievement],
-            ]}
-          />
-          <hr className="my-3" />
-          <h1 className="text-xs font-semibold mb-2">Soft Evaluation</h1>
-          <ScorePieChart
-            data={[
-              ["Criteria", "Score"],
-              ["Culture Fit", score?.culture_fit],
-              ["Communication Skills", score?.communication_skill],
-              ["Problem Solving Skills", score?.problem_solving_skill],
-              ["Adaptability", score?.adaptability],
-              ["Career Progression", score?.career_progression],
-            ]}
-          />
-          <hr className="my-3" />
-          <h1 className="text-xs font-semibold mb-2">Gemini Remarks</h1>
-          <p className="text-xs">{score?.hr_remarks}</p>
-          <hr className="my-3" />
-          <h1 className="text-xs font-semibold mb-2">Missing Keywords</h1>
-          <p className="text-xs flex flex-wrap items-center gap-1">
-            {score?.missing_keywords?.length > 0 ? (
-              score?.missing_keywords?.map((item) => (
-                <span key={`word-${item}`} className="px-2 py-1 bg-secondary">
-                  {item}
-                </span>
-              ))
-            ) : (
-              <strong>No missing keyword found</strong>
-            )}
-          </p>
-        </div>
+        <ShowScoresProgress
+          coreData={[
+            { "Keyword Matched": score?.keyword_matched },
+            { "Skill Aligned": score?.skills_aligned },
+            { "Experience Relevancy": score?.experience_relevance },
+            { "Education Relevancy": score?.education_relevance },
+            { "Quantifiable Achievements": score?.quantifiable_achievement },
+          ]}
+          softData={[
+            { "Culture Fit": score?.culture_fit },
+            { "Communication Skills": score?.communication_skill },
+            { "Problem Solving Skills": score?.problem_solving_skill },
+            { Adaptability: score?.adaptability },
+            { "Career Progression": score?.career_progression },
+          ]}
+          geminiRemarks={score?.hr_remarks}
+          missing_keywords={score?.missing_keywords}
+          overAllCore={corePercent}
+          overAllSoft={softPercent}
+        />
       ) : (
         <Form
           form={jobDescFormRef}

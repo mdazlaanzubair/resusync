@@ -10,7 +10,7 @@ import { RiEdit2Fill } from "react-icons/ri";
 import { PiRankingFill } from "react-icons/pi";
 import { HiMiniTrash } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
-import { resumeParser } from "@/utils";
+import { resumeParser, truncateText } from "@/utils";
 import { resumeActions } from "@/redux/resume/slice";
 import { useNavigate } from "react-router-dom";
 
@@ -83,31 +83,26 @@ const ResumeCards = ({
       />
       <div className="w-full flex items-center justify-between gap-3">
         <div className="py-2 pl-2 flex flex-col group-hover:py-3 transition-all ease-in-out duration-300">
-          <Tooltip
+         <Tooltip
             placement="top"
             title={data?.title}
-            overlayInnerStyle={{
-              fontSize: "0.75rem",
-            }}
+            overlayInnerStyle={{ fontSize: "0.75rem" }}
           >
             <p className="font-semibold text-xs m-0 p-0 cursor-pointer">
-              {data?.title?.slice(0, 17) + "..."}
+              {truncateText(data?.title, 20)}
             </p>
           </Tooltip>
 
           <Tooltip
             placement="bottom"
-            title={`Last updated ${dayjs(data?.created_at).fromNow()}`}
-            overlayInnerStyle={{
-              fontSize: "0.7rem",
-            }}
+            title={`Analyzed ${dayjs(data?.createdAt).fromNow()}`}
+            overlayInnerStyle={{ fontSize: "0.7rem" }}
           >
             <Typography.Text
               className="font-light text-[0.6rem] m-0 p-0 cursor-pointer"
               ellipsis
             >
-              {`Updated ${dayjs(data?.created_at).fromNow()}`?.slice(0, 17) +
-                "..."}
+              {truncateText(`Analyzed ${dayjs(data?.createdAt).fromNow()}`, 20)}
             </Typography.Text>
           </Tooltip>
         </div>

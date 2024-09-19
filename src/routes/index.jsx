@@ -15,7 +15,9 @@ import { ResumeBuilderPage, ResumeListPage } from "@/app/modules/resume/pages";
 import {
   AIConfigPage,
   ProfilePage,
+  ResumeScoreReports,
   SecurityPage,
+  UsageHistory,
 } from "@/app/modules/settings/pages";
 
 export const appRoutes = createBrowserRouter([
@@ -75,11 +77,11 @@ export const appRoutes = createBrowserRouter([
               },
               {
                 path: "usage-history",
-                element: <AIConfigPage />,
+                element: <UsageHistory />,
               },
               {
                 path: "resume-score-reports",
-                element: <AIConfigPage />,
+                element: <ResumeScoreReports />,
               },
             ],
           },
