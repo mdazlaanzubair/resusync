@@ -26,7 +26,7 @@ const ResumeScoreReports = () => {
   }, [user]);
 
   return (
-    <div id="custom-user-profile-page" className="relative w-full h-full">
+    <div className="relative w-full h-full">
       <h1 className="font-bold text-lg mb-5">Analysis History</h1>
       {isLoading && (
         <div className="w-full h-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">

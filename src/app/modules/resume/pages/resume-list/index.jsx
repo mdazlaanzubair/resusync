@@ -13,7 +13,6 @@ import { Button, Empty } from "antd";
 import { deleteResume, getAllResumes } from "@/redux/resume/actions";
 import { resumeActions } from "@/redux/resume/slice";
 import { useNavigate } from "react-router-dom";
-import { getAIConfig } from "@/redux/llm-config/actions";
 import { notify } from "@/utils";
 
 // Array of background colors or patterns
@@ -94,7 +93,6 @@ const ResumeListPage = () => {
       }
     };
     dispatch(getAllResumes(user?.id, callback));
-    dispatch(getAIConfig(user?.id));
   }, []);
 
   return (

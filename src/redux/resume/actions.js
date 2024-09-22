@@ -64,6 +64,39 @@ export const uploadResume = (body, callback) => async (dispatch) => {
   }
 };
 
+// FUNCTION TO DOWNLOAD FILE FROM SUPABASE STORAGE
+export const handleDownload = async (filePath, fileName, callback) => {
+  try {
+    // Fetch file from Supabase storage
+    const { data, error } = await supabase.storage
+      .from(`${BUCKET_KEY}`)
+      .download(filePath); // The path of the file to download
+
+    if (error) {
+      throw error;
+    }
+
+    // Create a Blob URL from the fetched file
+    const blobUrl = window.URL.createObjectURL(data);
+
+    // Create a temporary <a> tag to trigger download
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.setAttribute("download", fileName); // The file name for the download
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up the URL and remove the <a> tag
+    link.parentNode.removeChild(link);
+    window.URL.revokeObjectURL(blobUrl);
+    callback && callback();
+  } catch (error) {
+    callback && callback();
+    console.error(error);
+    notify("error", `An error occurred while downloading`, `${error}`);
+  }
+};
+
 // REDUX ACTION TO CREATE RESUME
 export const createResume = (body, callback) => async (dispatch) => {
   try {

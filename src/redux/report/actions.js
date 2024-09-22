@@ -13,7 +13,8 @@ export const getScores = (userId, callback) => async (dispatch) => {
     const { data, error } = await supabase
       .from("resume_score")
       .select("*, resumes(*)")
-      .eq("user_id", userId);
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
 
     // THROW ERROR IF ANY
     if (error) throw error;
@@ -31,25 +32,45 @@ export const getScores = (userId, callback) => async (dispatch) => {
 };
 
 // REDUX ACTION TO FETCH AI TOKEN USAGE OF USER
-export const getAIUsage = (modelId, callback) => async (dispatch) => {
-  try {
-    // SAVING DATA TO SUPABASE
-    const { data, error } = await supabase
-      .from("usage_history")
-      .select("*, resumes(*)")
-      .eq("model_id", modelId);
+export const getAIUsage =
+  (modelId, currentPage, range, callback) => async (dispatch) => {
+    try {
+      // COUNT THE TOTAL ENTRIES ONLY ONE TIME WHEN
+      // DATA OF INITIAL PAGE LOADS i.e. PAGE NUMBER 0
+      if (currentPage === 0) {
+        const { count, error: countError } = await supabase
+          .from("usage_history")
+          .select("*", { count: "exact" });
 
-    // THROW ERROR IF ANY
-    if (error) throw error;
+        // THROW ERROR IF ANY
+        if (countError) throw countError;
 
-    // UPDATING REDUX STATE
-    dispatch(actions.setUsage(data));
+        // UPDATING TOTAL ENTRIES COUNT
+        dispatch(actions.setTotalEntries(count));
+      }
 
-    // SUCCESS CALLBACK
-    callback && callback(true);
-  } catch ({ error, message }) {
-    callback && callback(false);
-    console.error(error, message);
-    notify("error", `Oops! ${error} Error`, `${message}`);
-  }
-};
+      // SAVING DATA TO SUPABASE
+      const { data, error } = await supabase
+        .from("usage_history")
+        .select("*, resumes(*)")
+        .eq("model_id", modelId)
+        .range(range.from, range.to)
+        .order("created_at", { ascending: false });
+
+      // THROW ERROR IF ANY
+      if (error) throw error;
+
+      // UPDATING REDUX STATE
+      dispatch(actions.setUsage(data));
+
+      // INCREASE THE PAGE COUNT
+      dispatch(actions.setCurrentPage(currentPage + 1));
+
+      // SUCCESS CALLBACK
+      callback && callback(true);
+    } catch ({ error, message }) {
+      callback && callback(false);
+      console.error(error, message);
+      notify("error", `Oops! ${error} Error`, `${message}`);
+    }
+  };

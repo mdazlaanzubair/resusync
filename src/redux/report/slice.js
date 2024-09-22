@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  usage: [],
+  usage: {
+    currentPage: 0,
+    entriesPerPage: 5,
+    totalEntries: 5,
+    data: [],
+  },
   scores: [],
   selected_score: null,
 };
@@ -16,8 +21,17 @@ const reportSlice = createSlice({
     selectScore: (state, action) => {
       state.selected_score = action.payload;
     },
+    setCurrentPage: (state, action) => {
+      state.usage.currentPage = action.payload;
+    },
+    setTotalEntries: (state, action) => {
+      state.usage.totalEntries = action.payload;
+    },
+    setEntriesPerPage: (state, action) => {
+      state.usage.entriesPerPage = action.payload;
+    },
     setUsage: (state, action) => {
-      state.usage = action.payload;
+      state.usage.data = [...state.usage.data, ...action.payload];
     },
   },
 });
